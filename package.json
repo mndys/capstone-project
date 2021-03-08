@@ -18,6 +18,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
+
   },
   "eslintConfig": {
     "extends": [
@@ -48,5 +49,6 @@
     "prettier": "^2.2.1",
     "styled-components": "^5.2.1",
     "uuid": "^8.3.2"
+
   }
 }
