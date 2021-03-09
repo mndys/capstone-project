@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 
 const Button = styled.button`
   width: fit-content;
+  height: fit-content;
   align-content: top;
   ${props =>
     props.disabled
