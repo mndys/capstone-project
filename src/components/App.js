@@ -2,63 +2,54 @@ import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Button from './Button'
 import Header from './Header'
+import Prompt from './Prompt'
 
 function App() {
-  const prompt = [
-    'big book',
-    'bought recently',
-    'classic',
-    'cover colour',
-    'dark academia',
-    'dnf',
-    'fantasy',
-    'female protagonist',
-    'friend pick',
-    'graphic novel',
-    'haunted setting',
-    'highest rated',
-    'lowest rated',
-    'male protagonist',
-    'un-read author',
-    'new-ish',
-    'non-fiction',
-    'page number',
-    'romance',
-    'short read',
-    'thriller',
+  const prompts = [
+    'Big Book',
+    'Bought Recently',
+    'Classic',
+    'Cover Colour',
+    'Dark Academia',
+    'DNF',
+    'Fantasy',
+    'Feminine Protagonist',
+    'Friend Pick',
+    'Graphic Novel',
+    'Haunted Setting',
+    'Highest Rated',
+    'Lowest Rated',
+    'Masculine Protagonist',
+    'Un-Read Author',
+    'New-ish',
+    'Non-Fiction',
+    'Page Number',
+    'Romance',
+    'Short Read',
+    'Thriller',
   ]
 
-  const [currentPrompt, setCurrentPrompt] = useState('')
+  const [currentPrompt, setCurrentPrompt] = useState(
+    'Spin to receive your first prompt.'
+  )
 
   return (
     <Grid>
       <Header>Wheel of TBR</Header>
-      <main>
+      <Main>
+        <Prompt>{currentPrompt}</Prompt>
         <FlexWrapper>
           <Button primary onClick={getPrompt}>
             Spin!
           </Button>
         </FlexWrapper>
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-        amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-        rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-        ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-        dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-        est Lorem ipsum dolor sit amet.
-      </main>
+      </Main>
     </Grid>
   )
 
   function getPrompt() {
-    alert('prompt')
-    console.log('prompt')
+    var randomPrompt = prompts[Math.floor(Math.random() * prompts.length)]
+    setCurrentPrompt(randomPrompt)
   }
 }
 /* function App() {
@@ -77,11 +68,13 @@ const Grid = styled.div`
   height: 100vh;
   min-width: 320px;
   max-width: 900px;
-
-  main {
-    padding: 10% 5%;
-    overflow-y: auto;
-  }
+`
+const Main = styled.main`
+  display: grid;
+  justify-content: center;
+  grid-template-rows: 150px 1fr auto;
+  padding: 10% 5%;
+  overflow-y: auto;
 `
 
 const FlexWrapper = styled.div`
