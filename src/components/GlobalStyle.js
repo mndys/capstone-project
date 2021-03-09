@@ -7,7 +7,7 @@ export default createGlobalStyle`
 
   body {
     margin: 0 auto;
-    font-family: 'open_sansregular', Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Open Sans', Verdana, Geneva, Tahoma, sans-serif;
     font-size: 112.5%;
     line-height: 1.5;
   }
