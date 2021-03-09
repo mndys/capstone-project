@@ -31,7 +31,7 @@ export default createGlobalStyle`
 
   button {
     border-radius: 4px;
-    background: #ddd;
+    background: #0f6f7b;
     border: none;
   }
 `
