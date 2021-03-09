@@ -1,9 +1,11 @@
 import styled from 'styled-components'
+import GlobalFonts from '../fonts/fonts'
 import Header from './Header'
 
 function App() {
   return (
     <Grid>
+      <GlobalFonts />
       <Header>Wheel of TBR</Header>
       <main>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy

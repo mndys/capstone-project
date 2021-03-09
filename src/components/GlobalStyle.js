@@ -9,22 +9,26 @@ export default createGlobalStyle`
   }
 
   @font-face {
-    font-family: 'Open Sans';
-    src: local('Open Sans'), local('OpenSans'), url(${OpenSans}) format('truetype');
-    font-weight: 400;
+    font-family: 'hanging_lettersregular';
+    src: url('hanged_letters-webfont.woff2') format('woff2'),
+         url('hanged_letters-webfont.woff') format('woff');
+    font-weight: normal;
     font-style: normal;
-  }
 
-  @font-face {
-    font-family: 'Hanging Letters';
-    src: local('Hanging Letters'), local('HangingLetters'), url(${HangedLetters}) format('truetype');
-    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('opensans-regular-webfont.woff2') format('woff2'),
+         url('opensans-regular-webfont.woff') format('woff');
+    font-weight: normal;
     font-style: normal;
-  }
+
+}
 
   body {
     margin: 0 auto;
-    font-family: 'Open Sans', Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'open_sansregular', Verdana, Geneva, Tahoma, sans-serif;
     font-size: 112.5%;
     line-height: 1.5;
   }
