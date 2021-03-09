@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import App from './App'
 import Button from './Button'
 
@@ -26,4 +26,9 @@ it('renders a green gradient Button if Button has attribute primary', () => {
   )
 })
 
-it.todo('gets a prompt on click')
+it('calls onClick prop when clicked', () => {
+  const handleClick = jest.fn()
+  render(<Button onClick={handleClick}>Spin!</Button>)
+  fireEvent.click(screen.getByText('Spin!'))
+  expect(handleClick).toHaveBeenCalledTimes(1)
+})
