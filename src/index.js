@@ -7,8 +7,8 @@ import GlobalFonts from './fonts/fonts'
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalFonts />
     <GlobalStyle />
+    <GlobalFonts />
     <App />
   </React.StrictMode>,
   document.getElementById('root')
