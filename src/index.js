@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom'
 import App from './components/App'
 import reportWebVitals from './reportWebVitals'
 import GlobalStyle from './components/GlobalStyle'
-import './fonts/Hanged-Letters.ttf'
-import './fonts/OpenSans-Regular.ttf'
+import GlobalFonts from './fonts/fonts'
 
 ReactDOM.render(
   <React.StrictMode>
+    <GlobalFonts />
     <GlobalStyle />
     <App />
   </React.StrictMode>,
