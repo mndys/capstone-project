@@ -21,7 +21,6 @@ const HeaderStyled = styled.header`
     position: absolute;
     top: 100%;
     width: 100%;
-    height: 5em;
   }
 `
 
