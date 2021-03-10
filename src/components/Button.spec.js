@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import App from './App'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Button from './Button'
 
 it('renders a Button', () => {
@@ -7,28 +7,23 @@ it('renders a Button', () => {
   expect(screen.getByRole('button')).toBeVisible()
 })
 
-it('renders a Button with textContent "Spin!"', () => {
-  render(<App />)
-  expect(screen.getByText('Spin!')).toBeVisible()
-})
-
-it('renders a grey gradient Button if Button is disabled', () => {
-  render(<Button disabled>This is a button</Button>)
-  expect(screen.getByRole('button')).toHaveStyle(
-    'background: linear-gradient(#e5e5e5 0%, #c3c3c3 100%)'
-  )
-})
-
-it('renders a green gradient Button if Button has attribute primary', () => {
-  render(<Button primary>This is a button</Button>)
-  expect(screen.getByRole('button')).toHaveStyle(
-    'background: linear-gradient(#0f6f7b 0%, #093a40 100%)'
-  )
+it('renders Buttons with the attributes "disabled" and "primary" differently from Buttons without or with different attributes', () => {
+  const button = render(<Button>This is a button</Button>).container
+  const disabledButton = render(<Button disabled>This is a button</Button>)
+    .container
+  const primaryButton = render(<Button primary>This is a button</Button>)
+    .container
+  const unknownAttrButton = render(<Button test>This is a button</Button>)
+    .container
+  expect(button).not.toEqual(disabledButton || primaryButton)
+  expect(disabledButton).not.toEqual(button || primaryButton)
+  expect(primaryButton).not.toEqual(disabledButton || button)
+  expect(button).toEqual(unknownAttrButton)
 })
 
 it('calls onClick prop when clicked', () => {
   const handleClick = jest.fn()
   render(<Button onClick={handleClick}>Spin!</Button>)
-  fireEvent.click(screen.getByText('Spin!'))
+  userEvent.click(screen.getByText('Spin!'))
   expect(handleClick).toHaveBeenCalledTimes(1)
 })

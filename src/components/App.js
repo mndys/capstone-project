@@ -3,32 +3,9 @@ import styled from 'styled-components/macro'
 import Button from './Button'
 import Header from './Header'
 import Prompt from './Prompt'
+import prompts from '../data/prompts.json'
 
 function App() {
-  const prompts = [
-    'Big Book',
-    'Bought Recently',
-    'Classic',
-    'Cover Colour',
-    'Dark Academia',
-    'DNF',
-    'Fantasy',
-    'Feminine Protagonist',
-    'Friend Pick',
-    'Graphic Novel',
-    'Haunted Setting',
-    'Highest Rated',
-    'Lowest Rated',
-    'Masculine Protagonist',
-    'Un-Read Author',
-    'New-ish',
-    'Non-Fiction',
-    'Page Number',
-    'Romance',
-    'Short Read',
-    'Thriller',
-  ]
-
   const [currentPrompt, setCurrentPrompt] = useState(
     'Spin to receive your first prompt.'
   )
@@ -39,7 +16,7 @@ function App() {
       <Main>
         <Prompt>{currentPrompt}</Prompt>
         <FlexWrapper>
-          <Button primary onClick={getPrompt}>
+          <Button primary onClick={setRandomPrompt}>
             Spin!
           </Button>
         </FlexWrapper>
@@ -47,17 +24,11 @@ function App() {
     </Grid>
   )
 
-  function getPrompt() {
-    var randomPrompt = prompts[Math.floor(Math.random() * prompts.length)]
+  function setRandomPrompt() {
+    const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)]
     setCurrentPrompt(randomPrompt)
   }
 }
-/* function App() {
-  return <Button handleClick={getPrompt}>Click me!</Button>
-  function getPrompt() {
-    alert('Hello!')
-  }
-} */
 
 const Grid = styled.div`
   display: grid;
@@ -73,7 +44,7 @@ const Main = styled.main`
   display: grid;
   justify-content: center;
   grid-template-rows: 150px 1fr auto;
-  padding: 10% 5%;
+  padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
   overflow-y: auto;
 `
 

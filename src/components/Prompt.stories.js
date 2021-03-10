@@ -2,7 +2,7 @@ import React from 'react'
 import Prompt from './Prompt'
 
 export default {
-  title: 'Gesellenstück/Prompt',
+  title: 'ui/Prompt',
   component: Prompt,
   argTypes: {},
 }
