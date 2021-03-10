@@ -1,6 +1,5 @@
-import { fireEvent, prettyDOM, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import App from './App'
 import Button from './Button'
 
 it('renders a Button', () => {
