@@ -2,7 +2,7 @@ import React from 'react'
 import Button from './Button'
 
 export default {
-  title: 'Gesellenstück/Button',
+  title: 'ui/Button',
   component: Button,
   argTypes: {
     onClick: { action: 'clicked' },
