@@ -33,5 +33,14 @@ export default createGlobalStyle`
     border-radius: 4px;
     background: #0f6f7b;
     border: none;
+  letter-spacing: 0.2em;
+
+  }
+
+  h2{
+    font-size: 1.1em;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: .2em;
   }
 `
