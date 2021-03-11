@@ -14,7 +14,6 @@ const Button = styled.button`
   padding: 10px 20px;
   text-transform: uppercase;
   margin: 1em 0.1em;
-  letter-spacing: 0.2em;
   border-radius: 25px;
 `
 
