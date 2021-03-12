@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 
 export default function History({ history }) {
   return (
-    <Entries>
+    <Entries data-testid="history">
       <h2>Spin History</h2>
       {history.join(', ')}
     </Entries>
