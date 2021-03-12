@@ -35,7 +35,7 @@ function App() {
     function getRandomNumber() {
       return Math.floor(Math.random() * prompts.length)
     }
-    var randomPrompt = prompts[getRandomNumber()]
+    let randomPrompt = prompts[getRandomNumber()]
     if (history.length + 1 < prompts.length) {
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()]
@@ -45,7 +45,6 @@ function App() {
       } else {
         setCurrentPrompt(randomPrompt)
         setHistory([...history, currentPrompt])
-        console.log(history)
       }
     } else {
       setCurrentPrompt(
