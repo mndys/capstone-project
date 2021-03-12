@@ -18,7 +18,11 @@ function App() {
       <Main>
         <Prompt>{currentPrompt}</Prompt>
         <FlexWrapper>
-          <Button primary onClick={setRandomPrompt}>
+          <Button
+            disabled={currentPrompt.includes('Wheel is tired')}
+            primary
+            onClick={setRandomPrompt}
+          >
             Spin!
           </Button>
         </FlexWrapper>
@@ -31,13 +35,23 @@ function App() {
     function getRandomNumber() {
       return Math.floor(Math.random() * prompts.length)
     }
-    const randomPrompt = prompts[getRandomNumber()]
-    if (currentPrompt === 'Spin to receive your first prompt.') {
-      setCurrentPrompt(randomPrompt)
+    var randomPrompt = prompts[getRandomNumber()]
+    if (history.length + 1 < prompts.length) {
+      while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
+        randomPrompt = prompts[getRandomNumber()]
+      }
+      if (currentPrompt === 'Spin to receive your first prompt.') {
+        setCurrentPrompt(randomPrompt)
+      } else {
+        setCurrentPrompt(randomPrompt)
+        setHistory([...history, currentPrompt])
+        console.log(history)
+      }
     } else {
-      setCurrentPrompt(randomPrompt)
-      setHistory([...history, currentPrompt])
-      console.log(history)
+      setCurrentPrompt(
+        `The Wheel is tired.
+        No more spins until you reload.`
+      )
     }
   }
 }
@@ -55,7 +69,7 @@ const Grid = styled.div`
 const Main = styled.main`
   display: grid;
   justify-content: center;
-  grid-template-rows: 150px min-content auto;
+  grid-template-rows: 170px min-content auto;
   grid-template-columns: 1fr;
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
   overflow-y: auto;
