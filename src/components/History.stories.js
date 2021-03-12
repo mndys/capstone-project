@@ -1,15 +1,15 @@
 import React from 'react'
-import Prompt from './History'
+import History from './History'
 
 export default {
-  title: 'ui/Prompt',
-  component: Prompt,
+  title: 'ui/History',
+  component: History,
   argTypes: {},
 }
 
-const Template = args => <Prompt {...args}>{args.text}</Prompt>
+const Template = args => <History {...args}></History>
 
 export const Default = Template.bind({})
 Default.args = {
-  text: 'Go fish!',
+  history: ['Spin 1, Spin 2, Spin 3, Spin 4, ...'],
 }
