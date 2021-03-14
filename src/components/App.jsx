@@ -4,11 +4,13 @@ import Button from './Button'
 import Header from './Header'
 import Prompt from './Prompt'
 import prompts from '../data/prompts.json'
+import History from './History'
 
 function App() {
   const [currentPrompt, setCurrentPrompt] = useState(
     'Spin to receive your first prompt.'
   )
+  const [history, setHistory] = useState([])
 
   return (
     <Grid>
@@ -16,17 +18,40 @@ function App() {
       <Main>
         <Prompt>{currentPrompt}</Prompt>
         <FlexWrapper>
-          <Button primary onClick={setRandomPrompt}>
+          <Button
+            disabled={currentPrompt.includes('Wheel is tired')}
+            primary
+            onClick={setRandomPrompt}
+          >
             Spin!
           </Button>
         </FlexWrapper>
+        {history.length ? <History history={history} /> : ''}
       </Main>
     </Grid>
   )
 
   function setRandomPrompt() {
-    const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)]
-    setCurrentPrompt(randomPrompt)
+    function getRandomNumber() {
+      return Math.floor(Math.random() * prompts.length)
+    }
+    let randomPrompt = prompts[getRandomNumber()]
+    if (history.length + 1 < prompts.length) {
+      while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
+        randomPrompt = prompts[getRandomNumber()]
+      }
+      if (currentPrompt === 'Spin to receive your first prompt.') {
+        setCurrentPrompt(randomPrompt)
+      } else {
+        setCurrentPrompt(randomPrompt)
+        setHistory([...history, currentPrompt])
+      }
+    } else {
+      setCurrentPrompt(
+        `The Wheel is tired.
+        No more spins until you reload.`
+      )
+    }
   }
 }
 
@@ -43,7 +68,8 @@ const Grid = styled.div`
 const Main = styled.main`
   display: grid;
   justify-content: center;
-  grid-template-rows: 150px 1fr auto;
+  grid-template-rows: 170px min-content auto;
+  grid-template-columns: 1fr;
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
   overflow-y: auto;
 `
