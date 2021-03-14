@@ -14,8 +14,6 @@ function App() {
   )
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
 
-  let randomPrompt = prompts[getRandomNumber()]
-
   return (
     <Grid>
       <Header>Wheel of TBR</Header>
@@ -25,7 +23,7 @@ function App() {
           <Button
             disabled={currentPrompt.includes('Wheel is tired')}
             primary
-            onClick={setRandomPrompt}
+            onClick={onSpin}
           >
             Spin!
           </Button>
@@ -50,12 +48,14 @@ function App() {
     saveToLocal('currentPrompt', 'Spin to receive your first prompt.')
   }
 
-  function getRandomNumber() {
-    return Math.floor(Math.random() * prompts.length)
-  }
+  function onSpin() {
+    let randomPrompt = prompts[getRandomNumber()]
 
-  function setRandomPrompt() {
-    if (history.length + 1 < prompts.length) {
+    function getRandomNumber() {
+      return Math.floor(Math.random() * prompts.length)
+    }
+
+    if (history.length < prompts.length - 1) {
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()]
       }
@@ -73,6 +73,7 @@ function App() {
         `The Wheel is tired.
         No more spins until you reload.`
       )
+      setHistory([...history, currentPrompt])
     }
   }
 }
