@@ -25,6 +25,15 @@ function App() {
           >
             Spin!
           </Button>
+          <Button
+            disabled={!history.length}
+            onClick={() => {
+              setHistory([])
+              setCurrentPrompt('Spin to receive your first prompt.')
+            }}
+          >
+            reset
+          </Button>
         </FlexWrapper>
         {history.length ? <History history={history} /> : ''}
       </Main>
@@ -76,8 +85,9 @@ const Main = styled.main`
 
 const FlexWrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-content: center;
+  gap: 40px;
 `
 
 export default App
