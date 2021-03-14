@@ -5,18 +5,22 @@ import Header from './Header'
 import Prompt from './Prompt'
 import prompts from '../data/prompts.json'
 import History from './History'
+import loadFromLocal from '../lib/loadFromLocal'
+import saveToLocal from '../lib/saveToLocal'
 
 function App() {
   const [currentPrompt, setCurrentPrompt] = useState(
-    'Spin to receive your first prompt.'
+    loadFromLocal('currentPrompt') ?? 'Spin to receive your first prompt.'
   )
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
+
+  let randomPrompt = prompts[getRandomNumber()]
 
   return (
     <Grid>
       <Header>Wheel of TBR</Header>
       <Main>
-        <Prompt>{currentPrompt}</Prompt>
+        <Prompt data-testid="prompt">{currentPrompt}</Prompt>
         <FlexWrapper>
           <Button
             disabled={currentPrompt.includes('Wheel is tired')}
@@ -29,10 +33,7 @@ function App() {
             disabled={currentPrompt.includes(
               'Spin to receive your first prompt.'
             )}
-            onClick={() => {
-              setHistory([])
-              setCurrentPrompt('Spin to receive your first prompt.')
-            }}
+            onClick={onReset}
           >
             reset
           </Button>
@@ -42,20 +43,30 @@ function App() {
     </Grid>
   )
 
+  function onReset() {
+    setHistory([])
+    saveToLocal('promptHistory', [])
+    setCurrentPrompt('Spin to receive your first prompt.')
+    saveToLocal('currentPrompt', 'Spin to receive your first prompt.')
+  }
+
+  function getRandomNumber() {
+    return Math.floor(Math.random() * prompts.length)
+  }
+
   function setRandomPrompt() {
-    function getRandomNumber() {
-      return Math.floor(Math.random() * prompts.length)
-    }
-    let randomPrompt = prompts[getRandomNumber()]
     if (history.length + 1 < prompts.length) {
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()]
       }
       if (currentPrompt === 'Spin to receive your first prompt.') {
         setCurrentPrompt(randomPrompt)
+        saveToLocal('currentPrompt', randomPrompt)
       } else {
         setCurrentPrompt(randomPrompt)
         setHistory([...history, currentPrompt])
+        saveToLocal('currentPrompt', randomPrompt)
+        saveToLocal('promptHistory', [...history, currentPrompt])
       }
     } else {
       setCurrentPrompt(
