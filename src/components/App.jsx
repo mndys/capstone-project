@@ -9,8 +9,12 @@ import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
 
 function App() {
+  const INITIALPROMPT = 'Spin to receive your first prompt.'
+  const LASTPROMPT = `The Wheel is tired.
+  No more spins until you reset.`
+
   const [currentPrompt, setCurrentPrompt] = useState(
-    loadFromLocal('currentPrompt') ?? 'Spin to receive your first prompt.'
+    loadFromLocal('currentPrompt') ?? INITIALPROMPT
   )
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
 
@@ -21,16 +25,14 @@ function App() {
         <Prompt data-testid="prompt">{currentPrompt}</Prompt>
         <FlexWrapper>
           <Button
-            disabled={currentPrompt.includes('Wheel is tired')}
+            disabled={currentPrompt.includes(LASTPROMPT)}
             primary
             onClick={onSpin}
           >
             Spin!
           </Button>
           <Button
-            disabled={currentPrompt.includes(
-              'Spin to receive your first prompt.'
-            )}
+            disabled={currentPrompt.includes(INITIALPROMPT)}
             onClick={onReset}
           >
             reset
@@ -44,8 +46,8 @@ function App() {
   function onReset() {
     setHistory([])
     saveToLocal('promptHistory', [])
-    setCurrentPrompt('Spin to receive your first prompt.')
-    saveToLocal('currentPrompt', 'Spin to receive your first prompt.')
+    setCurrentPrompt(INITIALPROMPT)
+    saveToLocal('currentPrompt', INITIALPROMPT)
   }
 
   function onSpin() {
@@ -59,7 +61,7 @@ function App() {
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()]
       }
-      if (currentPrompt === 'Spin to receive your first prompt.') {
+      if (currentPrompt === INITIALPROMPT) {
         setCurrentPrompt(randomPrompt)
         saveToLocal('currentPrompt', randomPrompt)
       } else {
@@ -69,11 +71,10 @@ function App() {
         saveToLocal('promptHistory', [...history, currentPrompt])
       }
     } else {
-      setCurrentPrompt(
-        `The Wheel is tired.
-        No more spins until you reload.`
-      )
+      setCurrentPrompt(LASTPROMPT)
+      saveToLocal('currentPrompt', LASTPROMPT)
       setHistory([...history, currentPrompt])
+      saveToLocal('promptHistory', [...history, currentPrompt])
     }
   }
 }
