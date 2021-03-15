@@ -5,25 +5,37 @@ import Header from './Header'
 import Prompt from './Prompt'
 import prompts from '../data/prompts.json'
 import History from './History'
+import loadFromLocal from '../lib/loadFromLocal'
+import saveToLocal from '../lib/saveToLocal'
 
 function App() {
+  const INITIALPROMPT = 'Spin to receive your first prompt.'
+  const LASTPROMPT = `The Wheel is tired.
+  No more spins until you reset.`
+
   const [currentPrompt, setCurrentPrompt] = useState(
-    'Spin to receive your first prompt.'
+    loadFromLocal('currentPrompt') ?? INITIALPROMPT
   )
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
 
   return (
     <Grid>
       <Header>Wheel of TBR</Header>
       <Main>
-        <Prompt>{currentPrompt}</Prompt>
+        <Prompt data-testid="prompt">{currentPrompt}</Prompt>
         <FlexWrapper>
           <Button
-            disabled={currentPrompt.includes('Wheel is tired')}
+            disabled={currentPrompt.includes(LASTPROMPT)}
             primary
-            onClick={setRandomPrompt}
+            onClick={onSpin}
           >
             Spin!
+          </Button>
+          <Button
+            disabled={currentPrompt.includes(INITIALPROMPT)}
+            onClick={onReset}
+          >
+            reset
           </Button>
         </FlexWrapper>
         {history.length ? <History history={history} /> : ''}
@@ -31,26 +43,38 @@ function App() {
     </Grid>
   )
 
-  function setRandomPrompt() {
+  function onReset() {
+    setHistory([])
+    saveToLocal('promptHistory', [])
+    setCurrentPrompt(INITIALPROMPT)
+    saveToLocal('currentPrompt', INITIALPROMPT)
+  }
+
+  function onSpin() {
+    let randomPrompt = prompts[getRandomNumber()]
+
     function getRandomNumber() {
       return Math.floor(Math.random() * prompts.length)
     }
-    let randomPrompt = prompts[getRandomNumber()]
-    if (history.length + 1 < prompts.length) {
+
+    if (history.length < prompts.length - 1) {
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()]
       }
-      if (currentPrompt === 'Spin to receive your first prompt.') {
+      if (currentPrompt === INITIALPROMPT) {
         setCurrentPrompt(randomPrompt)
+        saveToLocal('currentPrompt', randomPrompt)
       } else {
         setCurrentPrompt(randomPrompt)
         setHistory([...history, currentPrompt])
+        saveToLocal('currentPrompt', randomPrompt)
+        saveToLocal('promptHistory', [...history, currentPrompt])
       }
     } else {
-      setCurrentPrompt(
-        `The Wheel is tired.
-        No more spins until you reload.`
-      )
+      setCurrentPrompt(LASTPROMPT)
+      saveToLocal('currentPrompt', LASTPROMPT)
+      setHistory([...history, currentPrompt])
+      saveToLocal('promptHistory', [...history, currentPrompt])
     }
   }
 }
@@ -76,8 +100,9 @@ const Main = styled.main`
 
 const FlexWrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-content: center;
+  gap: 20px;
 `
 
 export default App
