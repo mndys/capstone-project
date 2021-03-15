@@ -7,6 +7,7 @@ import prompts from '../data/prompts.json'
 import History from './History'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
+import WheelComponent from './Wheel'
 
 function App() {
   const INITIALPROMPT = 'Spin to receive your first prompt.'
@@ -23,6 +24,7 @@ function App() {
       <Header>Wheel of TBR</Header>
       <Main>
         <Prompt data-testid="prompt">{currentPrompt}</Prompt>
+        <WheelComponent winner={currentPrompt} onSpin={onSpin} />
         <FlexWrapper>
           <Button
             disabled={currentPrompt.includes(LASTPROMPT)}
@@ -96,6 +98,7 @@ const Main = styled.main`
   grid-template-columns: 1fr;
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
   overflow-y: auto;
+  overflow-x: hidden;
 `
 
 const FlexWrapper = styled.div`
