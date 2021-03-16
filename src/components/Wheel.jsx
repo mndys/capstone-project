@@ -46,7 +46,7 @@ export default function WheelComponent({
     '#577590',
   ]
   const textColors = ['#0e1516']
-  const outerBorderColor = '#e3e3e3'
+  const outerBorderColor = '#e4e4e4'
   const outerBorderWidth = 10
   const innerBorderColor = '#fff'
   const innerBorderWidth = 60
