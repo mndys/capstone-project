@@ -60,4 +60,5 @@ const Wrapper = styled.div`
   rotate: -47deg;
   max-width: 445px;
   justify-self: center;
+  z-index: -1;
 `
