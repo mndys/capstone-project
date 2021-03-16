@@ -2,40 +2,7 @@ import { Wheel } from 'react-custom-roulette'
 import styled from 'styled-components/macro'
 import prompts from '../data/wheel-prompts.json'
 
-export default function WheelComponent({
-  winner,
-  onSpin,
-  LASTPROMPT,
-  mustSpin,
-  setMustSpin,
-}) {
-  /* const calculatePrizeNumber = prompts.findIndex(
-    prompt => prompt.option === winner
-  )
-  const [mustSpin, setMustSpin] = useState(false)
-  const [prizeNumber, setPrizeNumber] = useState(0)
-
-  const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * prompts.length)
-    setPrizeNumber(newPrizeNumber)
-    setMustSpin(true)
-    onSpin()
-  }
-
-  return (
-    <>
-      <Wheel
-        mustStartSpinning={true}
-        prizeNumber={calculatePrizeNumber}
-        data={prompts}
-        onStopSpinning={() => {
-          setMustSpin(true)
-        }}
-      />
-      <button onClick={handleSpinClick}>SPIN</button>
-    </>
-  ) */
-
+export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
   const backgroundColors = [
     '#f94144',
     '#f3722c',
@@ -45,6 +12,7 @@ export default function WheelComponent({
     '#43aa8b',
     '#577590',
   ]
+
   const textColors = ['#0e1516']
   const outerBorderColor = '#e4e4e4'
   const outerBorderWidth = 10
