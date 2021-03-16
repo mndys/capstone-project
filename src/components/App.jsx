@@ -18,13 +18,20 @@ function App() {
     loadFromLocal('currentPrompt') ?? INITIALPROMPT
   )
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
+  const [mustSpin, setMustSpin] = useState(false)
 
   return (
     <Grid>
       <Header>Wheel of TBR</Header>
       <Main>
         <Prompt data-testid="prompt">{currentPrompt}</Prompt>
-        <WheelComponent winner={currentPrompt} onSpin={onSpin} />
+        <WheelComponent
+          winner={currentPrompt}
+          onSpin={onSpin}
+          mustSpin={mustSpin}
+          setMustSpin={setMustSpin}
+          LASTPROMPT={LASTPROMPT}
+        />
         <FlexWrapper>
           <Button
             disabled={currentPrompt.includes(LASTPROMPT)}
@@ -66,17 +73,20 @@ function App() {
       if (currentPrompt === INITIALPROMPT) {
         setCurrentPrompt(randomPrompt)
         saveToLocal('currentPrompt', randomPrompt)
+        setMustSpin(true)
       } else {
         setCurrentPrompt(randomPrompt)
         setHistory([...history, currentPrompt])
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
+        setMustSpin(true)
       }
     } else {
       setCurrentPrompt(LASTPROMPT)
       saveToLocal('currentPrompt', LASTPROMPT)
       setHistory([...history, currentPrompt])
       saveToLocal('promptHistory', [...history, currentPrompt])
+      setMustSpin(false)
     }
   }
 }

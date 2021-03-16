@@ -1,9 +1,15 @@
 import { useState } from 'react'
 import { Wheel } from 'react-custom-roulette'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import prompts from '../data/wheel-prompts.json'
 
-export default function WheelComponent({ winner, onSpin, LASTPROMPT }) {
+export default function WheelComponent({
+  winner,
+  onSpin,
+  LASTPROMPT,
+  mustSpin,
+  setMustSpin,
+}) {
   /* const calculatePrizeNumber = prompts.findIndex(
     prompt => prompt.option === winner
   )
@@ -31,17 +37,6 @@ export default function WheelComponent({ winner, onSpin, LASTPROMPT }) {
     </>
   ) */
 
-  const data = [
-    { option: 'REACT' },
-    { option: 'CUSTOM' },
-    { option: 'ROULETTE', style: { textColor: '#f9dd50' } },
-    { option: 'WHEEL' },
-    { option: 'REACT' },
-    { option: 'CUSTOM' },
-    { option: 'ROULETTE', style: { textColor: '#70bbe0' } },
-    { option: 'WHEEL' },
-  ]
-
   const backgroundColors = [
     '#f94144',
     '#f3722c',
@@ -60,15 +55,12 @@ export default function WheelComponent({ winner, onSpin, LASTPROMPT }) {
   const radiusLineColor = '#fff'
   const radiusLineWidth = 5
   const fontSize = 12
+  const fontFamily = 'Hanging Letters'
   const textDistance = 63
 
-  const [mustSpin, setMustSpin] = useState(false)
-  const [prizeNumber, setPrizeNumber] = useState(0)
-
   const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * data.length)
-    setPrizeNumber(newPrizeNumber)
     setMustSpin(true)
+    onSpin()
   }
 
   const calculatePrizeNumber = prompts.findIndex(
@@ -84,6 +76,7 @@ export default function WheelComponent({ winner, onSpin, LASTPROMPT }) {
         backgroundColors={backgroundColors}
         textColors={textColors}
         fontSize={fontSize}
+        fontFamily={fontFamily}
         outerBorderColor={outerBorderColor}
         outerBorderWidth={outerBorderWidth}
         innerRadius={innerRadius}
@@ -97,16 +90,12 @@ export default function WheelComponent({ winner, onSpin, LASTPROMPT }) {
           setMustSpin(false)
         }}
       />
-      <button className={'spin-button'} onClick={handleSpinClick}>
-        SPIN
-      </button>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  position: relative;
-  left: 7%;
   rotate: -47deg;
-  top: -16%;
+  max-width: 445px;
+  justify-self: center;
 `
