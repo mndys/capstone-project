@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Wheel } from 'react-custom-roulette'
 import styled from 'styled-components/macro'
 import prompts from '../data/wheel-prompts.json'
@@ -57,11 +56,6 @@ export default function WheelComponent({
   const fontSize = 12
   const fontFamily = 'Hanging Letters'
   const textDistance = 63
-
-  const handleSpinClick = () => {
-    setMustSpin(true)
-    onSpin()
-  }
 
   const calculatePrizeNumber = prompts.findIndex(
     prompt => prompt.option === winner
