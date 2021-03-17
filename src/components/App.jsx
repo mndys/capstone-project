@@ -104,8 +104,7 @@ const Main = styled.main`
   grid-template-rows: 5em min-content auto;
   grid-template-columns: 1fr;
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
 `
 
 const FlexWrapper = styled.div`
