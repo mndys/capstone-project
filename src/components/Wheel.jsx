@@ -1,6 +1,8 @@
 import { Wheel } from 'react-custom-roulette'
+import { render } from 'react-dom'
 import styled from 'styled-components/macro'
 import prompts from '../data/wheel-prompts.json'
+import Prompt from './Prompt'
 
 export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
   const backgroundColors = [
@@ -22,7 +24,6 @@ export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
   const radiusLineColor = '#fff'
   const radiusLineWidth = 5
   const fontSize = 12
-  const fontFamily = 'Hanging Letters'
   const textDistance = 63
 
   const calculatePrizeNumber = prompts.findIndex(
@@ -38,7 +39,6 @@ export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
         backgroundColors={backgroundColors}
         textColors={textColors}
         fontSize={fontSize}
-        fontFamily={fontFamily}
         outerBorderColor={outerBorderColor}
         outerBorderWidth={outerBorderWidth}
         innerRadius={innerRadius}
@@ -57,8 +57,8 @@ export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
 }
 
 const Wrapper = styled.div`
-  rotate: -47deg;
   max-width: 445px;
   justify-self: center;
   z-index: -1;
+  padding-top: 40px;
 `
