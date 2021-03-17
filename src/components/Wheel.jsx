@@ -1,8 +1,6 @@
 import { Wheel } from 'react-custom-roulette'
-import { render } from 'react-dom'
 import styled from 'styled-components/macro'
 import prompts from '../data/wheel-prompts.json'
-import Prompt from './Prompt'
 
 export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
   const backgroundColors = [
