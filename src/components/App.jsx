@@ -7,32 +7,38 @@ import prompts from '../data/prompts.json'
 import History from './History'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
+import WheelComponent from './Wheel'
 
 function App() {
-  const INITIALPROMPT = 'Spin to receive your first prompt.'
-  const LASTPROMPT = `The Wheel is tired.
-  No more spins until you reset.`
+  const INITIAL_PROMPT = 'Spin to receive your first prompt.'
+  const LAST_PROMPT = `That's it. Reset to start again.`
 
   const [currentPrompt, setCurrentPrompt] = useState(
-    loadFromLocal('currentPrompt') ?? INITIALPROMPT
+    loadFromLocal('currentPrompt') ?? INITIAL_PROMPT
   )
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
+  const [mustSpin, setMustSpin] = useState(false)
 
   return (
     <Grid>
       <Header>Wheel of TBR</Header>
       <Main>
-        <Prompt data-testid="prompt">{currentPrompt}</Prompt>
+        <Prompt data-testid="prompt">{mustSpin ? '...' : currentPrompt}</Prompt>
+        <WheelComponent
+          winner={currentPrompt}
+          mustSpin={mustSpin}
+          setMustSpin={setMustSpin}
+        />
         <FlexWrapper>
           <Button
-            disabled={currentPrompt.includes(LASTPROMPT)}
+            disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
             primary
             onClick={onSpin}
           >
             Spin!
           </Button>
           <Button
-            disabled={currentPrompt.includes(INITIALPROMPT)}
+            disabled={currentPrompt.includes(INITIAL_PROMPT)}
             onClick={onReset}
           >
             reset
@@ -46,8 +52,8 @@ function App() {
   function onReset() {
     setHistory([])
     saveToLocal('promptHistory', [])
-    setCurrentPrompt(INITIALPROMPT)
-    saveToLocal('currentPrompt', INITIALPROMPT)
+    setCurrentPrompt(INITIAL_PROMPT)
+    saveToLocal('currentPrompt', INITIAL_PROMPT)
   }
 
   function onSpin() {
@@ -61,20 +67,23 @@ function App() {
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()]
       }
-      if (currentPrompt === INITIALPROMPT) {
+      if (currentPrompt === INITIAL_PROMPT) {
         setCurrentPrompt(randomPrompt)
         saveToLocal('currentPrompt', randomPrompt)
+        setMustSpin(true)
       } else {
         setCurrentPrompt(randomPrompt)
         setHistory([...history, currentPrompt])
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
+        setMustSpin(true)
       }
     } else {
-      setCurrentPrompt(LASTPROMPT)
-      saveToLocal('currentPrompt', LASTPROMPT)
+      setCurrentPrompt(LAST_PROMPT)
+      saveToLocal('currentPrompt', LAST_PROMPT)
       setHistory([...history, currentPrompt])
       saveToLocal('promptHistory', [...history, currentPrompt])
+      setMustSpin(false)
     }
   }
 }
@@ -83,7 +92,7 @@ const Grid = styled.div`
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr;
-  grid-template-rows: minmax(70px, 6vh) 1fr 6vh;
+  grid-template-rows: minmax(70px, 6vh) 1fr;
   margin: 0 auto;
   height: 100vh;
   min-width: 320px;
@@ -92,10 +101,10 @@ const Grid = styled.div`
 const Main = styled.main`
   display: grid;
   justify-content: center;
-  grid-template-rows: 170px min-content auto;
+  grid-template-rows: 5em min-content auto;
   grid-template-columns: 1fr;
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
-  overflow-y: auto;
+  overflow: hidden auto;
 `
 
 const FlexWrapper = styled.div`

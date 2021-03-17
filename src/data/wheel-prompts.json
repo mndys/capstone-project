@@ -1,0 +1,23 @@
+[
+  { "option": "Big Book" },
+  { "option": "Bought Recently" },
+  { "option": "Classic" },
+  { "option": "Cover Colour" },
+  { "option": "Dark Academia" },
+  { "option": "DNF" },
+  { "option": "Fantasy" },
+  { "option": "Feminine Protagonist" },
+  { "option": "Friend Pick" },
+  { "option": "Graphic Novel" },
+  { "option": "Haunted Setting" },
+  { "option": "Highest Rated" },
+  { "option": "Lowest Rated" },
+  { "option": "Masculine Protagonist" },
+  { "option": "Un-Read Author" },
+  { "option": "New-ish" },
+  { "option": "Non-Fiction" },
+  { "option": "Page Number" },
+  { "option": "Romance" },
+  { "option": "Short Read" },
+  { "option": "Thriller" }
+]
