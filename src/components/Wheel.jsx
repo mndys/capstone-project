@@ -58,5 +58,4 @@ const Wrapper = styled.div`
   max-width: 445px;
   justify-self: center;
   z-index: -1;
-  padding-top: 40px;
 `
