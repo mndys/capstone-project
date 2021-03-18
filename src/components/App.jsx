@@ -8,6 +8,7 @@ import History from './History'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
 import WheelComponent from './Wheel'
+import LoadingCircles from './LoadingCircles'
 
 function App() {
   const INITIAL_PROMPT = 'Spin to receive your first prompt.'
@@ -23,7 +24,9 @@ function App() {
     <Grid>
       <Header>Wheel of TBR</Header>
       <Main>
-        <Prompt data-testid="prompt">{mustSpin ? '...' : currentPrompt}</Prompt>
+        <Prompt data-testid="prompt">
+          {mustSpin ? <LoadingCircles /> : currentPrompt}
+        </Prompt>
         <WheelComponent
           winner={currentPrompt}
           mustSpin={mustSpin}

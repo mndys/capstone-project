@@ -55,6 +55,8 @@
     "@storybook/node-logger": "^6.1.21",
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "^6.1.21",
+    "@types/styled-components": "^5.1.9",
+    "canvas": "^2.7.0",
     "jest-styled-components": "^7.0.3",
     "prettier": "^2.2.1",
     "styled-components": "^5.2.1",
