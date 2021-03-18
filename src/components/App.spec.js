@@ -33,7 +33,7 @@ describe('Local Storage', () => {
     expect(window.localStorage.setItem).toHaveBeenCalledTimes(2)
   })
 
-  it('gets currentProperty and promptHistory from localStorage on reload', () => {
+  it('gets currentProperty and promptHistory from localStorage on load', () => {
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem')
     render(<App />)
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(2)
@@ -42,9 +42,9 @@ describe('Local Storage', () => {
 
 describe('Wheel', () => {
   it('starts spinning the wheel on spin button click', () => {
-    const INITIAL_PROMPT = 'Spin to receive your first prompt.'
+    const SPINNING_PROMPT = '...'
     render(<App />)
     userEvent.click(screen.getByRole('button', { name: /spin/i }))
-    expect(screen.getByTestId('prompt').textContent).not.toBe(INITIAL_PROMPT)
+    expect(screen.getByTestId('prompt').textContent).toBe(SPINNING_PROMPT)
   })
 })
