@@ -48,15 +48,6 @@
       "last 1 safari version"
     ]
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "jest-enzyme"
-    ],
-    "testEnvironment": "enzyme",
-    "testEnvironmentOptions": {
-      "enzymeAdapter": "react16"
-    }
-  },
   "devDependencies": {
     "@storybook/addon-actions": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",
@@ -64,11 +55,8 @@
     "@storybook/node-logger": "^6.1.21",
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "^6.1.21",
+    "@types/styled-components": "^5.1.9",
     "canvas": "^2.7.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "jest-environment-enzyme": "^7.1.2",
-    "jest-enzyme": "^7.1.2",
     "jest-styled-components": "^7.0.3",
     "prettier": "^2.2.1",
     "styled-components": "^5.2.1",
