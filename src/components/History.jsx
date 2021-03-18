@@ -5,8 +5,8 @@ export default function History({ history }) {
     <Wrapper>
       <h2>Spin History</h2>
       <HistoryEntries data-testid="history">
-        {history.map(spin => (
-          <Entry>{spin}</Entry>
+        {history.map(previousPrompt => (
+          <Entry>{previousPrompt}</Entry>
         ))}
       </HistoryEntries>
     </Wrapper>
