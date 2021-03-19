@@ -2,13 +2,29 @@ import styled from 'styled-components/macro'
 
 export default function History({ history }) {
   return (
-    <Entries data-testid="history">
+    <Wrapper>
       <h2>Spin History</h2>
-      {history.join(', ')}
-    </Entries>
+      <HistoryEntries data-testid="history">
+        {history.map(previousPrompt => (
+          <Entry>{previousPrompt}</Entry>
+        ))}
+      </HistoryEntries>
+    </Wrapper>
   )
 }
 
-const Entries = styled.div`
+const Wrapper = styled.div`
   padding: 2em 1em;
+`
+
+const HistoryEntries = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`
+
+const Entry = styled.div`
+  padding: 5px 15px;
+  border-radius: 5px;
+  background: #e4e4e4;
 `

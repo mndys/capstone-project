@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
 
-export default function LoadingCircles() {
+function LoadingCircles() {
   return (
-    <Wrapper>
+    <Wrapper data-testid="loadingCircles">
       <div className="circle"></div>
       <div className="circle"></div>
       <div className="circle"></div>
@@ -19,8 +19,8 @@ const Wrapper = styled.div`
     position: relative;
     border-radius: 50%;
     background: #000;
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     animation: bounce 0.5s alternate infinite ease;
   }
 
@@ -41,3 +41,4 @@ const Wrapper = styled.div`
     }
   }
 `
+export default LoadingCircles

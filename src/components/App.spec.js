@@ -42,9 +42,12 @@ describe('Local Storage', () => {
 
 describe('Wheel', () => {
   it('starts spinning the wheel on spin button click', () => {
-    const SPINNING_PROMPT = '...'
     render(<App />)
+
+    expect(screen.queryByTestId('loadingCircles')).not.toBeInTheDocument()
+
     userEvent.click(screen.getByRole('button', { name: /spin/i }))
-    expect(screen.getByTestId('prompt').textContent).toBe(SPINNING_PROMPT)
+
+    expect(screen.getByTestId('loadingCircles')).toBeVisible()
   })
 })
