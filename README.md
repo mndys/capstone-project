@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# 🎡 Wheel of TBR
+
+>Spin the wheel and receive a prompt.<br />
+>Gamify your reading experience.<br />
+>Challenge yourself to read more.<br />
+
+This is my capstone project for the neueFische web development bootcamp.
 
 ## Value Proposition
 As an **avid reader**,
