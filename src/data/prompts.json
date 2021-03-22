@@ -1,23 +1,80 @@
 [
-  "Big Book",
-  "Bought Recently",
-  "Classic",
-  "Cover Colour",
-  "Dark Academia",
-  "DNF",
-  "Fantasy",
-  "Feminine Protagonist",
-  "Friend Pick",
-  "Graphic Novel",
-  "Haunted Setting",
-  "Highest Rated",
-  "Lowest Rated",
-  "Masculine Protagonist",
-  "Un-Read Author",
-  "New-ish",
-  "Non-Fiction",
-  "Page Number",
-  "Romance",
-  "Short Read",
-  "Thriller"
+  {
+    "option": "Big Book",
+    "info": "Read a book which has more pages than most other books on your TBR"
+  },
+  {
+    "option": "Bought Recently",
+    "info": "Read a book you bought less than three months ago"
+  },
+  { "option": "Classic", "info": "Read a book that is considered a classic" },
+  {
+    "option": "Cover Colour",
+    "info": "Read a book with the color PURPLE on the cover"
+  },
+  {
+    "option": "Dark Academia",
+    "info": "Read a book that gives off a vibe of old schools, autumn, and secrets"
+  },
+  {
+    "option": "DNF",
+    "info": "Read a book you have put down before and finish it"
+  },
+  {
+    "option": "Fantasy",
+    "info": "Read a book which falls into the fantasy genre"
+  },
+  {
+    "option": "Feminine Protagonist",
+    "info": "Read a book with a female-presenting main character"
+  },
+  {
+    "option": "Friend Pick",
+    "info": "Ask a friend to pick your next read from your TBR"
+  },
+  {
+    "option": "Graphic Novel",
+    "info": "Read a book or a comic which depends heavily on illustrations"
+  },
+  {
+    "option": "Haunted Setting",
+    "info": "Read a book which has a creepy vibe. Ghosts are encouraged but not obligatory"
+  },
+  {
+    "option": "Highest Rated",
+    "info": "Read a book that has gotten stellar reviews"
+  },
+  {
+    "option": "Lowest Rated",
+    "info": "Read a book most reviewers have not liked"
+  },
+  {
+    "option": "Masculine Protagonist",
+    "info": "Read a book with a male-presenting main character"
+  },
+  {
+    "option": "Un-Read Author",
+    "info": "Read a book written by an author you haven't read before"
+  },
+  {
+    "option": "New-ish",
+    "info": "Read a book that has been released recently"
+  },
+  {
+    "option": "Non-Fiction",
+    "info": "Read a book which is rooted in reality, like a memoir or a textbook"
+  },
+  {
+    "option": "Page Number",
+    "info": "Read a book which has between 300-400 pages"
+  },
+  { "option": "Romance", "info": "Read a book with a prominent love plot" },
+  {
+    "option": "Short Read",
+    "info": "Read a book which has less pages than most other books on your TBR"
+  },
+  {
+    "option": "Thriller",
+    "info": "Read a book which falls into the thriller genre"
+  }
 ]

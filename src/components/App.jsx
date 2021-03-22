@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import styled from 'styled-components/macro'
-import Button from './Button'
-import Header from './Header'
-import Prompt from './Prompt'
 import prompts from '../data/prompts.json'
-import History from './History'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
-import WheelComponent from './Wheel'
+import Button from './Button'
+import Header from './Header'
+import History from './History'
 import LoadingCircles from './LoadingCircles'
+import Prompt from './Prompt'
+import PromptInfo from './PromptInfo'
+import WheelComponent from './Wheel'
 
 function App() {
   const INITIAL_PROMPT = 'Spin to receive your first prompt.'
@@ -19,12 +20,25 @@ function App() {
   )
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
   const [mustSpin, setMustSpin] = useState(false)
+  const [showPromptInfo, setShowPromptInfo] = useState(false)
+  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState('')
 
   return (
     <Grid>
       <Header>Wheel of TBR</Header>
-      <Main>
-        <Prompt data-testid="prompt">
+      {showPromptInfo && (
+        <PromptInfo
+          triggerPrompt={triggerShowPromptInfo}
+          onClick={toggleShowPromptInfo}
+        />
+      )}
+      <Main showPromptInfo={showPromptInfo}>
+        <Prompt
+          data-testid="prompt"
+          {...(currentPrompt !== INITIAL_PROMPT && currentPrompt !== LAST_PROMPT
+            ? { onClick: toggleShowPromptInfo }
+            : '')}
+        >
           {mustSpin ? <LoadingCircles /> : currentPrompt}
         </Prompt>
         <WheelComponent
@@ -47,10 +61,20 @@ function App() {
             reset
           </Button>
         </FlexWrapper>
-        {history.length ? <History history={history} /> : ''}
+        {history.length ? (
+          <History history={history} onClick={toggleShowPromptInfo} />
+        ) : (
+          ''
+        )}
       </Main>
+      {console.log(triggerShowPromptInfo)}{' '}
     </Grid>
   )
+
+  function toggleShowPromptInfo(event) {
+    setShowPromptInfo(!showPromptInfo)
+    setTriggerShowPromptInfo(event.target.innerText)
+  }
 
   function onReset() {
     setHistory([])
@@ -60,7 +84,7 @@ function App() {
   }
 
   function onSpin() {
-    let randomPrompt = prompts[getRandomNumber()]
+    let randomPrompt = prompts[getRandomNumber()].option
 
     function getRandomNumber() {
       return Math.floor(Math.random() * prompts.length)
@@ -68,7 +92,7 @@ function App() {
 
     if (history.length < prompts.length - 1) {
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
-        randomPrompt = prompts[getRandomNumber()]
+        randomPrompt = prompts[getRandomNumber()].option
       }
       if (currentPrompt === INITIAL_PROMPT) {
         setCurrentPrompt(randomPrompt)
@@ -108,6 +132,7 @@ const Main = styled.main`
   grid-template-columns: 1fr;
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
   overflow: hidden auto;
+  ${props => props.showPromptInfo && 'filter: blur(2px); z-index: -1'};
 `
 
 const FlexWrapper = styled.div`
