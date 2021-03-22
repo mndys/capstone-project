@@ -69,7 +69,6 @@ function App() {
           ''
         )}
       </Main>
-      {console.log(triggerShowPromptInfo)}{' '}
     </Grid>
   )
 

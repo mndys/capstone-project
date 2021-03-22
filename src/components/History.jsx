@@ -6,7 +6,7 @@ export default function History({ history, onClick }) {
       <h2>Spin History</h2>
       <HistoryEntries data-testid="history">
         {history.map((previousPrompt, index) => (
-          <Entry key={index} onClick={onClick}>
+          <Entry key={index} onClick={onClick} data-testid="historyEntry">
             {previousPrompt}
           </Entry>
         ))}

@@ -3,12 +3,12 @@ import prompts from '../data/prompts.json'
 
 export default function PromptInfo({ triggerPrompt, onClick }) {
   return (
-    <Overlay onClick={onClick}>
+    <Modal onClick={onClick} data-testid="promptInfo">
       <div>
         <h2>{triggerPrompt}</h2>
         <p>{prompts[calculateCurrentPromptNumber()].info}</p>
       </div>
-    </Overlay>
+    </Modal>
   )
 
   function calculateCurrentPromptNumber() {
@@ -16,7 +16,7 @@ export default function PromptInfo({ triggerPrompt, onClick }) {
   }
 }
 
-const Overlay = styled.div`
+const Modal = styled.div`
   position: absolute;
   display: flex;
   justify-content: center;
