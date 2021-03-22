@@ -2,14 +2,21 @@ import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
   * {
-    box-sizing: border-box
+    box-sizing: border-box;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
+
+  *::-webkit-scrollbar {
+  display: none;
+}
 
   body {
     margin: 0 auto;
     font-family: 'Open Sans', Verdana, Geneva, Tahoma, sans-serif;
     font-size: 112.5%;
     line-height: 1.5;
+
   }
 
   input, button, textarea {
@@ -38,9 +45,11 @@ export default createGlobalStyle`
   }
 
   h2{
-    font-size: 1.1em;
+    font-size: clamp(1.1em, 5vw, 50px);
+    line-height: 1.1em;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: .2em;
+    padding-bottom: .3em;
   }
 `
