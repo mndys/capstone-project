@@ -37,7 +37,7 @@ function App() {
           data-testid="prompt"
           {...(currentPrompt !== INITIAL_PROMPT &&
           currentPrompt !== LAST_PROMPT &&
-          triggerShowPromptInfo !== ''
+          !mustSpin
             ? { onClick: toggleShowPromptInfo }
             : '')}
         >
