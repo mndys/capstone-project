@@ -27,10 +27,20 @@ const Overlay = styled.div`
   height: 100%;
 
   div {
-    background: #fff;
+    background: linear-gradient(#fff 0%, #e4e4e4 100%);
     width: clamp(200px, 80vw, 500px);
     padding: 20px;
     border-radius: 5px;
     box-shadow: 1px 2px 6px 0px #333a;
+  }
+
+  h2 {
+    color: #0f6f7b;
+    text-align: center;
+    border-bottom: 4px dotted;
+  }
+
+  p {
+    font-size: clamp(12px, 4vw, 24px);
   }
 `
