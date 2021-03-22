@@ -29,4 +29,7 @@ const Entry = styled.div`
   padding: 5px 15px;
   border-radius: 5px;
   background: #e4e4e4;
+  :hover {
+    cursor: pointer;
+  }
 `

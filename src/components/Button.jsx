@@ -15,6 +15,7 @@ const Button = styled.button`
   text-transform: uppercase;
   margin: 1em 0.1em;
   border-radius: 25px;
+  cursor: ${props => (props.disabled ? 'default' : 'pointer')};
 `
 
 export default Button
