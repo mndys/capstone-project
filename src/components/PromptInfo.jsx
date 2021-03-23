@@ -1,7 +1,6 @@
 import styled from 'styled-components/macro'
-import prompts from '../data/prompts.json'
 
-export default function PromptInfo({ triggerPrompt, onClick }) {
+export default function PromptInfo({ triggerPrompt, onClick, prompts }) {
   return (
     <Modal onClick={onClick} data-testid="promptInfo">
       <div>

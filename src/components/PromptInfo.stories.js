@@ -1,5 +1,5 @@
 import React from 'react'
-import PromptInfo from './PromptInfoStorybook'
+import PromptInfo from './PromptInfo'
 
 export default {
   title: 'ui/PromptInfo',

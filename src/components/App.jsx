@@ -30,6 +30,7 @@ function App() {
         <PromptInfo
           triggerPrompt={triggerShowPromptInfo}
           onClick={toggleShowPromptInfo}
+          prompts={prompts}
         />
       )}
       <Main showPromptInfo={showPromptInfo}>
