@@ -1,14 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import App from './App'
+import Prompt from './Prompt'
 
 it('renders the Prompt component', () => {
-  render(<App />)
+  render(<Prompt />)
   expect(screen.getByTestId(/prompt/i)).toBeVisible()
-})
-
-it('Text changes on button click -> the word "prompt" from the initial state is no longer displayed', () => {
-  render(<App />)
-  userEvent.click(screen.getByText(/Spin!/i))
-  expect(screen.queryByText(/prompt/i)).toBeNull()
 })

@@ -3,15 +3,10 @@
 
 const PROMPT = '[data-testid="prompt"]'
 const PROMPT_INFO = '[data-testid="promptInfo"]'
-const HISTORY = '[data-testid="history"]'
 const HISTORY_ENTRY = '[data-testid="historyEntry"]'
 
 function clickSpin() {
   cy.get('button').contains(/spin/i).click()
-}
-
-function waitForWheel() {
-  cy.wait(12000)
 }
 
 function clickPrompt() {
@@ -36,7 +31,7 @@ describe('Wheel of TBR', () => {
     it('Prompts and History Entries can be clicked and display a modal with more information', () => {
       cy.get(PROMPT_INFO).should('not.exist')
       clickSpin()
-      waitForWheel()
+      cy.reload()
       clickPrompt()
       cy.get(PROMPT_INFO).should('be.visible')
       clickPromptInfo()
@@ -64,6 +59,13 @@ describe('Wheel of TBR', () => {
       }
       clickPrompt()
       cy.get(PROMPT_INFO).should('not.exist')
+    })
+  })
+
+  describe('Prompt', () => {
+    it('Text changes on button click -> the word "prompt" from the initial state is no longer displayed', () => {
+      clickSpin()
+      cy.get(PROMPT).should('not.contain.text', 'prompt')
     })
   })
 })
