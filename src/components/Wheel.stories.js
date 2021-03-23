@@ -46,18 +46,4 @@ Default.args = {
     '#43aa8b',
     '#577590',
   ],
-  /* textColors: ['#0e1516'],
-  fontSize: 12,
-  outerBorderColor: '#e4e4e4',
-  outerBorderWidth: 10,
-  innerRadius: 0,
-  innerBorderColor: '#fff',
-  innerBorderWidth: 60,
-  radiusLineColor: '#fff',
-  radiusLineWidth: 5,
-  // perpendicularText
-  textDistance: 63,
-  onStopSpinning: () => {
-    Default.args.mustStartSpinning = false
-  }, */
 }
