@@ -1,5 +1,5 @@
 import React from 'react'
-import Prompt from './Prompt'
+import Prompt from '../components/Prompt'
 
 export default {
   title: 'ui/Prompt',
