@@ -9,7 +9,7 @@ export default {
 }
 
 const Template = args => (
-  <Prompt {...args}>
+  <Prompt style={{ width: '300px' }} {...args}>
     {args.text}
     {args.colorObject ? (
       <PromptSpecifier
@@ -17,7 +17,7 @@ const Template = args => (
           name: 'Japanese Carmine',
           hex: '#9D2933',
         }}
-        triggerPrompt="Cover Colour"
+        currentPrompt="Cover Colour"
       />
     ) : (
       ''
