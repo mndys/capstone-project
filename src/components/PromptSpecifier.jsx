@@ -2,12 +2,12 @@ import styled from 'styled-components/macro'
 
 export default function PromptSpecifier({
   colorObject,
-  triggerPrompt,
   randomPageNumber,
+  currentPrompt,
 }) {
   return (
     <Wrapper colorObject={colorObject}>
-      {triggerPrompt !== 'Page Number' ? (
+      {currentPrompt === 'Cover Colour' ? (
         <>
           <ColorCircle colorObject={colorObject} />
           {colorObject.name}
@@ -15,7 +15,7 @@ export default function PromptSpecifier({
       ) : (
         ''
       )}
-      {triggerPrompt === 'Page Number' ? (
+      {currentPrompt === 'Page Number' ? (
         <strong>{randomPageNumber}</strong>
       ) : (
         ''

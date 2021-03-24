@@ -31,12 +31,9 @@ function App() {
     const randomColorNumber = Math.floor(Math.random() * colors.length)
     return colors[randomColorNumber]
   }
-  const [colorObject, setColorObject] = useState(
-    loadFromLocal('colorObject') ?? getRandomColorObject()
-  )
-  const [randomPageNumber, setRandomPageNumber] = useState(
+  const colorObject = loadFromLocal('colorObject') ?? getRandomColorObject()
+  const randomPageNumber =
     loadFromLocal('randomPageNumber') ?? getRandomPageNumber()
-  )
 
   return (
     <Grid>
@@ -67,7 +64,7 @@ function App() {
           (!mustSpin && currentPrompt === 'Page Number') ? (
             <PromptSpecifier
               triggerPrompt={triggerShowPromptInfo}
-              {...{ colorObject, randomPageNumber }}
+              {...{ currentPrompt, colorObject, randomPageNumber }}
             />
           ) : (
             ''
@@ -101,9 +98,11 @@ function App() {
 
   function toggleShowPromptInfo(event) {
     setShowPromptInfo(!showPromptInfo)
+    console.log(event.target)
     if (
       !event.target.className.includes('Prompt') &&
-      !event.target.className.includes('PromptSpecifier')
+      !event.target.className.includes('PromptSpecifier') &&
+      event.target.className !== ''
     ) {
       setTriggerShowPromptInfo(event.target.innerText)
     } else {
