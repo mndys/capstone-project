@@ -10,19 +10,17 @@ export default function PromptInfo({
     <Modal onClick={onClick} data-testid="promptInfo" colorObject={colorObject}>
       <div>
         <h2>{triggerPrompt}</h2>
-        <p>
-          {prompts[calculateCurrentPromptNumber()].info}
-          {triggerPrompt === 'Cover Colour' ? (
-            <>
-              <div>
-                <strong>{colorObject.name}</strong>
-              </div>
-              <div></div>
-            </>
-          ) : (
-            ''
-          )}
-        </p>
+        <p>{prompts[calculateCurrentPromptNumber()].info}</p>
+        {triggerPrompt === 'Cover Colour' ? (
+          <>
+            <div>
+              <strong>{colorObject.name}</strong>
+            </div>
+            <div></div>
+          </>
+        ) : (
+          ''
+        )}
       </div>
     </Modal>
   )
@@ -39,8 +37,8 @@ const Modal = styled.div`
   align-items: center;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 
   & > div {
     background: linear-gradient(#fff 0%, #e4e4e4 100%);
@@ -51,15 +49,11 @@ const Modal = styled.div`
     text-align: center;
   }
 
-  p > div {
-    text-align: center;
-
-    :last-child {
-      margin: 0.3em auto;
-      width: 80%;
-      height: 2em;
-      background: ${props => props.colorObject.hex};
-    }
+  div:nth-child(4) {
+    margin: 0.2em auto;
+    width: 80%;
+    height: 2em;
+    background: ${props => props.colorObject.hex};
   }
 
   h2 {

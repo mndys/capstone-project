@@ -15,7 +15,7 @@ const ColorName = styled.div`
   gap: 10px;
   text-align: center;
   font-size: 18px;
-  width: clamp(50px, 60vw, 400px);
+  width: clamp(50px, 60vw, 800px);
 `
 const ColorCircle = styled.div`
   background-color: ${props => props.colorObject.hex};
