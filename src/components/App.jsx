@@ -100,8 +100,12 @@ function App() {
 
   function toggleShowPromptInfo(event) {
     setShowPromptInfo(!showPromptInfo)
-    if (!event.target.className.includes('Prompt')) {
+    if (
+      !event.target.className.includes('Prompt') &&
+      !event.target.className.includes('Color')
+    ) {
       setTriggerShowPromptInfo(event.target.innerText)
+      console.log(event.target)
     } else {
       setTriggerShowPromptInfo(currentPrompt)
     }
