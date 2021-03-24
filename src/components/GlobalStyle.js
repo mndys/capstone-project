@@ -45,7 +45,7 @@ export default createGlobalStyle`
   }
 
   h2{
-    font-size: clamp(1.1em, 5vw, 50px);
+    font-size: clamp(1.1em, 5vw, 30px);
     line-height: 1.1em;
     margin: 0;
     text-transform: uppercase;
