@@ -1,5 +1,5 @@
 import React from 'react'
-import Color from '../components/Color'
+import PromptSpecifier from '../components/PromptSpecifier'
 import Prompt from '../components/Prompt'
 
 export default {
@@ -12,7 +12,7 @@ const Template = args => (
   <Prompt {...args}>
     {args.text}
     {args.colorObject ? (
-      <Color
+      <PromptSpecifier
         colorObject={{
           name: 'Japanese Carmine',
           hex: '#9D2933',
