@@ -63,7 +63,6 @@ function App() {
           {(!mustSpin && currentPrompt === 'Cover Colour') ||
           (!mustSpin && currentPrompt === 'Page Number') ? (
             <PromptSpecifier
-              triggerPrompt={triggerShowPromptInfo}
               {...{ currentPrompt, colorObject, randomPageNumber }}
             />
           ) : (
