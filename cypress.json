@@ -1,1 +1,4 @@
-{}
+{
+  "testFiles": "**/*.*",
+  "integrationFolder": "src/tests"
+}
