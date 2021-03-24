@@ -98,7 +98,6 @@ function App() {
 
   function toggleShowPromptInfo(event) {
     setShowPromptInfo(!showPromptInfo)
-    console.log(event.target)
     if (
       !event.target.className.includes('Prompt') &&
       !event.target.className.includes('PromptSpecifier') &&
