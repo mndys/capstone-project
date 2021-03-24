@@ -2,10 +2,11 @@ import { useState } from 'react'
 import styled from 'styled-components/macro'
 import colors from '../data/colors.json'
 import prompts from '../data/prompts.json'
+import getRandomPageNumber from '../lib/getRandomPageNumber'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
 import Button from './Button'
-import Color from './Color'
+import PromptSpecifier from './PromptSpecifier'
 import Header from './Header'
 import History from './History'
 import LoadingCircles from './LoadingCircles'
@@ -33,6 +34,9 @@ function App() {
   const [colorObject, setColorObject] = useState(
     loadFromLocal('colorObject') ?? getRandomColorObject()
   )
+  const [randomPageNumber, setRandomPageNumber] = useState(
+    loadFromLocal('randomPageNumber') ?? getRandomPageNumber()
+  )
 
   return (
     <Grid>
@@ -41,13 +45,8 @@ function App() {
         <PromptInfo
           triggerPrompt={triggerShowPromptInfo}
           onClick={toggleShowPromptInfo}
-          prompts={prompts}
-          colorObject={colorObject}
-        >
-          {currentPrompt === 'Cover Colour'
-            ? +'on the cover, the spine, or in the title'
-            : ''}
-        </PromptInfo>
+          {...{ prompts, colorObject, randomPageNumber }}
+        />
       )}
       <Main showPromptInfo={showPromptInfo}>
         <Prompt
@@ -59,25 +58,27 @@ function App() {
             : '')}
         >
           {mustSpin ? <LoadingCircles /> : currentPrompt}
-          {!mustSpin && currentPrompt === 'Cover Colour'
+          {(!mustSpin && currentPrompt === 'Cover Colour') ||
+          (!mustSpin && currentPrompt === 'Page Number')
             ? `:
           `
             : ''}
-          {!mustSpin && currentPrompt === 'Cover Colour' ? (
-            <Color colorObject={colorObject} />
+          {(!mustSpin && currentPrompt === 'Cover Colour') ||
+          (!mustSpin && currentPrompt === 'Page Number') ? (
+            <PromptSpecifier
+              triggerPrompt={triggerShowPromptInfo}
+              {...{ colorObject, randomPageNumber }}
+            />
           ) : (
             ''
           )}
         </Prompt>
-        <WheelComponent
-          winner={currentPrompt}
-          mustSpin={mustSpin}
-          setMustSpin={setMustSpin}
-        />
+        <WheelComponent winner={currentPrompt} {...{ mustSpin, setMustSpin }} />
         <FlexWrapper>
           <Button
             disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
             primary
+            autoFocus
             onClick={onSpin}
           >
             Spin!
@@ -102,10 +103,9 @@ function App() {
     setShowPromptInfo(!showPromptInfo)
     if (
       !event.target.className.includes('Prompt') &&
-      !event.target.className.includes('Color')
+      !event.target.className.includes('PromptSpecifier')
     ) {
       setTriggerShowPromptInfo(event.target.innerText)
-      console.log(event.target)
     } else {
       setTriggerShowPromptInfo(currentPrompt)
     }
@@ -117,6 +117,7 @@ function App() {
     setCurrentPrompt(INITIAL_PROMPT)
     saveToLocal('currentPrompt', INITIAL_PROMPT)
     saveToLocal('colorObject', getRandomColorObject())
+    saveToLocal('randomPageNumber', getRandomPageNumber())
   }
 
   function onSpin() {
@@ -142,6 +143,7 @@ function App() {
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
         saveToLocal('colorObject', colorObject)
+        saveToLocal('randomPageNumber', getRandomPageNumber())
         setMustSpin(true)
       }
     } else {

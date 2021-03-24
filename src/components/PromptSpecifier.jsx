@@ -1,10 +1,13 @@
 import styled from 'styled-components/macro'
-import getRandomPageNumber from '../lib/getRandomPageNumber'
 
-export default function PromptSpecifier({ colorObject, triggerPrompt }) {
+export default function PromptSpecifier({
+  colorObject,
+  triggerPrompt,
+  randomPageNumber,
+}) {
   return (
     <Wrapper colorObject={colorObject}>
-      {triggerPrompt !== 'PageNumber' ? (
+      {triggerPrompt !== 'Page Number' ? (
         <>
           <ColorCircle colorObject={colorObject} />
           {colorObject.name}
@@ -12,7 +15,11 @@ export default function PromptSpecifier({ colorObject, triggerPrompt }) {
       ) : (
         ''
       )}
-      {triggerPrompt === 'Page Number' ? getRandomPageNumber() : ''}
+      {triggerPrompt === 'Page Number' ? (
+        <strong>{randomPageNumber}</strong>
+      ) : (
+        ''
+      )}
     </Wrapper>
   )
 }
