@@ -1,5 +1,5 @@
 import React from 'react'
-import PromptInfo from './PromptInfo'
+import PromptInfo from '../components/PromptInfo'
 
 export default {
   title: 'ui/PromptInfo',
@@ -9,7 +9,9 @@ export default {
   },
 }
 
-const Template = args => <PromptInfo {...args} />
+const Template = args => (
+  <PromptInfo {...args} colorObject={{ name: 'name', hex: '#000000' }} />
+)
 
 export const Default = Template.bind({})
 Default.args = {
