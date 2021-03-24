@@ -5,9 +5,10 @@ export default function PromptInfo({
   onClick,
   prompts,
   colorObject,
+  randomPageNumber,
 }) {
   return (
-    <Modal onClick={onClick} data-testid="promptInfo" colorObject={colorObject}>
+    <Modal data-testid="promptInfo" {...{ onClick, colorObject }}>
       <div>
         <h2>{triggerPrompt}</h2>
         <p>{prompts[calculateCurrentPromptNumber()].info}</p>
@@ -17,6 +18,15 @@ export default function PromptInfo({
               <strong>{colorObject.name}</strong>
             </div>
             <div></div>
+          </>
+        ) : (
+          ''
+        )}
+        {triggerPrompt === 'Page Number' ? (
+          <>
+            <div>
+              <strong>{randomPageNumber}</strong>
+            </div>
           </>
         ) : (
           ''
@@ -64,5 +74,6 @@ const Modal = styled.div`
 
   p {
     font-size: clamp(12px, 4vw, 24px);
+    margin-bottom: 0;
   }
 `

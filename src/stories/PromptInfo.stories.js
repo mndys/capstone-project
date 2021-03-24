@@ -10,7 +10,13 @@ export default {
 }
 
 const Template = args => (
-  <PromptInfo {...args} colorObject={{ name: 'name', hex: '#000000' }} />
+  <PromptInfo
+    {...args}
+    colorObject={{
+      name: 'Japanese Carmine',
+      hex: '#9D2933',
+    }}
+  />
 )
 
 export const Default = Template.bind({})
@@ -20,6 +26,19 @@ Default.args = {
     {
       option: 'Clicked Prompt',
       info: 'Receive further information about the clicked prompt',
+    },
+  ],
+  calculateCurrentPromptNumber: 0,
+}
+
+export const ColorPrompt = Template.bind({})
+ColorPrompt.args = {
+  triggerPrompt: 'Cover Colour',
+  prompts: [
+    {
+      option: 'Cover Colour',
+      info:
+        'Read a book with this colour on the cover, spine, or in the title:',
     },
   ],
   calculateCurrentPromptNumber: 0,
