@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import styled from 'styled-components/macro'
+import colors from '../data/colors.json'
 import prompts from '../data/prompts.json'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
 import Button from './Button'
+import Color from './Color'
 import Header from './Header'
 import History from './History'
 import LoadingCircles from './LoadingCircles'
@@ -21,7 +23,16 @@ function App() {
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
   const [mustSpin, setMustSpin] = useState(false)
   const [showPromptInfo, setShowPromptInfo] = useState(false)
-  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState('')
+  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState(
+    loadFromLocal('currentPrompt') ?? INITIAL_PROMPT
+  )
+  function getRandomColorObject() {
+    const randomColorNumber = Math.floor(Math.random() * colors.length)
+    return colors[randomColorNumber]
+  }
+  const [colorObject, setColorObject] = useState(
+    loadFromLocal('colorObject') ?? getRandomColorObject()
+  )
 
   return (
     <Grid>
@@ -31,7 +42,12 @@ function App() {
           triggerPrompt={triggerShowPromptInfo}
           onClick={toggleShowPromptInfo}
           prompts={prompts}
-        />
+          colorObject={colorObject}
+        >
+          {currentPrompt === 'Cover Colour'
+            ? +'on the cover, the spine, or in the title'
+            : ''}
+        </PromptInfo>
       )}
       <Main showPromptInfo={showPromptInfo}>
         <Prompt
@@ -43,6 +59,15 @@ function App() {
             : '')}
         >
           {mustSpin ? <LoadingCircles /> : currentPrompt}
+          {!mustSpin && currentPrompt === 'Cover Colour'
+            ? `:
+          `
+            : ''}
+          {!mustSpin && currentPrompt === 'Cover Colour' ? (
+            <Color colorObject={colorObject} />
+          ) : (
+            ''
+          )}
         </Prompt>
         <WheelComponent
           winner={currentPrompt}
@@ -75,7 +100,11 @@ function App() {
 
   function toggleShowPromptInfo(event) {
     setShowPromptInfo(!showPromptInfo)
-    setTriggerShowPromptInfo(event.target.innerText)
+    if (!event.target.className.includes('Prompt')) {
+      setTriggerShowPromptInfo(event.target.innerText)
+    } else {
+      setTriggerShowPromptInfo(currentPrompt)
+    }
   }
 
   function onReset() {
@@ -83,6 +112,7 @@ function App() {
     saveToLocal('promptHistory', [])
     setCurrentPrompt(INITIAL_PROMPT)
     saveToLocal('currentPrompt', INITIAL_PROMPT)
+    saveToLocal('colorObject', getRandomColorObject())
   }
 
   function onSpin() {
@@ -98,13 +128,16 @@ function App() {
       }
       if (currentPrompt === INITIAL_PROMPT) {
         setCurrentPrompt(randomPrompt)
+        setTriggerShowPromptInfo(randomPrompt)
         saveToLocal('currentPrompt', randomPrompt)
         setMustSpin(true)
       } else {
         setCurrentPrompt(randomPrompt)
+        setTriggerShowPromptInfo(randomPrompt)
         setHistory([...history, currentPrompt])
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
+        saveToLocal('colorObject', colorObject)
         setMustSpin(true)
       }
     } else {

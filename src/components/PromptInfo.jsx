@@ -1,11 +1,28 @@
 import styled from 'styled-components/macro'
 
-export default function PromptInfo({ triggerPrompt, onClick, prompts }) {
+export default function PromptInfo({
+  triggerPrompt,
+  onClick,
+  prompts,
+  colorObject,
+}) {
   return (
-    <Modal onClick={onClick} data-testid="promptInfo">
+    <Modal onClick={onClick} data-testid="promptInfo" colorObject={colorObject}>
       <div>
         <h2>{triggerPrompt}</h2>
-        <p>{prompts[calculateCurrentPromptNumber()].info}</p>
+        <p>
+          {prompts[calculateCurrentPromptNumber()].info}
+          {triggerPrompt === 'Cover Colour' ? (
+            <>
+              <div>
+                <strong>{colorObject.name}</strong>
+              </div>
+              <div></div>
+            </>
+          ) : (
+            ''
+          )}
+        </p>
       </div>
     </Modal>
   )
@@ -25,12 +42,24 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
 
-  div {
+  & > div {
     background: linear-gradient(#fff 0%, #e4e4e4 100%);
     width: clamp(200px, 80vw, 500px);
     padding: 20px;
     border-radius: 5px;
     box-shadow: 1px 2px 6px 0px #333a;
+    text-align: center;
+  }
+
+  p > div {
+    text-align: center;
+
+    :last-child {
+      margin: 0.3em auto;
+      width: 80%;
+      height: 2em;
+      background: ${props => props.colorObject.hex};
+    }
   }
 
   h2 {
