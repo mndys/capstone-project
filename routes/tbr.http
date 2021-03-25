@@ -1,0 +1,11 @@
+GET http://localhost:4000/api/tbr
+
+###
+
+POST http://localhost:4000/api/tbr
+Content-Type: application/json
+
+{
+  "title": "Get error",
+  "author": "604207317823bcb86a408c5e"
+}

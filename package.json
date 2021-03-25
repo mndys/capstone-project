@@ -1,11 +1,19 @@
 {
-  "name": "capstone-project",
-  "version": "0.1.0",
-  "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
-  "license": "ISC",
-  "proxy": "http://localhost:3001",
+  "name": "wheel-of-tbr-server",
+  "version": "1.0.0",
+  "description": ">Spin the wheel and receive a prompt.<br /> >Gamify your reading experience.<br /> >Challenge yourself to read more.<br />",
+  "main": "server.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.18",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "prop-types": "^15.7.2"
+  },
+  "devDependencies": {},
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/index.js",
     "build": "cd client && npm run build",
     "dev": "npm-run-all --parallel server client",
     "server": "nodemon server.js",
@@ -14,12 +22,15 @@
     "storybook": "cd client && npm run storybook",
     "postinstall": "cd client && npm install"
   },
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "mongoose": "^5.11.18",
-    "nodemon": "^2.0.7",
-    "npm-run-all": "^4.1.5",
-    "prop-types": "^15.7.2"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mndys/capstone-project.git"
+  },
+  "keywords": [],
+  "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mndys/capstone-project/issues"
+  },
+  "homepage": "https://github.com/mndys/capstone-project#readme"
 }
