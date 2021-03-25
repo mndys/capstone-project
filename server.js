@@ -1,6 +1,6 @@
 const express = require('express')
 const setupMongo = require('./setupMongo')
-require('dotenv').config()
+require('dotenv').config({ path: './.env.local' })
 const { PORT = 4000 } = process.env
 
 setupMongo()
