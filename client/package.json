@@ -1,13 +1,14 @@
 {
-  "name": "capstone-project",
+  "name": "wheel-of-tbr-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:4000",
   "dependencies": {
     "express": "^4.17.1",
     "react": "^17.0.1",
     "react-custom-roulette": "^1.1.8",
     "react-dom": "^17.0.1",
+    "react-query": "^3.13.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.0"
   },
@@ -70,5 +71,16 @@
     "prettier": "^2.2.1",
     "styled-components": "^5.2.1",
     "uuid": "^8.3.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mndys/capstone-project.git"
+  },
+  "keywords": [],
+  "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mndys/capstone-project/issues"
+  },
+  "homepage": "https://github.com/mndys/capstone-project#readme"
 }
