@@ -2,20 +2,39 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema(
   {
-    text: {
+    title: {
       type: String,
-      required: true,
+      unique: true,
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      type: String,
     },
-    votes: {
+    cover: {
+      type: String,
+    },
+    pageCount: {
       type: Number,
-      default: 0,
+    },
+    rating: {
+      type: Number,
+    },
+    isbn: {
+      type: String,
+    },
+    published: {
+      type: Date,
+    },
+    genre: {
+      type: String,
+    },
+    subject: {
+      type: String,
+    },
+    onTbr: {
+      type: String,
     },
   },
-  { timestamps: true, versionKey: false }
+  { versionKey: false }
 )
 
 module.exports = mongoose.model('Card', schema)

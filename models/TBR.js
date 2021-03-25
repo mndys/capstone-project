@@ -8,7 +8,6 @@ const schema = new mongoose.Schema(
     },
     author: {
       type: String,
-      default: () => `hsl(${Math.round(Math.random() * 360)}, 70%, 60%)`,
     },
     cover: {
       type: String,
@@ -17,9 +16,18 @@ const schema = new mongoose.Schema(
       type: Number,
     },
     rating: {
+      type: Number,
+    },
+    isbn: {
       type: String,
     },
-    rating: {
+    published: {
+      type: Date,
+    },
+    genre: {
+      type: String,
+    },
+    subject: {
       type: String,
     },
     onTbr: {
