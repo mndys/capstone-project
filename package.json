@@ -14,13 +14,16 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server.js",
-    "build": "cd client && npm run build",
+    "build": "cd client && npm install && npm run build",
     "dev": "npm-run-all --parallel server client",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "test": "cd client && npm test",
     "storybook": "cd client && npm run storybook",
     "postinstall": "cd client && npm install"
+  },
+  "engines": {
+    "node": "^14.16.0"
   },
   "keywords": [],
   "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
