@@ -5,11 +5,13 @@
   "private": true,
   "dependencies": {
     "express": "^4.17.1",
+    "canvas": "^2.7.0",
     "react": "^17.0.1",
     "react-custom-roulette": "^1.1.8",
     "react-dom": "^17.0.1",
     "react-query": "^3.13.0",
     "react-scripts": "4.0.3",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
@@ -64,13 +66,11 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.1",
     "@types/styled-components": "^5.1.9",
-    "canvas": "^2.7.0",
     "cypress": "^6.8.0",
     "eslint-plugin-cypress": "^2.11.2",
     "jest-styled-components": "^7.0.3",
     "prettier": "^2.2.1",
-    "styled-components": "^5.2.1",
-    "uuid": "^8.3.2"
+    "styled-components": "^5.2.1"
   },
   "keywords": [],
   "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
