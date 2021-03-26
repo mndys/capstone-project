@@ -1,13 +1,13 @@
 const express = require('express')
 const setupMongo = require('./setupMongo')
-require('dotenv').config({ path: './.env.local' })
+require('dotenv').config()
 const { PORT = 4000 } = process.env
 
 setupMongo()
 const app = express()
 
 app.use('/', express.json()) // add middleware for json data
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Hello from server!' })
 })
 app.use(express.static('./client/build'))
