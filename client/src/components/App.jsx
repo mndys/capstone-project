@@ -140,7 +140,7 @@ function App() {
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
         saveToLocal('colorObject', colorObject)
-        saveToLocal('randomPageNumber', getRandomPageNumber())
+        saveToLocal('randomPageNumber', randomPageNumber)
         setMustSpin(true)
       }
     } else {
