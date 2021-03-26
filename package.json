@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node server/index.js",
+    "start": "node server.js",
     "build": "cd client && npm run build",
     "dev": "npm-run-all --parallel server client",
     "server": "nodemon server.js",
