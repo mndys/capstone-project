@@ -37,4 +37,4 @@ const schema = new mongoose.Schema(
   { versionKey: false }
 )
 
-module.exports = mongoose.model('Card', schema)
+module.exports = mongoose.model('CurrentRead', schema)

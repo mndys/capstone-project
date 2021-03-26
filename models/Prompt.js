@@ -16,4 +16,4 @@ const schema = new mongoose.Schema(
   { versionKey: false }
 )
 
-module.exports = mongoose.model('Backlog', schema)
+module.exports = mongoose.model('Prompt', schema)
