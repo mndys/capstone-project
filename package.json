@@ -2,7 +2,7 @@
   "name": "wheel-of-tbr-server",
   "version": "1.0.0",
   "description": ">Spin the wheel and receive a prompt.<br /> >Gamify your reading experience.<br /> >Challenge yourself to read more.<br />",
-  "main": "server.js",
+  "main": "index.js",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -22,15 +22,7 @@
     "storybook": "cd client && npm run storybook",
     "postinstall": "cd client && npm install"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mndys/capstone-project.git"
-  },
   "keywords": [],
   "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mndys/capstone-project/issues"
-  },
-  "homepage": "https://github.com/mndys/capstone-project#readme"
+  "license": "ISC"
 }
