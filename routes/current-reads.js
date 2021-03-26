@@ -1,5 +1,5 @@
 const express = require('express')
-const CurrentReads = require('../models/CurrentReads')
+const CurrentReads = require('../models/CurrentRead')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {

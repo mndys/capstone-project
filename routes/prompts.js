@@ -1,5 +1,5 @@
 const express = require('express')
-const Prompts = require('../models/Prompts')
+const Prompts = require('../models/Prompt')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
