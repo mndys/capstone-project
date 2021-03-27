@@ -1,5 +1,5 @@
 const express = require('express')
-const Tbr = require('../models/Tbr.js')
+const Tbr = require('../models/Tbr')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {

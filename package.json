@@ -22,7 +22,7 @@
     "client": "cd client && npm start",
     "test": "cd client && npm test",
     "storybook": "cd client && npm run storybook",
-    "postinstall": "cd client && npm install --force"
+    "postinstall": "cd client && npm install"
   },
   "keywords": [],
   "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
