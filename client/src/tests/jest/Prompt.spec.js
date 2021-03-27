@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import Prompt from './Prompt'
+import Prompt from '../../components/Prompt'
 
 it('renders the Prompt component', () => {
   render(<Prompt />)

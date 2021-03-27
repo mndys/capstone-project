@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import History from './History'
+import History from '../../components/History'
 
 it('renders a History div with previous prompts if there have been prompts before', () => {
   const history = ['Spin 1', 'Spin 2', 'Spin 3']
