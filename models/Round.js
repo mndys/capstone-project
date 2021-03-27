@@ -8,7 +8,7 @@ const schema = new mongoose.Schema(
     },
     books: [
       {
-        type: mongoose.Schema.Type.ObjectID,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Prompt',
       },
     ],

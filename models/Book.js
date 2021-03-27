@@ -31,11 +31,11 @@ const schema = new mongoose.Schema(
       type: String,
     },
     round: {
-      type: mongoose.Schema.Type.ObjectID,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Round',
     },
     prompt: {
-      type: mongoose.Schema.Type.ObjectID,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Prompt',
     },
   },

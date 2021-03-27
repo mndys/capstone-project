@@ -10,7 +10,7 @@ const schema = new mongoose.Schema(
       type: String,
     },
     book: {
-      type: mongoose.Schema.Type.ObjectID,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Book',
     },
   },
