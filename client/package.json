@@ -19,8 +19,8 @@
     "node": "^15.12.0"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "cypress"
+    "coveragePathIgnorePatterns": [
+      "/cypress"
     ]
   },
   "scripts": {
