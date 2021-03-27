@@ -30,11 +30,16 @@ const schema = new mongoose.Schema(
     subject: {
       type: String,
     },
-    onTbr: {
-      type: String,
+    round: {
+      type: mongoose.Schema.Type.ObjectID,
+      ref: 'Round',
+    },
+    prompt: {
+      type: mongoose.Schema.Type.ObjectID,
+      ref: 'Prompt',
     },
   },
   { versionKey: false }
 )
 
-module.exports = mongoose.model('CurrentRead', schema)
+module.exports = mongoose.model('Book', schema)

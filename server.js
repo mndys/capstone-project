@@ -8,9 +8,9 @@ const app = express()
 
 app.use('/', express.json()) // add middleware for json data
 app.use(express.static('./client/build'))
-app.use('/api/tbrs', require('./routes/tbrs'))
+app.use('/api/books', require('./routes/books'))
 app.use('/api/prompts', require('./routes/prompts'))
-app.use('/api/current-reads', require('./routes/current-reads'))
+app.use('/api/rounds', require('./routes/rounds'))
 app.use(require('./routes/error'))
 
 app.listen(PORT, () => {

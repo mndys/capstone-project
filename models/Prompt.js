@@ -9,8 +9,9 @@ const schema = new mongoose.Schema(
     info: {
       type: String,
     },
-    matchingBook: {
-      type: String,
+    book: {
+      type: mongoose.Schema.Type.ObjectID,
+      ref: 'Book',
     },
   },
   { versionKey: false }
