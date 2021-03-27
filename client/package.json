@@ -27,7 +27,8 @@
     "build-storybook": "build-storybook -s public",
     "test:e2e": "start http://localhost:4000 cy:open",
     "cy:run": "cypress run",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "postinstall": "npx patch-package"
   },
   "eslintConfig": {
     "extends": [
