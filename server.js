@@ -7,9 +7,6 @@ setupMongo()
 const app = express()
 
 app.use('/', express.json()) // add middleware for json data
-app.get('/api', (req, res) => {
-  res.json({ message: 'Hello from server!' })
-})
 app.use(express.static('./client/build'))
 app.use('/api/tbrs', require('./routes/tbrs'))
 app.use('/api/prompts', require('./routes/prompts'))
