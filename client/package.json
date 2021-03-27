@@ -16,7 +16,7 @@
     "web-vitals": "^1.1.0"
   },
   "engines": {
-    "node": "14.16.0"
+    "node": "^15.12.0"
   },
   "scripts": {
     "start": "react-scripts start",
