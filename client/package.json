@@ -4,6 +4,7 @@
   "proxy": "http://localhost:4000",
   "private": true,
   "dependencies": {
+    "@types/jest": "^26.0.22",
     "canvas": "^2.7.0",
     "eslint-plugin-cypress": "^2.11.2",
     "react": "^17.0.1",
@@ -19,8 +20,8 @@
     "node": "^15.12.0"
   },
   "jest": {
-    "coveragePathIgnorePatterns": [
-      "/cypress"
+    "testMatch": [
+      "**/tests/jest/*.[jt]s?(x)"
     ]
   },
   "scripts": {
@@ -30,7 +31,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "test:e2e": "start http://localhost:4000 cy:open",
+    "test:e2e": "npm start http://localhost:4000 cy:open",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "postinstall": "npx patch-package"
