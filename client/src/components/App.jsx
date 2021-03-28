@@ -24,9 +24,7 @@ function App() {
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
   const [mustSpin, setMustSpin] = useState(false)
   const [showPromptInfo, setShowPromptInfo] = useState(false)
-  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState(
-    loadFromLocal('currentPrompt') ?? INITIAL_PROMPT
-  )
+  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState(null)
   function getRandomColorObject() {
     const randomColorNumber = Math.floor(Math.random() * colors.length)
     return colors[randomColorNumber]
