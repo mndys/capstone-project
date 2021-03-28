@@ -32,24 +32,32 @@ describe('Buttons', () => {
 })
 
 describe('Local Storage', () => {
-  it('writes to localStorage once on spin button click', () => {
+  it('writes to localStorage once on first spin button click', () => {
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'setItem')
     render(<App />)
     clickSpin()
     expect(window.localStorage.setItem).toHaveBeenCalledTimes(1)
   })
 
-  it('writes to localStorage twice on reset button click', () => {
+  it('writes to localStorage 4 times on reset button click', () => {
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'setItem')
     render(<App />)
     userEvent.click(screen.getByRole('button', { name: /reset/i }))
-    expect(window.localStorage.setItem).toHaveBeenCalledTimes(2)
+    expect(window.localStorage.setItem).toHaveBeenCalledTimes(4)
+    expect(window.localStorage.setItem).toHaveBeenCalledWith(
+      'promptHistory',
+      '[]'
+    )
   })
 
   it('gets currentProperty and promptHistory from localStorage on load', () => {
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem')
     render(<App />)
-    expect(window.localStorage.getItem).toHaveBeenCalledTimes(2)
+    expect(window.localStorage.getItem).toHaveBeenCalledTimes(4)
+    expect(window.localStorage.getItem).toHaveBeenCalledWith('currentPrompt')
+    expect(window.localStorage.getItem).toHaveBeenCalledWith('promptHistory')
+    expect(window.localStorage.getItem).toHaveBeenCalledWith('colorObject')
+    expect(window.localStorage.getItem).toHaveBeenCalledWith('randomPageNumber')
   })
 })
 
@@ -65,27 +73,8 @@ describe('Wheel', () => {
   })
 })
 
-describe('PromptInfo (Modal)', () => {
-  jest.setTimeout(15000)
-  it('Prompts can be clicked and display a modal with more information', done => {
-    render(<App />)
-    expect(screen.queryByTestId('PromptInfo')).not.toBeInTheDocument()
-    clickSpin()
-    setTimeout(() => clickPrompt(), 14000)
-    expect(screen.getByTestId('PromptInfo')).toBeInTheDocument()
-    done()
-  })
+it.todo('Loading Circles cannot be clicked')
 
-  it('History items can be clicked and display a modal with more information', () => {
-    render(<App />)
-    expect(screen.queryByTestId('PromptInfo')).not.toBeInTheDocument()
-    clickHistoryEntry()
-    expect(screen.getByTestId('PromptInfo')).toBeInTheDocument()
-  })
+it.todo('Initial prompt cannot be clicked')
 
-  it.todo('Loading Circles cannot be clicked')
-
-  it.todo('Initial prompt cannot be clicked')
-
-  it.todo('Last prompt cannot be clicked')
-})
+it.todo('Last prompt cannot be clicked')
