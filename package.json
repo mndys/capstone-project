@@ -21,7 +21,7 @@
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "test": "cd client && npm test",
-    "cypress": "npm-run-all --parallel server client cy:run",
+    "cypress": "npm-run-all --parallel start client cy:run",
     "cy:run": "cd client && npm run cy:run",
     "cy:open": "cd client && npm run cy:open",
     "storybook": "cd client && npm run storybook",

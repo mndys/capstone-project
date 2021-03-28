@@ -14,5 +14,4 @@ jobs:
         node-version: 15.x
     - run: npm ci
     - run: npm test
-    - name: Cypress.io
-      uses: cypress-io/github-action@v2.8.2
+    - run: npm run cypress
