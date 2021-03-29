@@ -11,6 +11,7 @@ const schema = new mongoose.Schema(
     },
     cover: {
       type: String,
+      default: 'https://source.unsplash.com/HH4WBGNyltc/500x700',
     },
     pageCount: {
       type: Number,
