@@ -3,7 +3,7 @@ const Prompt = require('../models/Prompt')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
-  res.json(await Prompt.find().catch(next))
+  res.json(await Prompt.find().populate('book').catch(next))
 })
 
 router.get('/:_id', async (req, res, next) => {
