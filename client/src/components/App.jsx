@@ -13,6 +13,7 @@ import LoadingCircles from './LoadingCircles'
 import Prompt from './Prompt'
 import PromptInfo from './PromptInfo'
 import WheelComponent from './Wheel'
+import axios from 'axios'
 
 function App() {
   const INITIAL_PROMPT = 'Spin to receive your first prompt.'
@@ -32,6 +33,9 @@ function App() {
   const colorObject = loadFromLocal('colorObject') ?? getRandomColorObject()
   const randomPageNumber =
     loadFromLocal('randomPageNumber') ?? getRandomPageNumber()
+
+  // ! TEST AXIOS
+  axios.get('/api/books')
 
   return (
     <Grid>
@@ -68,7 +72,7 @@ function App() {
           )}
         </Prompt>
         <WheelComponent winner={currentPrompt} {...{ mustSpin, setMustSpin }} />
-        <FlexWrapper>
+        <GridWrapper>
           <Button
             disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
             primary
@@ -83,7 +87,7 @@ function App() {
           >
             reset
           </Button>
-        </FlexWrapper>
+        </GridWrapper>
         {history.length ? (
           <History history={history} onClick={toggleShowPromptInfo} />
         ) : (
@@ -171,10 +175,10 @@ const Main = styled.main`
   ${props => props.showPromptInfo && 'filter: blur(2px); z-index: -1'};
 `
 
-const FlexWrapper = styled.div`
-  display: flex;
+const GridWrapper = styled.div`
+  display: grid;
+  grid-auto-flow: column;
   justify-content: center;
-  align-content: center;
   gap: 20px;
 `
 

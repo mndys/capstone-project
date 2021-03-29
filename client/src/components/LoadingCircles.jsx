@@ -13,7 +13,9 @@ function LoadingCircles() {
 const Wrapper = styled.div`
   display: flex;
   top: 10px;
-  gap: 15px;
+  & > * {
+    margin: 0 8px;
+  }
 
   .circle {
     position: relative;
