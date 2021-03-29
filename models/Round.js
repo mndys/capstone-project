@@ -8,8 +8,14 @@ const schema = new mongoose.Schema(
     },
     books: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Prompt',
+        book: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Book',
+        },
+        prompt: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Prompt',
+        },
       },
     ],
   },
