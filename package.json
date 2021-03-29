@@ -29,5 +29,8 @@
   },
   "keywords": [],
   "author": "Mandy Schwarze <mandy2301@me.com> (https://mndys.vercel.app/)",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.21.1"
+  }
 }
