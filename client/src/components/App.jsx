@@ -13,7 +13,6 @@ import LoadingCircles from './LoadingCircles'
 import Prompt from './Prompt'
 import PromptInfo from './PromptInfo'
 import WheelComponent from './Wheel'
-import axios from 'axios'
 
 function App() {
   const INITIAL_PROMPT = 'Spin to receive your first prompt.'
@@ -33,9 +32,6 @@ function App() {
   const colorObject = loadFromLocal('colorObject') ?? getRandomColorObject()
   const randomPageNumber =
     loadFromLocal('randomPageNumber') ?? getRandomPageNumber()
-
-  // ! TEST AXIOS
-  axios.get('/api/books')
 
   return (
     <Grid>
@@ -71,6 +67,7 @@ function App() {
             ''
           )}
         </Prompt>
+
         <WheelComponent winner={currentPrompt} {...{ mustSpin, setMustSpin }} />
         <GridWrapper>
           <Button
