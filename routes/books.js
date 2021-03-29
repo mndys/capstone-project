@@ -3,12 +3,14 @@ const Book = require('../models/Book')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
-  res.json(await Book.find().populate('author').catch(next))
+  res.json(await Book.find().populate('round').populate('prompt').catch(next))
 })
 
 router.get('/:_id', async (req, res, next) => {
   const { _id } = req.params
-  res.json(await Book.findById(_id).populate('author').catch(next))
+  res.json(
+    await Book.findById(_id).populate('round').populate('prompt').catch(next)
+  )
 })
 
 router.patch('/:_id/vote', async (req, res, next) => {
@@ -30,7 +32,8 @@ router.delete('/:_id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   res.json(
     await (await Book.create(req.body).catch(next)) // nested await is needed
-      .populate('author')
+      .populate('round')
+      .populate('prompt')
       .execPopulate()
       .catch(next)
   )

@@ -11,6 +11,10 @@ router.get('/:_id', async (req, res, next) => {
   res.json(await Prompt.findById(_id).catch(next))
 })
 
+router.get('/option', async (req, res, next) => {
+  const { option } = req.params
+  res.json(await Prompt.findById(option).catch(next))
+})
 router.delete('/:_id', async (req, res, next) => {
   const { _id } = req.params
   res.json(await Prompt.findByIdAndDelete(_id).catch(next))
