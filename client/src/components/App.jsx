@@ -13,6 +13,17 @@ import LoadingCircles from './LoadingCircles'
 import Prompt from './Prompt'
 import PromptInfo from './PromptInfo'
 import WheelComponent from './Wheel'
+import BooksPage from '../pages/BooksPage'
+import AddBookPage from '../pages/AddBookPage'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  NavLink,
+} from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
+const queryClient = new QueryClient()
 
 function App() {
   const INITIAL_PROMPT = 'Spin to receive your first prompt.'
@@ -34,64 +45,92 @@ function App() {
     loadFromLocal('randomPageNumber') ?? getRandomPageNumber()
 
   return (
-    <Grid>
-      <Header>Wheel of TBR</Header>
-      {showPromptInfo && (
-        <PromptInfo
-          triggerPrompt={triggerShowPromptInfo}
-          onClick={toggleShowPromptInfo}
-          {...{ prompts, colorObject, randomPageNumber }}
-        />
-      )}
-      <Main showPromptInfo={showPromptInfo}>
-        <Prompt
-          data-testid="prompt"
-          {...(currentPrompt !== INITIAL_PROMPT &&
-          currentPrompt !== LAST_PROMPT &&
-          !mustSpin
-            ? { onClick: toggleShowPromptInfo }
-            : '')}
-        >
-          {mustSpin ? <LoadingCircles /> : currentPrompt}
-          {(!mustSpin && currentPrompt === 'Cover Colour') ||
-          (!mustSpin && currentPrompt === 'Page Number')
-            ? `:
-          `
-            : ''}
-          {(!mustSpin && currentPrompt === 'Cover Colour') ||
-          (!mustSpin && currentPrompt === 'Page Number') ? (
-            <PromptSpecifier
-              {...{ currentPrompt, colorObject, randomPageNumber }}
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <Grid>
+          <Header>Wheel of TBR</Header>
+          {showPromptInfo && (
+            <PromptInfo
+              triggerPrompt={triggerShowPromptInfo}
+              onClick={toggleShowPromptInfo}
+              {...{ prompts, colorObject, randomPageNumber }}
             />
-          ) : (
-            ''
           )}
-        </Prompt>
+          <Main showPromptInfo={showPromptInfo}>
+            <GridWrapper>
+              <NavLink role="button" to="/">
+                Wheel
+              </NavLink>
+              <NavLink to="/tbr">Books</NavLink>
+              <NavLink to="/monthly-tbr">Monthly TBR</NavLink>
+              <NavLink to="/add">Add book to TBR</NavLink>
+            </GridWrapper>
 
-        <WheelComponent winner={currentPrompt} {...{ mustSpin, setMustSpin }} />
-        <GridWrapper>
-          <Button
-            disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
-            primary
-            autoFocus
-            onClick={onSpin}
-          >
-            Spin!
-          </Button>
-          <Button
-            disabled={currentPrompt.includes(INITIAL_PROMPT)}
-            onClick={onReset}
-          >
-            reset
-          </Button>
-        </GridWrapper>
-        {history.length ? (
-          <History history={history} onClick={toggleShowPromptInfo} />
-        ) : (
-          ''
-        )}
-      </Main>
-    </Grid>
+            <Switch>
+              <Route exact path="/">
+                <Prompt
+                  data-testid="prompt"
+                  {...(currentPrompt !== INITIAL_PROMPT &&
+                  currentPrompt !== LAST_PROMPT &&
+                  !mustSpin
+                    ? { onClick: toggleShowPromptInfo }
+                    : '')}
+                >
+                  {mustSpin ? <LoadingCircles /> : currentPrompt}
+                  {(!mustSpin && currentPrompt === 'Cover Colour') ||
+                  (!mustSpin && currentPrompt === 'Page Number')
+                    ? `:
+          `
+                    : ''}
+                  {(!mustSpin && currentPrompt === 'Cover Colour') ||
+                  (!mustSpin && currentPrompt === 'Page Number') ? (
+                    <PromptSpecifier
+                      {...{ currentPrompt, colorObject, randomPageNumber }}
+                    />
+                  ) : (
+                    ''
+                  )}
+                </Prompt>
+                <WheelComponent
+                  winner={currentPrompt}
+                  {...{ mustSpin, setMustSpin }}
+                />
+                <GridWrapper>
+                  <Button
+                    disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
+                    primary
+                    autoFocus
+                    onClick={onSpin}
+                  >
+                    Spin!
+                  </Button>
+                  <Button
+                    disabled={currentPrompt.includes(INITIAL_PROMPT)}
+                    onClick={onReset}
+                  >
+                    reset
+                  </Button>
+                </GridWrapper>
+                {history.length ? (
+                  <History history={history} onClick={toggleShowPromptInfo} />
+                ) : (
+                  ''
+                )}
+              </Route>
+              <Route path="/tbr">
+                <BooksPage />
+              </Route>
+              <Route path="/monthly-tbr">
+                <div>Monthly TBR</div>
+              </Route>
+              <Route path="/add">
+                <AddBookPage />
+              </Route>
+            </Switch>
+          </Main>
+        </Grid>
+      </QueryClientProvider>
+    </Router>
   )
 
   function toggleShowPromptInfo(event) {
