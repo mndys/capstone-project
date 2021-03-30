@@ -24,9 +24,7 @@ function App() {
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
   const [mustSpin, setMustSpin] = useState(false)
   const [showPromptInfo, setShowPromptInfo] = useState(false)
-  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState(
-    loadFromLocal('currentPrompt') ?? INITIAL_PROMPT
-  )
+  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState(null)
   function getRandomColorObject() {
     const randomColorNumber = Math.floor(Math.random() * colors.length)
     return colors[randomColorNumber]
@@ -69,8 +67,9 @@ function App() {
             ''
           )}
         </Prompt>
+
         <WheelComponent winner={currentPrompt} {...{ mustSpin, setMustSpin }} />
-        <FlexWrapper>
+        <GridWrapper>
           <Button
             disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
             primary
@@ -85,7 +84,7 @@ function App() {
           >
             reset
           </Button>
-        </FlexWrapper>
+        </GridWrapper>
         {history.length ? (
           <History history={history} onClick={toggleShowPromptInfo} />
         ) : (
@@ -140,7 +139,7 @@ function App() {
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
         saveToLocal('colorObject', colorObject)
-        saveToLocal('randomPageNumber', getRandomPageNumber())
+        saveToLocal('randomPageNumber', randomPageNumber)
         setMustSpin(true)
       }
     } else {
@@ -173,10 +172,10 @@ const Main = styled.main`
   ${props => props.showPromptInfo && 'filter: blur(2px); z-index: -1'};
 `
 
-const FlexWrapper = styled.div`
-  display: flex;
+const GridWrapper = styled.div`
+  display: grid;
+  grid-auto-flow: column;
   justify-content: center;
-  align-content: center;
   gap: 20px;
 `
 

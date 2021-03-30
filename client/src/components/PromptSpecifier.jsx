@@ -28,7 +28,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   text-align: center;
   font-size: 18px;
   width: clamp(50px, 60vw, 800px);
