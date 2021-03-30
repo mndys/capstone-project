@@ -1,28 +1,23 @@
 import { useState } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import colors from '../data/colors.json'
 import prompts from '../data/prompts.json'
 import getRandomPageNumber from '../lib/getRandomPageNumber'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
+import AddBookPage from '../pages/AddBookPage'
+import BooksPage from '../pages/BooksPage'
 import Button from './Button'
-import PromptSpecifier from './PromptSpecifier'
 import Header from './Header'
 import History from './History'
 import LoadingCircles from './LoadingCircles'
+import Navigation from './Navigation'
 import Prompt from './Prompt'
 import PromptInfo from './PromptInfo'
+import PromptSpecifier from './PromptSpecifier'
 import WheelComponent from './Wheel'
-import BooksPage from '../pages/BooksPage'
-import AddBookPage from '../pages/AddBookPage'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  NavLink,
-} from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from 'react-query'
 const queryClient = new QueryClient()
 
 function App() {
@@ -57,15 +52,7 @@ function App() {
             />
           )}
           <Main showPromptInfo={showPromptInfo}>
-            <GridWrapper>
-              <NavLink role="button" to="/">
-                Wheel
-              </NavLink>
-              <NavLink to="/tbr">Books</NavLink>
-              <NavLink to="/monthly-tbr">Monthly TBR</NavLink>
-              <NavLink to="/add">Add book to TBR</NavLink>
-            </GridWrapper>
-
+            <Navigation />
             <Switch>
               <Route exact path="/">
                 <Prompt

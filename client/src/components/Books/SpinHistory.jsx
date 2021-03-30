@@ -22,11 +22,7 @@ const Wrapper = styled.div`
 const HistoryEntries = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
-  & > * {
-    margin-right: 5px;
-    margin-bottom: 5px;
-  }
+  gap: 10px;
 `
 
 const Entry = styled.div`
