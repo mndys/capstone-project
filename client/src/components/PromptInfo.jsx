@@ -2,13 +2,17 @@ import styled from 'styled-components/macro'
 
 export default function PromptInfo({
   triggerPrompt,
-  onClick,
+  onToggleShowPromptInfo,
   prompts,
   colorObject,
   randomPageNumber,
 }) {
   return (
-    <Modal data-testid="promptInfo" {...{ onClick, colorObject }}>
+    <Modal
+      data-testid="promptInfo"
+      onClick={onToggleShowPromptInfo}
+      {...{ colorObject }}
+    >
       <div>
         <h2>{triggerPrompt}</h2>
         <p>{prompts[calculateCurrentPromptNumber()].info}</p>

@@ -1,18 +1,24 @@
 import { useState } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import colors from '../data/colors.json'
 import prompts from '../data/prompts.json'
 import getRandomPageNumber from '../lib/getRandomPageNumber'
 import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
+import AddBookPage from '../pages/AddBookPage'
+import BooksPage from '../pages/BooksPage'
 import Button from './Button'
-import PromptSpecifier from './PromptSpecifier'
 import Header from './Header'
 import History from './History'
 import LoadingCircles from './LoadingCircles'
+import Navigation from './Navigation'
 import Prompt from './Prompt'
 import PromptInfo from './PromptInfo'
+import PromptSpecifier from './PromptSpecifier'
 import WheelComponent from './Wheel'
+const queryClient = new QueryClient()
 
 function App() {
   const INITIAL_PROMPT = 'Spin to receive your first prompt.'
@@ -24,7 +30,7 @@ function App() {
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
   const [mustSpin, setMustSpin] = useState(false)
   const [showPromptInfo, setShowPromptInfo] = useState(false)
-  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState(null)
+  const [triggerPrompt, setTriggerPrompt] = useState(null)
   function getRandomColorObject() {
     const randomColorNumber = Math.floor(Math.random() * colors.length)
     return colors[randomColorNumber]
@@ -34,64 +40,87 @@ function App() {
     loadFromLocal('randomPageNumber') ?? getRandomPageNumber()
 
   return (
-    <Grid>
-      <Header>Wheel of TBR</Header>
-      {showPromptInfo && (
-        <PromptInfo
-          triggerPrompt={triggerShowPromptInfo}
-          onClick={toggleShowPromptInfo}
-          {...{ prompts, colorObject, randomPageNumber }}
-        />
-      )}
-      <Main showPromptInfo={showPromptInfo}>
-        <Prompt
-          data-testid="prompt"
-          {...(currentPrompt !== INITIAL_PROMPT &&
-          currentPrompt !== LAST_PROMPT &&
-          !mustSpin
-            ? { onClick: toggleShowPromptInfo }
-            : '')}
-        >
-          {mustSpin ? <LoadingCircles /> : currentPrompt}
-          {(!mustSpin && currentPrompt === 'Cover Colour') ||
-          (!mustSpin && currentPrompt === 'Page Number')
-            ? `:
-          `
-            : ''}
-          {(!mustSpin && currentPrompt === 'Cover Colour') ||
-          (!mustSpin && currentPrompt === 'Page Number') ? (
-            <PromptSpecifier
-              {...{ currentPrompt, colorObject, randomPageNumber }}
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <Grid>
+          <Header>Wheel of TBR</Header>
+          {showPromptInfo && (
+            <PromptInfo
+              triggerPrompt={triggerPrompt}
+              onToggleShowPromptInfo={toggleShowPromptInfo}
+              {...{ prompts, colorObject, randomPageNumber }}
             />
-          ) : (
-            ''
           )}
-        </Prompt>
-
-        <WheelComponent winner={currentPrompt} {...{ mustSpin, setMustSpin }} />
-        <GridWrapper>
-          <Button
-            disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
-            primary
-            autoFocus
-            onClick={onSpin}
-          >
-            Spin!
-          </Button>
-          <Button
-            disabled={currentPrompt.includes(INITIAL_PROMPT)}
-            onClick={onReset}
-          >
-            reset
-          </Button>
-        </GridWrapper>
-        {history.length ? (
-          <History history={history} onClick={toggleShowPromptInfo} />
-        ) : (
-          ''
-        )}
-      </Main>
-    </Grid>
+          <Main showPromptInfo={showPromptInfo}>
+            <Switch>
+              <Route exact path="/">
+                <Prompt
+                  data-testid="prompt"
+                  {...(currentPrompt !== INITIAL_PROMPT &&
+                  currentPrompt !== LAST_PROMPT &&
+                  !mustSpin
+                    ? { onClick: toggleShowPromptInfo }
+                    : '')}
+                >
+                  {mustSpin ? <LoadingCircles /> : currentPrompt}
+                  {(!mustSpin && currentPrompt === 'Cover Colour') ||
+                  (!mustSpin && currentPrompt === 'Page Number')
+                    ? `:
+          `
+                    : ''}
+                  {(!mustSpin && currentPrompt === 'Cover Colour') ||
+                  (!mustSpin && currentPrompt === 'Page Number') ? (
+                    <PromptSpecifier
+                      {...{ currentPrompt, colorObject, randomPageNumber }}
+                    />
+                  ) : (
+                    ''
+                  )}
+                </Prompt>
+                <WheelComponent
+                  winner={currentPrompt}
+                  {...{ mustSpin, setMustSpin }}
+                />
+                <GridWrapper>
+                  <Button
+                    disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
+                    primary
+                    autoFocus
+                    onClick={onSpin}
+                  >
+                    Spin!
+                  </Button>
+                  <Button
+                    disabled={currentPrompt.includes(INITIAL_PROMPT)}
+                    onClick={onReset}
+                  >
+                    reset
+                  </Button>
+                </GridWrapper>
+                {history.length ? (
+                  <History
+                    history={history}
+                    onToggleShowPromptInfo={toggleShowPromptInfo}
+                  />
+                ) : (
+                  ''
+                )}
+              </Route>
+              <Route path="/tbr">
+                <BooksPage />
+              </Route>
+              <Route path="/monthly-tbr">
+                <div>Monthly TBR</div>
+              </Route>
+              <Route path="/add">
+                <AddBookPage />
+              </Route>
+            </Switch>
+          </Main>
+          <Navigation showPromptInfo={showPromptInfo} />
+        </Grid>
+      </QueryClientProvider>
+    </Router>
   )
 
   function toggleShowPromptInfo(event) {
@@ -101,9 +130,9 @@ function App() {
       !event.target.className.includes('PromptSpecifier') &&
       event.target.className !== ''
     ) {
-      setTriggerShowPromptInfo(event.target.innerText)
+      setTriggerPrompt(event.target.innerText)
     } else {
-      setTriggerShowPromptInfo(currentPrompt)
+      setTriggerPrompt(currentPrompt)
     }
   }
 
@@ -129,12 +158,12 @@ function App() {
       }
       if (currentPrompt === INITIAL_PROMPT) {
         setCurrentPrompt(randomPrompt)
-        setTriggerShowPromptInfo(randomPrompt)
+        setTriggerPrompt(randomPrompt)
         saveToLocal('currentPrompt', randomPrompt)
         setMustSpin(true)
       } else {
         setCurrentPrompt(randomPrompt)
-        setTriggerShowPromptInfo(randomPrompt)
+        setTriggerPrompt(randomPrompt)
         setHistory([...history, currentPrompt])
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
@@ -161,6 +190,7 @@ const Grid = styled.div`
   height: 100vh;
   min-width: 320px;
   max-width: 900px;
+  overflow: hidden;
 `
 const Main = styled.main`
   display: grid;

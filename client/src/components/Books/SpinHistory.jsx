@@ -1,16 +1,12 @@
 import styled from 'styled-components/macro'
 
-export default function History({ history, onToggleShowPromptInfo }) {
+export default function History({ history, onClick }) {
   return (
     <Wrapper>
       <h2>Spin History</h2>
       <HistoryEntries data-testid="history">
         {history.map((previousPrompt, index) => (
-          <Entry
-            key={index}
-            onClick={onToggleShowPromptInfo}
-            data-testid="historyEntry"
-          >
+          <Entry key={index} onClick={onClick} data-testid="historyEntry">
             {previousPrompt}
           </Entry>
         ))}
@@ -26,11 +22,7 @@ const Wrapper = styled.div`
 const HistoryEntries = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
-  & > * {
-    margin-right: 5px;
-    margin-bottom: 5px;
-  }
+  gap: 10px;
 `
 
 const Entry = styled.div`
