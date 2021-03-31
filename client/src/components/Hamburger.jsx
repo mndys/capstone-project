@@ -1,9 +1,9 @@
 import styled from 'styled-components/macro'
 
-export default function Hamburger({ active, onClick, showPromptInfo }) {
+export default function Hamburger({ active, toggleActive, showPromptInfo }) {
   return (
     <Bun
-      onClick={onClick}
+      onClick={toggleActive}
       className={active ? 'active' : ''}
       showPromptInfo={showPromptInfo}
     >

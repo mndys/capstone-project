@@ -47,7 +47,7 @@ function App() {
           {showPromptInfo && (
             <PromptInfo
               triggerPrompt={triggerPrompt}
-              onClick={toggleShowPromptInfo}
+              onToggleShowPromptInfo={toggleShowPromptInfo}
               {...{ prompts, colorObject, randomPageNumber }}
             />
           )}
@@ -98,7 +98,10 @@ function App() {
                   </Button>
                 </GridWrapper>
                 {history.length ? (
-                  <History history={history} onClick={toggleShowPromptInfo} />
+                  <History
+                    history={history}
+                    onToggleShowPromptInfo={toggleShowPromptInfo}
+                  />
                 ) : (
                   ''
                 )}

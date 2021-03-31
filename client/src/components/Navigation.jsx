@@ -39,7 +39,7 @@ export default function Navigation({ showPromptInfo }) {
         </NavLink>
       </NavContainer>
       <Hamburger
-        onClick={() => setActive(!active)}
+        toggleActive={() => setActive(!active)}
         active={active}
         showPromptInfo={showPromptInfo}
       />

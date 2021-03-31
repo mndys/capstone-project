@@ -1,12 +1,16 @@
 import styled from 'styled-components/macro'
 
-export default function History({ history, onClick }) {
+export default function History({ history, onToggleShowPromptInfo }) {
   return (
     <Wrapper>
       <h2>Spin History</h2>
       <HistoryEntries data-testid="history">
         {history.map((previousPrompt, index) => (
-          <Entry key={index} onClick={onClick} data-testid="historyEntry">
+          <Entry
+            key={index}
+            onClick={onToggleShowPromptInfo}
+            data-testid="historyEntry"
+          >
             {previousPrompt}
           </Entry>
         ))}
