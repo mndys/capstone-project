@@ -30,7 +30,7 @@ function App() {
   const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
   const [mustSpin, setMustSpin] = useState(false)
   const [showPromptInfo, setShowPromptInfo] = useState(false)
-  const [triggerShowPromptInfo, setTriggerShowPromptInfo] = useState(null)
+  const [triggerPrompt, setTriggerPrompt] = useState(null)
   function getRandomColorObject() {
     const randomColorNumber = Math.floor(Math.random() * colors.length)
     return colors[randomColorNumber]
@@ -46,13 +46,12 @@ function App() {
           <Header>Wheel of TBR</Header>
           {showPromptInfo && (
             <PromptInfo
-              triggerPrompt={triggerShowPromptInfo}
+              triggerPrompt={triggerPrompt}
               onClick={toggleShowPromptInfo}
               {...{ prompts, colorObject, randomPageNumber }}
             />
           )}
           <Main showPromptInfo={showPromptInfo}>
-            <Navigation />
             <Switch>
               <Route exact path="/">
                 <Prompt
@@ -115,6 +114,7 @@ function App() {
               </Route>
             </Switch>
           </Main>
+          <Navigation showPromptInfo={showPromptInfo} />
         </Grid>
       </QueryClientProvider>
     </Router>
@@ -127,9 +127,9 @@ function App() {
       !event.target.className.includes('PromptSpecifier') &&
       event.target.className !== ''
     ) {
-      setTriggerShowPromptInfo(event.target.innerText)
+      setTriggerPrompt(event.target.innerText)
     } else {
-      setTriggerShowPromptInfo(currentPrompt)
+      setTriggerPrompt(currentPrompt)
     }
   }
 
@@ -155,12 +155,12 @@ function App() {
       }
       if (currentPrompt === INITIAL_PROMPT) {
         setCurrentPrompt(randomPrompt)
-        setTriggerShowPromptInfo(randomPrompt)
+        setTriggerPrompt(randomPrompt)
         saveToLocal('currentPrompt', randomPrompt)
         setMustSpin(true)
       } else {
         setCurrentPrompt(randomPrompt)
-        setTriggerShowPromptInfo(randomPrompt)
+        setTriggerPrompt(randomPrompt)
         setHistory([...history, currentPrompt])
         saveToLocal('currentPrompt', randomPrompt)
         saveToLocal('promptHistory', [...history, currentPrompt])
