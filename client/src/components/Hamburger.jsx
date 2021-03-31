@@ -7,9 +7,9 @@ export default function Hamburger({ active, toggleActive, showPromptInfo }) {
       className={active ? 'active' : ''}
       showPromptInfo={showPromptInfo}
     >
-      <span className=""></span>
-      <span className=""></span>
-      <span className=""></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </Bun>
   )
 }
