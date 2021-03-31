@@ -38,11 +38,7 @@ export default function Navigation() {
           Wheel
         </NavLink>
       </NavContainer>
-      <Hamburger
-        onClick={() => setActive(!active)}
-        active={active}
-        onClick={() => setActive(!active)}
-      />
+      <Hamburger onClick={() => setActive(!active)} active={active} />
     </>
   )
 }
