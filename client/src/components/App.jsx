@@ -190,6 +190,7 @@ const Grid = styled.div`
   height: 100vh;
   min-width: 320px;
   max-width: 900px;
+  overflow: hidden;
 `
 const Main = styled.main`
   display: grid;
