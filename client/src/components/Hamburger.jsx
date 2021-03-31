@@ -13,7 +13,7 @@ export default function Hamburger({ active, onClick }) {
 const Bun = styled.div`
   position: fixed;
   right: 20px;
-  bottom: 20px;
+  bottom: 2rem;
   width: 2rem;
   height: 21px;
   cursor: pointer;
