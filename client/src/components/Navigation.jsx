@@ -63,15 +63,13 @@ const NavContainer = styled.nav`
   padding: 0;
   background: linear-gradient(#f9f9f9dd 0%, #e5e5e5dd 100%);
   border-radius: 2px;
-  transition: all 750ms cubic-bezier(0.32, 1.25, 0.375, 1.15),
-    transform 0.3s ease-out 0.1s;
+  transition: all 750ms cubic-bezier(0.32, 1.25, 0.375, 1.15);
 
   &.active {
     bottom: 0;
-    max-height: 500px;
+    max-height: 400px;
     padding: 10px 12px 50px 10px;
-    transition: all 750ms cubic-bezier(0.32, 1.25, 0.375, 1.15),
-      transform 0.3s ease-out 0.1s;
+    transition: all 750ms cubic-bezier(0.32, 1.25, 0.375, 1.15);
   }
   a {
     display: block;
