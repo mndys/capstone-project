@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import Hamburger from './Hamburger'
 
-export default function Navigation() {
+export default function Navigation({ showPromptInfo }) {
   const [active, setActive] = useState(null)
   return (
     <>
@@ -38,7 +38,11 @@ export default function Navigation() {
           Wheel
         </NavLink>
       </NavContainer>
-      <Hamburger onClick={() => setActive(!active)} active={active} />
+      <Hamburger
+        onClick={() => setActive(!active)}
+        active={active}
+        showPromptInfo={showPromptInfo}
+      />
     </>
   )
 }

@@ -1,8 +1,12 @@
 import styled from 'styled-components/macro'
 
-export default function Hamburger({ active, onClick }) {
+export default function Hamburger({ active, onClick, showPromptInfo }) {
   return (
-    <Bun onClick={onClick} className={active ? 'active' : ''}>
+    <Bun
+      onClick={onClick}
+      className={active ? 'active' : ''}
+      showPromptInfo={showPromptInfo}
+    >
       <span className=""></span>
       <span className=""></span>
       <span className=""></span>
@@ -13,13 +17,14 @@ export default function Hamburger({ active, onClick }) {
 const Bun = styled.div`
   position: fixed;
   right: 20px;
-  bottom: 2rem;
+  bottom: 20px;
   width: 2rem;
   height: 21px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  ${props => props.showPromptInfo && 'filter: blur(2px); z-index: -1'};
 
   span:nth-of-type(1) {
     top: 0px;
