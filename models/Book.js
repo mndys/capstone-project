@@ -9,6 +9,12 @@ const schema = new mongoose.Schema(
     author: {
       type: String,
     },
+    publishedDate: {
+      type: Date,
+    },
+    description: {
+      type: String,
+    },
     cover: {
       type: String,
       default: 'https://source.unsplash.com/HH4WBGNyltc/500x700',
@@ -21,9 +27,6 @@ const schema = new mongoose.Schema(
     },
     isbn: {
       type: String,
-    },
-    published: {
-      type: Date,
     },
     genre: {
       type: String,
