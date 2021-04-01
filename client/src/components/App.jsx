@@ -54,57 +54,59 @@ function App() {
           <Main showPromptInfo={showPromptInfo}>
             <Switch>
               <Route exact path="/">
-                <Prompt
-                  data-testid="prompt"
-                  {...(currentPrompt !== INITIAL_PROMPT &&
-                  currentPrompt !== LAST_PROMPT &&
-                  !mustSpin
-                    ? { onClick: toggleShowPromptInfo }
-                    : '')}
-                >
-                  {mustSpin ? <LoadingCircles /> : currentPrompt}
-                  {(!mustSpin && currentPrompt === 'Cover Colour') ||
-                  (!mustSpin && currentPrompt === 'Page Number')
-                    ? `:
+                <WheelPage>
+                  <Prompt
+                    data-testid="prompt"
+                    {...(currentPrompt !== INITIAL_PROMPT &&
+                    currentPrompt !== LAST_PROMPT &&
+                    !mustSpin
+                      ? { onClick: toggleShowPromptInfo }
+                      : '')}
+                  >
+                    {mustSpin ? <LoadingCircles /> : currentPrompt}
+                    {(!mustSpin && currentPrompt === 'Cover Colour') ||
+                    (!mustSpin && currentPrompt === 'Page Number')
+                      ? `:
           `
-                    : ''}
-                  {(!mustSpin && currentPrompt === 'Cover Colour') ||
-                  (!mustSpin && currentPrompt === 'Page Number') ? (
-                    <PromptSpecifier
-                      {...{ currentPrompt, colorObject, randomPageNumber }}
+                      : ''}
+                    {(!mustSpin && currentPrompt === 'Cover Colour') ||
+                    (!mustSpin && currentPrompt === 'Page Number') ? (
+                      <PromptSpecifier
+                        {...{ currentPrompt, colorObject, randomPageNumber }}
+                      />
+                    ) : (
+                      ''
+                    )}
+                  </Prompt>
+                  <WheelComponent
+                    winner={currentPrompt}
+                    {...{ mustSpin, setMustSpin }}
+                  />
+                  <GridWrapper>
+                    <Button
+                      disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
+                      primary
+                      autoFocus
+                      onClick={onSpin}
+                    >
+                      Spin!
+                    </Button>
+                    <Button
+                      disabled={currentPrompt.includes(INITIAL_PROMPT)}
+                      onClick={onReset}
+                    >
+                      reset
+                    </Button>
+                  </GridWrapper>
+                  {history.length ? (
+                    <History
+                      history={history}
+                      onToggleShowPromptInfo={toggleShowPromptInfo}
                     />
                   ) : (
                     ''
                   )}
-                </Prompt>
-                <WheelComponent
-                  winner={currentPrompt}
-                  {...{ mustSpin, setMustSpin }}
-                />
-                <GridWrapper>
-                  <Button
-                    disabled={currentPrompt.includes(LAST_PROMPT) || mustSpin}
-                    primary
-                    autoFocus
-                    onClick={onSpin}
-                  >
-                    Spin!
-                  </Button>
-                  <Button
-                    disabled={currentPrompt.includes(INITIAL_PROMPT)}
-                    onClick={onReset}
-                  >
-                    reset
-                  </Button>
-                </GridWrapper>
-                {history.length ? (
-                  <History
-                    history={history}
-                    onToggleShowPromptInfo={toggleShowPromptInfo}
-                  />
-                ) : (
-                  ''
-                )}
+                </WheelPage>
               </Route>
               <Route path="/tbr">
                 <BooksPage />
@@ -193,13 +195,15 @@ const Grid = styled.div`
   overflow: hidden;
 `
 const Main = styled.main`
+  padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
+  overflow: hidden auto;
+  ${props => props.showPromptInfo && 'filter: blur(2px); z-index: -1'};
+`
+const WheelPage = styled.main`
   display: grid;
   justify-content: center;
   grid-template-rows: 5em min-content auto;
   grid-template-columns: 1fr;
-  padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
-  overflow: hidden auto;
-  ${props => props.showPromptInfo && 'filter: blur(2px); z-index: -1'};
 `
 
 const GridWrapper = styled.div`
