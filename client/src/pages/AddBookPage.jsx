@@ -1,46 +1,67 @@
+import { useState } from 'react'
 import styled from 'styled-components/macro'
+import AddBookForm from '../components/AddBookForm'
+import Button from '../components/Button'
+import Input, { Label } from '../components/Input'
+import SearchForm from '../components/SearchForm'
+import toTitleCase from '../lib/toTitleCase'
+import saveBook from '../services/saveBook'
+import searchGoogleBooks from '../services/searchGoogleBooks'
 
 export default function AddBookPage() {
   return (
-    <AddBook>
+    <PageWrapper>
       <h2>Add Book to TBR</h2>
-      <Form>
-        <label>
-          Title:
-          <input />
-        </label>
-        <label>
-          Author:
-          <input />
-        </label>
-        <label>
-          Date Published:
-          <input />
-        </label>
-        <label>
-          Description:
-          <input />
-        </label>
-        <label>
-          Page Count:
-          <input />
-        </label>
-        <label>
-          ISBN:
-          <input />
-        </label>
-        <label>
-          Rating:
-          <input />
-        </label>
-      </Form>
-    </AddBook>
+      <SearchForm handleSubmit={onSearch} />
+      <h3>... or create your own:</h3>
+      <AddBookForm handleSubmit={onSaveBook} />
+    </PageWrapper>
   )
+
+  function onSearch(event) {
+    event.preventDefault()
+    const form = event.target
+    const search = form.elements.search.value
+    searchGoogleBooks(search)
+    form.reset()
+    form.elements.search.focus()
+  }
+  function onSaveBook(event) {
+    event.preventDefault()
+    const form = event.target
+    const {
+      title,
+      author,
+      genre,
+      pageCount,
+      rating,
+      publishedDate,
+      isbn,
+      description,
+    } = form.elements
+    const bookData = {
+      title: title.value,
+      author: author.value,
+      genre: toTitleCase(genre.value)
+        .split(',')
+        .map(genre => genre.trim())
+        .filter(genre => genre !== ''),
+      pageCount: pageCount.value,
+      rating: rating.value,
+      publishedDate: publishedDate.value,
+      isbn: isbn.value,
+      description: description.value,
+    }
+    saveBook(bookData)
+    form.reset()
+    title.focus()
+  }
 }
-const AddBook = styled.section`
+
+export const PageWrapper = styled.section`
+  padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
+
   h2 {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1.5rem;
   }
 `
-const Form = styled.form``
