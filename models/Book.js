@@ -29,7 +29,7 @@ const schema = new mongoose.Schema(
       type: String,
     },
     genre: {
-      type: String,
+      type: Array,
     },
     subject: {
       type: String,
