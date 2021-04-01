@@ -27,7 +27,7 @@ export default createGlobalStyle`
     &:focus {
       outline: none;
       border-color: transparent;
-      box-shadow: 0 0 4px 1px plum;
+      box-shadow: 0 0 4px 1px #0f6f7b;
     }
   }
 
@@ -44,12 +44,22 @@ export default createGlobalStyle`
 
   }
 
-  h2{
+  h2, h3{
     font-size: clamp(1.1em, 5vw, 30px);
     line-height: 1.1em;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: .2em;
     padding-bottom: .3em;
+  }
+
+  h3{
+    font-size: clamp(.8em, 4.5vw, 24px);
+    margin: 2rem 0 .5rem 0;
+    text-transform: none;
+  }
+
+  textarea {
+    resize: none;
   }
 `
