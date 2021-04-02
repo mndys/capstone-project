@@ -58,7 +58,7 @@ const Bun = styled.div`
     width: 30px;
     display: block;
     position: absolute;
-    background-color: #093a40;
+    background-color: var(--color-primary-dark);
     border-radius: 9px;
   }
 `

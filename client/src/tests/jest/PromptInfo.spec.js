@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import PromptInfo from '../../components/PromptInfo'
+import PromptInfo from '../../components/Wheel/PromptInfo'
 
 const triggerPrompt = 'Big Book'
 const prompts = [

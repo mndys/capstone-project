@@ -1,6 +1,6 @@
 import React from 'react'
-import PromptSpecifier from '../components/PromptSpecifier'
-import Prompt from '../components/Prompt'
+import PromptSpecifier from '../components/Wheel/PromptSpecifier'
+import Prompt from '../components/Style/Styled-Components/Prompt'
 
 export default {
   title: 'ui/Prompt',

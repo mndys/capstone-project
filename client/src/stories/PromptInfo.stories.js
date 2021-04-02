@@ -1,5 +1,5 @@
 import React from 'react'
-import PromptInfo from '../components/PromptInfo'
+import PromptInfo from '../components/Wheel/PromptInfo'
 
 export default {
   title: 'ui/PromptInfo',

@@ -1,9 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
 
-import HangingLettersWoff from './hanged_letters-webfont.woff'
-import HangingLettersWoff2 from './hanged_letters-webfont.woff2'
-import OpenSansWoff from './opensans-regular-webfont.woff'
-import OpenSansWoff2 from './opensans-regular-webfont.woff2'
+import HangingLettersWoff from '../../fonts/hanged_letters-webfont.woff'
+import HangingLettersWoff2 from '../../fonts/hanged_letters-webfont.woff2'
+import OpenSansWoff from '../../fonts/opensans-regular-webfont.woff'
+import OpenSansWoff2 from '../../fonts/opensans-regular-webfont.woff2'
 
 export default createGlobalStyle`
     @font-face {

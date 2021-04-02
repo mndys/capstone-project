@@ -12,7 +12,7 @@ const Template = args => (
     {...args}
     textColors={['#0e1516']}
     fontSize="20"
-    outerBorderColor="#e4e4e4"
+    outerBorderColor="#e4e4e4ff"
     outerBorderWidth="10"
     innerRadius="0"
     innerBorderColor="#fff"

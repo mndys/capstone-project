@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useState } from 'react'
 require('dotenv').config()
 
 export default function searchGoogleBooks(search) {
@@ -9,13 +10,13 @@ export default function searchGoogleBooks(search) {
       `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${API_KEY}`
     )
     .then(
-      response => {
-        console.log(response)
+      data => {
+        console.log(data.data.items)
+        const searchResult = data.data.items
+        return searchResult
       },
       error => {
-        console.log(error)
-        console.log(API_KEY)
-        console.log(process.env)
+        console.error(error)
       }
     )
 }

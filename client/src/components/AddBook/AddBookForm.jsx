@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
-import Button from './Button'
-import Input, { Label } from './Input'
+import Button from '../Style/Styled-Components/Button'
+import Input, { Label } from '../Sitewide/Input'
 
 export default function AddBookForm({ handleSubmit }) {
   return (

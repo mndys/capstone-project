@@ -71,10 +71,6 @@ export const Label = styled.label`
       -moz-appearance: textfield;
     }
 
-    &[type='date'] {
-      opacity: 0.5;
-    }
-
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;

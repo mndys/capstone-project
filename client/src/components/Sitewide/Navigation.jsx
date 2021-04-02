@@ -64,6 +64,6 @@ const NavContainer = styled.nav`
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    border-right: 3px solid #093a40;
+    border-right: 3px solid var(--color-primary-dark);
   }
 `

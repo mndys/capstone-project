@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import styled from 'styled-components/macro'
-import AddBookForm from '../components/AddBookForm'
-import Button from '../components/Button'
-import Input, { Label } from '../components/Input'
-import SearchForm from '../components/SearchForm'
-import toTitleCase from '../lib/toTitleCase'
-import saveBook from '../services/saveBook'
-import searchGoogleBooks from '../services/searchGoogleBooks'
+import AddBookForm from '../AddBook/AddBookForm'
+import Button from '../Style/Styled-Components/Button'
+import Input, { Label } from '../Sitewide/Input'
+import SearchForm from '../AddBook/SearchForm'
+import toTitleCase from '../../lib/toTitleCase'
+import saveBook from '../../services/saveBook'
+import searchGoogleBooks from '../../services/searchGoogleBooks'
+import treeGirl from '../../images/treeGirl.svg'
 
 export default function AddBookPage() {
   return (
@@ -15,6 +16,7 @@ export default function AddBookPage() {
       <SearchForm handleSubmit={onSearch} />
       <h3>... or create your own:</h3>
       <AddBookForm handleSubmit={onSaveBook} />
+      <img src={treeGirl} alt="" />
     </PageWrapper>
   )
 
@@ -63,5 +65,14 @@ export const PageWrapper = styled.section`
 
   h2 {
     padding-bottom: 1.5rem;
+  }
+
+  img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0.25;
+    z-index: -1;
+    width: 70%;
   }
 `

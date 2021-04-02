@@ -6,9 +6,9 @@ const Button = styled.button`
   align-content: top;
   ${props =>
     props.disabled
-      ? 'background: linear-gradient(#e5e5e5 0%, #c3c3c3 100%)'
+      ? 'background: linear-gradient(#e5e5e5 0%, var(--color-silver) 100%)'
       : props.primary
-      ? 'background: linear-gradient(#0f6f7b 0%, #093a40 100%)'
+      ? 'background: linear-gradient(var(--color-primary) 0%, var(--color-primary-dark) 100%)'
       : ''};
   color: #fff;
   padding: 10px 20px;
