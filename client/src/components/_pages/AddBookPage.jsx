@@ -1,19 +1,22 @@
+import { useState } from 'react'
 import styled from 'styled-components/macro'
-import treeGirl from '../../images/treeGirl.svg'
 import toTitleCase from '../../lib/toTitleCase'
 import saveBook from '../../services/saveBook'
 import searchGoogleBooks from '../../services/searchGoogleBooks'
 import AddBookForm from '../AddBook/AddBookForm'
+import GoogleSearchResults from '../AddBook/GoogleSearchResults'
 import SearchForm from '../AddBook/SearchForm'
 
 export default function AddBookPage() {
+  const [searchResult, setSearchResult] = useState([])
+
   return (
     <PageWrapper>
       <h2>Add Book to TBR</h2>
       <SearchForm handleSubmit={onSearch} />
+      <GoogleSearchResults searchResult={searchResult} />
       <h3>... or create your own:</h3>
       <AddBookForm handleSubmit={onSaveBook} />
-      <img src={treeGirl} alt="" />
     </PageWrapper>
   )
 
@@ -21,7 +24,7 @@ export default function AddBookPage() {
     event.preventDefault()
     const form = event.target
     const search = form.elements.search.value
-    searchGoogleBooks(search)
+    searchGoogleBooks(search, setSearchResult)
     form.reset()
     form.elements.search.focus()
   }
@@ -62,14 +65,5 @@ export const PageWrapper = styled.section`
 
   h2 {
     padding-bottom: 1.5rem;
-  }
-
-  img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    opacity: 0.25;
-    z-index: -1;
-    width: 70%;
   }
 `
