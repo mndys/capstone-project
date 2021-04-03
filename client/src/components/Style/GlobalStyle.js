@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components/macro'
 
 export default createGlobalStyle`
   * {
@@ -35,13 +35,12 @@ export default createGlobalStyle`
     &:focus {
       outline: none;
       border-color: transparent;
-      box-shadow: 0px 5px 4px -4px var(--color-primary);
+      box-shadow: 0px 0px 4px 2px var(--color-primary);
     }
   }
 
   input, textarea {
-    border: transparent;
-    border-bottom: 2px solid var(--color-silver);
+    border: 2px solid var(--color-silver);
     padding: 4px;
   }
 

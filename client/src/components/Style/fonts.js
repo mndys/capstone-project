@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components/macro'
 
 import HangingLettersWoff from '../../fonts/hanged_letters-webfont.woff'
 import HangingLettersWoff2 from '../../fonts/hanged_letters-webfont.woff2'
