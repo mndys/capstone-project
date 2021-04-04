@@ -1,12 +1,22 @@
 import styled from 'styled-components/macro'
-import searchGoogleBooks from '../../services/searchGoogleBooks'
-import Input from '../Sitewide/Input'
 
-export default function GoogleSearchResults({ searchResult }) {
+export default function GoogleSearchResults({ data, handleSaveBook }) {
+  const filteredSearch = data.items
+    .filter(book => {
+      if (book.volumeInfo.publisher === undefined) {
+        return false
+      }
+      if (book.volumeInfo.publisher.match(/grin/i)) {
+        return false
+      }
+      return true
+    })
+    .slice(0, 10)
+
   return (
     <Container>
-      {searchResult.map(book => (
-        <Card key={book.id}>
+      {filteredSearch.map(book => (
+        <Card key={book.id} onClick={() => handleSaveBook(book.volumeInfo)}>
           {book.volumeInfo.imageLinks ? (
             <img
               src={
@@ -34,7 +44,7 @@ export default function GoogleSearchResults({ searchResult }) {
             ''
           )}
           {book.volumeInfo.publishedDate
-            ? `(${parseInt(book.volumeInfo.publishedDate)}`
+            ? `(${parseInt(book.volumeInfo.publishedDate)})`
             : ''}
         </Card>
       ))}
@@ -66,6 +76,7 @@ const Card = styled.div`
   grid-template-rows: min-content;
   column-gap: 5px;
   justify-content: center;
+  cursor: pointer;
 
   img {
     grid-row: 1 / 4;

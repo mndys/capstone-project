@@ -31,6 +31,7 @@ export default createGlobalStyle`
     font-family: inherit;
     font-size: inherit;
     width: 100%;
+    border-radius: 25px;
 
     &:focus {
       outline: none;
@@ -68,6 +69,7 @@ export default createGlobalStyle`
 
   textarea {
     resize: none;
+    border-radius: 10px;
   }
 
   ::placeholder {

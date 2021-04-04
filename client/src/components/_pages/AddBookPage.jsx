@@ -1,63 +1,122 @@
-import { useState } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 import styled from 'styled-components/macro'
 import toTitleCase from '../../lib/toTitleCase'
 import saveBook from '../../services/saveBook'
 import searchGoogleBooks from '../../services/searchGoogleBooks'
 import AddBookForm from '../AddBook/AddBookForm'
 import GoogleSearchResults from '../AddBook/GoogleSearchResults'
-import SearchForm from '../AddBook/SearchForm'
+import Search from '../AddBook/Search'
+import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 
 export default function AddBookPage() {
-  const [searchResult, setSearchResult] = useState([])
+  const API_KEY = process.env.REACT_APP_API_KEY
+  const [search, setSearch] = useState(null)
+  const [inputValue, setInputValue] = useState(null)
+
+  const fetchBooks = async search => {
+    const { data } = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=${search.queryKey}&maxResults=40&key=${API_KEY}`
+    )
+    return data
+  }
+
+  const { status, data } = useQuery(search, fetchBooks, {
+    refetchOnWindowFocus: false,
+  })
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearch(inputValue)
+    }, 1000)
+    return () => clearTimeout(timeoutId)
+  }, [inputValue])
 
   return (
     <PageWrapper>
       <h2>Add Book to TBR</h2>
-      <SearchForm handleSubmit={onSearch} />
-      <GoogleSearchResults searchResult={searchResult} />
+      <Search handleChange={onLiveSearch} />
+      {status === 'success' && search !== '' ? (
+        <GoogleSearchResults
+          handleSaveBook={book => onSaveGoogleBook(book)}
+          {...{ data }}
+        />
+      ) : (
+        ''
+      )}
       <h3>... or create your own:</h3>
       <AddBookForm handleSubmit={onSaveBook} />
+      <ReactQueryDevtoolsPanel />
     </PageWrapper>
   )
 
-  function onSearch(event) {
-    event.preventDefault()
-    const form = event.target
-    const search = form.elements.search.value
-    searchGoogleBooks(search, setSearchResult)
-    form.reset()
-    form.elements.search.focus()
+  function onLiveSearch(event) {
+    const inputValue = event.target.value
+    setInputValue(inputValue)
   }
-  function onSaveBook(event) {
-    event.preventDefault()
-    const form = event.target
+
+  function onSaveGoogleBook(book) {
     const {
+      imageLinks,
       title,
-      author,
-      genre,
+      authors,
+      categories,
       pageCount,
-      rating,
+      averageRating,
       publishedDate,
-      isbn,
+      industryIdentifiers,
       description,
-    } = form.elements
+    } = book
     const bookData = {
-      title: title.value,
-      author: author.value,
-      genre: toTitleCase(genre.value)
-        .split(',')
-        .map(genre => genre.trim())
-        .filter(genre => genre !== ''),
-      pageCount: pageCount.value,
-      rating: rating.value,
-      publishedDate: publishedDate.value,
-      isbn: isbn.value,
-      description: description.value,
+      cover: imageLinks
+        ? imageLinks.thumbnail
+          ? imageLinks.thumbnail
+          : imageLinks.smallThumbnail
+        : 'https://source.unsplash.com/HH4WBGNyltc/100x130',
+      title,
+      author: authors.join(', '),
+      genre: categories[0],
+      pageCount: pageCount,
+      rating: averageRating,
+      publishedDate: publishedDate,
+      isbn: industryIdentifiers[0].identifier,
+      description: description,
     }
+    console.log(bookData)
     saveBook(bookData)
-    form.reset()
-    title.focus()
+    setSearch(null)
   }
+}
+function onSaveBook(event) {
+  event.preventDefault()
+  const form = event.target
+  const {
+    title,
+    author,
+    genre,
+    pageCount,
+    rating,
+    publishedDate,
+    isbn,
+    description,
+  } = form.elements
+  const bookData = {
+    title: title.value,
+    author: author.value,
+    genre: toTitleCase(genre.value)
+      .split(',')
+      .map(genre => genre.trim())
+      .filter(genre => genre !== ''),
+    pageCount: pageCount.value,
+    rating: rating.value,
+    publishedDate: publishedDate.value,
+    isbn: isbn.value,
+    description: description.value,
+  }
+  saveBook(bookData)
+  form.reset()
+  title.focus()
 }
 
 export const PageWrapper = styled.section`

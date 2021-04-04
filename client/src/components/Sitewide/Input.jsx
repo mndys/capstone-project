@@ -13,12 +13,14 @@ export default function Input({
   pattern,
   step,
   children,
+  handleChange,
 }) {
   return (
     <Label className={className}>
       {children}
       <input
         autoComplete="off"
+        onChange={handleChange}
         {...{
           name,
           placeholder,

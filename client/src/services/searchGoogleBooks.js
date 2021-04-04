@@ -7,7 +7,7 @@ export default function searchGoogleBooks(search, setSearchResult) {
   return search
     ? axios
         .get(
-          `https://www.googleapis.com/books/v1/volumes?q=${search}&langRestrict=en&maxResults=40&key=${API_KEY}`
+          `https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=40&key=${API_KEY}`
         )
         .then(
           data => {
