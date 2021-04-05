@@ -1,6 +1,7 @@
 const express = require('express')
 const setupMongo = require('./setupMongo')
 require('dotenv').config()
+var cors = require('cors')
 const path = require('path')
 
 const { PORT = 4000 } = process.env
@@ -8,6 +9,7 @@ const { PORT = 4000 } = process.env
 setupMongo()
 const app = express()
 
+app.use(cors())
 app.use('/', express.json()) // add middleware for json data
 app.use(express.static('./client/build'))
 app.use('/api/books', require('./routes/books'))

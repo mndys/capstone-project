@@ -3,15 +3,7 @@ const Round = require('../models/Round')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
-  res.json(
-    await Round.find()
-      .populate({
-        path: 'books.prompt',
-        model: 'Prompt',
-        populate: { path: 'book', model: 'Book' },
-      })
-      .catch(next)
-  )
+  res.json(await Round.find().populate('book').catch(next))
 })
 
 router.get('/:_id', async (req, res, next) => {
@@ -46,11 +38,7 @@ router.delete('/:_id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   res.json(
     await (await Round.create(req.body).catch(next)) // nested await is needed
-      .populate({
-        path: 'books.prompt',
-        model: 'Prompt',
-        populate: { path: 'book', model: 'Book' },
-      })
+      .populate('book')
       .execPopulate()
       .catch(next)
   )

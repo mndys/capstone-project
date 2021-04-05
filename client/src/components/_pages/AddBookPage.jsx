@@ -36,7 +36,7 @@ export default function AddBookPage() {
   return (
     <PageWrapper>
       <h2>Add Book to TBR</h2>
-      <Search handleChange={onLiveSearch} />
+      <Search handleChange={onLiveSearch} value={inputValue} />
       {status === 'success' && search !== '' ? (
         <GoogleSearchResults
           handleSaveBook={book => onSaveGoogleBook(book)}
@@ -76,7 +76,7 @@ export default function AddBookPage() {
         : 'https://source.unsplash.com/HH4WBGNyltc/100x130',
       title,
       author: authors.join(', '),
-      genre: categories[0],
+      genre: categories,
       pageCount: pageCount,
       rating: averageRating,
       publishedDate: publishedDate,
@@ -114,6 +114,7 @@ function onSaveBook(event) {
     isbn: isbn.value,
     description: description.value,
   }
+  console.log(bookData)
   saveBook(bookData)
   form.reset()
   title.focus()

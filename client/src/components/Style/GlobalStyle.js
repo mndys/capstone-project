@@ -60,6 +60,7 @@ export default createGlobalStyle`
     text-transform: uppercase;
     letter-spacing: .2em;
     padding-bottom: .3em;
+    color: var(--color-primary-dark);
   }
 
   h3{

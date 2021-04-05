@@ -6,12 +6,9 @@ const schema = new mongoose.Schema(
       type: Date,
       unique: true,
     },
-    books: {
-      type: Map,
-      of: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Prompt',
-      },
+    book: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Book',
     },
   },
   { versionKey: false }

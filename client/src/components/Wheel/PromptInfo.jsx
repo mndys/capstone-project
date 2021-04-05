@@ -15,7 +15,12 @@ export default function PromptInfo({
     >
       <div>
         <h2>{triggerPrompt}</h2>
-        <p>{prompts[calculateCurrentPromptNumber()].info}</p>
+        {triggerPrompt.match(/✔️/i) && (
+          <p>Congratulations! You have completed this prompt.</p>
+        )}
+        {!triggerPrompt.match(/✔️/i) && (
+          <p>{prompts[calculateCurrentPromptNumber()].info}</p>
+        )}
         {triggerPrompt === 'Cover Colour' ? (
           <>
             <div>

@@ -18,6 +18,7 @@ import Prompt from './Style/Styled-Components/Prompt'
 import PromptInfo from './Wheel/PromptInfo'
 import PromptSpecifier from './Wheel/PromptSpecifier'
 import WheelComponent from './Wheel/Wheel'
+import MonthlyTbr from './_pages/MonthlyTbr'
 const queryClient = new QueryClient()
 
 function App() {
@@ -112,7 +113,7 @@ function App() {
                 <BooksPage />
               </Route>
               <Route path="/monthly-tbr">
-                <div>Monthly TBR</div>
+                <MonthlyTbr history={history} setHistory={setHistory} />
               </Route>
               <Route path="/add">
                 <AddBookPage />
