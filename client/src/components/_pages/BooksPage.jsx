@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import styled from 'styled-components/macro'
@@ -7,7 +6,6 @@ import deleteBook from '../../services/deleteBook'
 import saveBookToRound from '../../services/saveBookToRound'
 
 export default function BooksPage() {
-  const [addedToTbr, setAddedToTbr] = useState('')
   const fetchBooks = async () => {
     const { data } = await axios.get('api/books')
     return data
@@ -33,11 +31,11 @@ export default function BooksPage() {
               ✖️
             </div>
             <div
-              className={addedToTbr === 'added' ? 'now added' : 'now'}
-              onClick={() => {
+              className="now"
+              onClick={event => {
                 updateBook(book._id)
                 refetch()
-                setAddedToTbr('added')
+                event.target.classList.add('added')
               }}
             >
                ✓
