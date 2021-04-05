@@ -3,9 +3,6 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import styled from 'styled-components/macro'
-import deleteBook from '../../services/deleteBook'
-import saveBookToRound from '../../services/saveBookToRound'
-import ChoosePromptModal from '../Books/ChoosePromptModal'
 import Button from '../Style/Styled-Components/Button'
 
 export default function MonthlyTbr({ history, setHistory }) {
@@ -18,7 +15,7 @@ export default function MonthlyTbr({ history, setHistory }) {
     return data
   }
 
-  const { status, data, refetch } = useQuery('yourCurrentTBR', fetchRounds, {
+  const { status, data } = useQuery('yourCurrentTBR', fetchRounds, {
     refetchOnWindowFocus: false,
   })
 
@@ -131,14 +128,6 @@ export default function MonthlyTbr({ history, setHistory }) {
 
   function addPrompt() {
     setChoosePrompt(true)
-  }
-
-  function updateBook(id) {
-    const newBook = {
-      month: Date.now(),
-      book: id,
-    }
-    saveBookToRound(newBook)
   }
 }
 

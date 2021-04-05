@@ -19,6 +19,8 @@ import PromptInfo from './Wheel/PromptInfo'
 import PromptSpecifier from './Wheel/PromptSpecifier'
 import WheelComponent from './Wheel/Wheel'
 import MonthlyTbr from './_pages/MonthlyTbr'
+import ff from '../images/fast-forward.svg'
+
 const queryClient = new QueryClient()
 
 function App() {
@@ -45,6 +47,14 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Grid>
           <Header>Wheel of TBR</Header>
+          {mustSpin && (
+            <img
+              id="ff"
+              src={ff}
+              alt="fast forward animation"
+              onClick={() => window.location.reload()}
+            />
+          )}
           {showPromptInfo && (
             <PromptInfo
               triggerPrompt={triggerPrompt}
@@ -194,6 +204,15 @@ const Grid = styled.div`
   min-width: 320px;
   max-width: 900px;
   overflow: hidden;
+
+  #ff {
+    position: absolute;
+    top: 340px;
+    width: 20px;
+    left: 50.5%;
+    transform: translate(-50%);
+    cursor: pointer;
+  }
 `
 const Main = styled.main`
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);

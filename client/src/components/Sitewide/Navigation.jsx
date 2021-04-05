@@ -8,11 +8,11 @@ export default function Navigation({ showPromptInfo }) {
   return (
     <>
       <NavContainer className={active ? 'active' : ''}>
-        <NavLink to="/tbr" onClick={() => setActive(!active)}>
-          Books
-        </NavLink>
         <NavLink to="/monthly-tbr" onClick={() => setActive(!active)}>
           Monthly TBR
+        </NavLink>
+        <NavLink to="/tbr" onClick={() => setActive(!active)}>
+          Books
         </NavLink>
         <NavLink to="/add" onClick={() => setActive(!active)}>
           Add book to TBR

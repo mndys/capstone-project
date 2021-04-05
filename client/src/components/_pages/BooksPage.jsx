@@ -19,7 +19,7 @@ export default function BooksPage() {
     <PageWrapper>
       <h2>Books on your TBR</h2>
       {status === 'success' &&
-        data.map(book => (
+        data.reverse().map(book => (
           <Container key={book._id}>
             <div
               className="x"
