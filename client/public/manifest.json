@@ -4,7 +4,7 @@
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "16x16",
       "type": "image/x-icon"
     },
     {
@@ -13,18 +13,18 @@
       "sizes": "512x512 192x192 64x64 32x32 24x24 16x16"
     },
     {
+      "src": "wheel-transparent.png",
+      "type": "image/png",
+      "sizes": "512x512 192x192 64x64 32x32 24x24 16x16"
+    },
+    {
       "src": "wheel.png",
       "type": "image/png",
       "sizes": "192x192"
-    },
-    {
-      "src": "wheel512.png",
-      "type": "image/png",
-      "sizes": "512x512"
     }
   ],
   "start_url": "./index.html",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
