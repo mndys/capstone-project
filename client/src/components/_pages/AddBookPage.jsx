@@ -11,8 +11,8 @@ import Search from '../AddBook/Search'
 
 export default function AddBookPage() {
   const API_KEY = process.env.REACT_APP_API_KEY
-  const [search, setSearch] = useState(null)
-  const [inputValue, setInputValue] = useState(null)
+  const [search, setSearch] = useState('')
+  const [inputValue, setInputValue] = useState('')
 
   const fetchBooks = async search => {
     const { data } = await axios.get(
@@ -35,7 +35,7 @@ export default function AddBookPage() {
   return (
     <PageWrapper>
       <h2>Add Book to TBR</h2>
-      <Search handleChange={onLiveSearch} value={inputValue} />
+      <Search handleChange={onLiveSearch} inputValue={inputValue} />
       {status === 'success' && search !== '' ? (
         <GoogleSearchResults
           handleSaveBook={book => onSaveGoogleBook(book)}
@@ -84,7 +84,8 @@ export default function AddBookPage() {
     }
     console.log(bookData)
     saveBook(bookData)
-    setSearch(null)
+    setSearch('')
+    setInputValue('')
   }
 }
 function onSaveBook(event) {
@@ -121,8 +122,4 @@ function onSaveBook(event) {
 
 export const PageWrapper = styled.section`
   padding: clamp(30px, 10%, 100px) clamp(15px, 5%, 50px);
-
-  h2 {
-    padding-bottom: 1.5rem;
-  }
 `

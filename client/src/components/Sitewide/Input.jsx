@@ -14,6 +14,7 @@ export default function Input({
   step,
   children,
   handleChange,
+  value,
 }) {
   return (
     <Label className={className}>
@@ -32,6 +33,7 @@ export default function Input({
           max,
           pattern,
           step,
+          value,
         }}
       />
     </Label>
