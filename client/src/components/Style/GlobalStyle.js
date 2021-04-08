@@ -35,8 +35,8 @@ export default createGlobalStyle`
 
     &:focus {
       outline: none;
-      border-color: transparent;
-      box-shadow: 0px 0px 4px 2px var(--color-primary);
+      border: 1px solid var(--color-primary);
+      box-shadow: 0px 0px 4px 0px var(--color-primary);
     }
   }
 
@@ -53,8 +53,10 @@ export default createGlobalStyle`
 
   }
 
+  
+
   h2, h3{
-    font-size: clamp(1.1em, 5vw, 30px);
+    font-size: clamp(1.1em, 5vw, 1.6em);
     line-height: 1.1em;
     margin: 0;
     text-transform: uppercase;
@@ -64,7 +66,7 @@ export default createGlobalStyle`
   }
 
   h3{
-    font-size: clamp(.8em, 4.5vw, 24px);
+    font-size: clamp(.8em, 4.5vw, 1em);
     margin: 2rem 0 .5rem 0;
   }
 
@@ -74,6 +76,6 @@ export default createGlobalStyle`
   }
 
   ::placeholder {
-    font-size: 12px;
+    font-size: .8em;
   }
 `

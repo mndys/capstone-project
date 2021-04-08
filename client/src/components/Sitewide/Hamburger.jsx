@@ -16,8 +16,8 @@ export default function Hamburger({ active, toggleActive, showPromptInfo }) {
 
 const Bun = styled.div`
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: 30px;
+  bottom: 30px;
   width: 2rem;
   height: 21px;
   cursor: pointer;

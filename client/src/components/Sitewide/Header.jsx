@@ -30,7 +30,7 @@ const HeaderStyled = styled.header`
 
 const Title = styled.h1`
   margin: 0;
-  font-size: min(max(5vw, 40px), 60px);
+  font-size: clamp(46px, 5vh, 60px);
   font-family: 'Hanging Letters';
   font-weight: normal;
   letter-spacing: 0.15em;

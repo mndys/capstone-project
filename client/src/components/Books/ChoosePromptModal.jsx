@@ -46,7 +46,7 @@ const Modal = styled.div`
   }
 
   p {
-    font-size: clamp(12px, 4vw, 24px);
+    font-size: clamp(12px, 4vw, 16px);
     margin-bottom: 0;
   }
 `
