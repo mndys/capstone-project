@@ -64,7 +64,16 @@ function App() {
           )}
           <Main showPromptInfo={showPromptInfo}>
             <Switch>
-              <Route exact path="/">
+              <Route path="/tbr">
+                <BooksPage />
+              </Route>
+              <Route path="/monthly-tbr">
+                <MonthlyTbr history={history} setHistory={setHistory} />
+              </Route>
+              <Route path="/add">
+                <AddBookPage />
+              </Route>
+              <Route path="/">
                 <WheelPage>
                   <Prompt
                     data-testid="prompt"
@@ -118,15 +127,6 @@ function App() {
                     ''
                   )}
                 </WheelPage>
-              </Route>
-              <Route path="/tbr">
-                <BooksPage />
-              </Route>
-              <Route path="/monthly-tbr">
-                <MonthlyTbr history={history} setHistory={setHistory} />
-              </Route>
-              <Route path="/add">
-                <AddBookPage />
               </Route>
             </Switch>
           </Main>
@@ -207,7 +207,7 @@ const Grid = styled.div`
 
   #ff {
     position: absolute;
-    top: 340px;
+    top: 51vh;
     width: 20px;
     left: 50.5%;
     transform: translate(-50%);

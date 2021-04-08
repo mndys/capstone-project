@@ -17,7 +17,7 @@ export default function Navigation({ showPromptInfo }) {
         <NavLink to="/add" onClick={() => setActive(!active)}>
           Add book to TBR
         </NavLink>
-        <NavLink to="/" onClick={() => setActive(!active)}>
+        <NavLink to="/" onClick={() => setActive(!active)} exact>
           Wheel
         </NavLink>
       </NavContainer>
@@ -60,10 +60,14 @@ const NavContainer = styled.nav`
     clear: right;
     margin: 15px;
     padding-right: 5px;
-    color: #000;
+    color: var(--color-text);
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     border-right: 3px solid var(--color-primary-dark);
+
+    &.active {
+      border-right: 3px solid var(--color-primary);
+    }
   }
 `
