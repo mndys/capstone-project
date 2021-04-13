@@ -43,7 +43,7 @@ const schema = new mongoose.Schema(
       ref: 'Prompt',
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 )
 
 module.exports = mongoose.model('Book', schema)
