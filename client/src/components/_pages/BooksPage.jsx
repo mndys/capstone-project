@@ -15,11 +15,13 @@ export default function BooksPage() {
     refetchOnWindowFocus: false,
   })
 
+  const sortedData = data.sort((a, b) => a.createdAt < b.createdAt)
+
   return (
     <PageWrapper>
       <h2>Books on your TBR</h2>
       {status === 'success' &&
-        data.reverse().map(book => (
+        sortedData.map(book => (
           <Container key={book._id}>
             <div
               className="x"
