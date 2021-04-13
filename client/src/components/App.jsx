@@ -124,6 +124,7 @@ function App() {
                     <History
                       history={history}
                       onToggleShowPromptInfo={toggleShowPromptInfo}
+                      resetHistory={onReset}
                     />
                   ) : (
                     ''
