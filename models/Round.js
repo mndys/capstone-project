@@ -6,10 +6,12 @@ const schema = new mongoose.Schema(
       type: Date,
       unique: true,
     },
-    book: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Book',
-    },
+    prompts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Book',
+      },
+    ],
   },
   { versionKey: false }
 )

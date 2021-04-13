@@ -1,4 +1,6 @@
 import styled from 'styled-components/macro'
+import { GridWrapper } from '../AddBook/AddBookForm'
+import Button from '../Style/Styled-Components/Button'
 
 export default function History({ history, onToggleShowPromptInfo }) {
   return (
@@ -15,8 +17,19 @@ export default function History({ history, onToggleShowPromptInfo }) {
           </Entry>
         ))}
       </HistoryEntries>
+      {history.length ? (
+        <GridWrapper>
+          <Button onClick={createMonthlyTBR}>
+            Create monthly TBR from prompts
+          </Button>
+        </GridWrapper>
+      ) : (
+        ''
+      )}
     </Wrapper>
   )
+
+  function createMonthlyTBR() {}
 }
 
 const Wrapper = styled.div`
