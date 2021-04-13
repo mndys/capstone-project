@@ -36,8 +36,9 @@ function App() {
   const [triggerPrompt, setTriggerPrompt] = useState(null)
   function getRandomColorObject() {
     const randomColorNumber = Math.floor(Math.random() * colors.length)
+    const colorObject = colors[randomColorNumber]
     saveToLocal('colorObject', colorObject)
-    return colors[randomColorNumber]
+    return colorObject
   }
   const colorObject = loadFromLocal('colorObject') ?? getRandomColorObject()
   const randomPageNumber =
@@ -155,8 +156,8 @@ function App() {
     saveToLocal('promptHistory', [])
     setCurrentPrompt(INITIAL_PROMPT)
     saveToLocal('currentPrompt', INITIAL_PROMPT)
-    saveToLocal('colorObject', getRandomColorObject())
-    saveToLocal('randomPageNumber', getRandomPageNumber())
+    getRandomColorObject()
+    getRandomPageNumber()
   }
 
   function onSpin() {

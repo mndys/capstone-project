@@ -32,11 +32,11 @@ describe('Buttons', () => {
 })
 
 describe('Local Storage', () => {
-  it('writes to localStorage once on first spin button click', () => {
+  it('writes to localStorage twice (for history and current prompt) on first spin button click', () => {
     jest.spyOn(Object.getPrototypeOf(window.localStorage), 'setItem')
     render(<App />)
     clickSpin()
-    expect(window.localStorage.setItem).toHaveBeenCalledTimes(1)
+    expect(window.localStorage.setItem).toHaveBeenCalledTimes(2)
   })
 
   it('writes to localStorage 4 times on reset button click', () => {
