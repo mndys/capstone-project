@@ -1,12 +1,8 @@
 import axios from 'axios'
 
-export default async function saveBookToRound(newBook) {
-  return axios.post('/api/rounds', newBook).then(
-    response => {
-      console.log(response)
-    },
-    error => {
-      console.log(error)
-    }
-  )
+export default function saveBookToRound(newBook) {
+  return axios
+    .post('/api/rounds', newBook)
+    .then(response => console.log(response))
+    .catch(error => console.log(error))
 }
