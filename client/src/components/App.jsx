@@ -36,6 +36,7 @@ function App() {
   const [triggerPrompt, setTriggerPrompt] = useState(null)
   function getRandomColorObject() {
     const randomColorNumber = Math.floor(Math.random() * colors.length)
+    saveToLocal('colorObject', colorObject)
     return colors[randomColorNumber]
   }
   const colorObject = loadFromLocal('colorObject') ?? getRandomColorObject()
@@ -165,7 +166,8 @@ function App() {
       return Math.floor(Math.random() * prompts.length)
     }
 
-    if (history.length < prompts.length - 1) {
+    if (history.length < prompts.length) {
+      const WHEEL_ANIMATION_DURATION = 11000
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()].option
       }
@@ -173,22 +175,24 @@ function App() {
         setCurrentPrompt(randomPrompt)
         setTriggerPrompt(randomPrompt)
         saveToLocal('currentPrompt', randomPrompt)
+        window.setTimeout(() => {
+          setHistory([...history, randomPrompt])
+        }, WHEEL_ANIMATION_DURATION)
+        saveToLocal('promptHistory', [...history, randomPrompt])
         setMustSpin(true)
       } else {
         setCurrentPrompt(randomPrompt)
         setTriggerPrompt(randomPrompt)
-        setHistory([...history, currentPrompt])
+        window.setTimeout(() => {
+          setHistory([...history, randomPrompt])
+        }, WHEEL_ANIMATION_DURATION)
         saveToLocal('currentPrompt', randomPrompt)
-        saveToLocal('promptHistory', [...history, currentPrompt])
-        saveToLocal('colorObject', colorObject)
-        saveToLocal('randomPageNumber', randomPageNumber)
+        saveToLocal('promptHistory', [...history, randomPrompt])
         setMustSpin(true)
       }
     } else {
       setCurrentPrompt(LAST_PROMPT)
       saveToLocal('currentPrompt', LAST_PROMPT)
-      setHistory([...history, currentPrompt])
-      saveToLocal('promptHistory', [...history, currentPrompt])
       setMustSpin(false)
     }
   }
@@ -226,7 +230,7 @@ const WheelPage = styled.main`
   grid-template-columns: 1fr;
 `
 
-const GridWrapper = styled.div`
+export const GridWrapper = styled.div`
   display: grid;
   grid-auto-flow: column;
   justify-content: center;
