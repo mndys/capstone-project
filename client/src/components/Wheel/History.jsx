@@ -1,16 +1,6 @@
-import { useState } from 'react'
 import styled from 'styled-components/macro'
-import createRound from '../../services/createRound'
-import { GridWrapper } from '../AddBook/AddBookForm'
-import Button from '../Style/Styled-Components/Button'
 
-export default function History({
-  history,
-  onToggleShowPromptInfo,
-  resetHistory,
-}) {
-  const [buttonActive, setButtonActive] = useState(true)
-
+export default function History({ history, onToggleShowPromptInfo }) {
   return (
     <Wrapper>
       <h2>Spin History</h2>
@@ -25,23 +15,8 @@ export default function History({
           </Entry>
         ))}
       </HistoryEntries>
-      {history.length ? (
-        <GridWrapper>
-          <Button disabled={!buttonActive} onClick={createMonthlyTBR}>
-            Create {<br />} monthly TBR
-          </Button>
-        </GridWrapper>
-      ) : (
-        ''
-      )}
     </Wrapper>
   )
-
-  function createMonthlyTBR() {
-    setButtonActive(!buttonActive)
-    resetHistory()
-    createRound(history)
-  }
 }
 
 const Wrapper = styled.div`
