@@ -15,86 +15,94 @@ export default function BooksPage() {
     refetchOnWindowFocus: false,
   })
 
-  const sortedData = data.sort((a, b) => a.createdAt < b.createdAt)
-
   return (
     <PageWrapper>
       <h2>Books on your TBR</h2>
       {status === 'success' &&
-        sortedData.map(book => (
-          <Container key={book._id}>
-            <div
-              className="x"
-              onClick={() => {
-                deleteBook(book._id)
-                refetch()
-              }}
-            >
-              ✖️
-            </div>
-            <div
-              className="now"
-              onClick={event => {
-                updateBook(book._id)
-                refetch()
-                event.target.classList.add('added')
-              }}
-            >
-               ✓
-            </div>
-            <Card>
-              <img src={book.cover} alt="" />
-              <h3>{book.title}</h3>
-              {book.author && (
-                <span>
-                  by <em>{book.author} </em>
-                  {book.publishedDate
-                    ? `(${parseInt(book.publishedDate)})`
-                    : ''}
-                </span>
-              )}
-              {book.genre && (
-                <span>
-                  <strong>Genre:</strong> {book.genre.join(', ')}
-                </span>
-              )}
-              {book.pageCount && (
-                <span>
-                  <strong>Page Count:</strong> {book.pageCount}
-                </span>
-              )}
-              {book.rating && (
-                <span>
-                  <strong>Rating:</strong> {book.rating} ⭐️
-                </span>
-              )}
-              {book.isbn && (
-                <span>
-                  <strong>ISBN:</strong> {book.isbn}
-                </span>
-              )}
-              {book.description ? (
-                <details>
-                  <summary>
-                    <strong>Description:</strong>
-                  </summary>
-                  {book.description}
-                </details>
-              ) : (
-                ''
-              )}
-            </Card>
-          </Container>
-        ))}
+        data
+          .sort((a, b) => a.createdAt < b.createdAt)
+          .map(
+            ({
+              _id,
+              cover,
+              title,
+              author,
+              publishedDate,
+              genre,
+              pageCount,
+              rating,
+              isbn,
+              description,
+            }) => (
+              <Container key={_id}>
+                <div
+                  className="x"
+                  onClick={() => {
+                    deleteBook(_id)
+                    refetch()
+                  }}
+                >
+                  ✖️
+                </div>
+                <div
+                  className="now"
+                  onClick={event => {
+                    updateBook(_id)
+                    refetch()
+                    event.target.classList.add('added')
+                  }}
+                >
+                   ✓
+                </div>
+                <Card>
+                  <img src={cover} alt="" />
+                  <h3>{title}</h3>
+                  {author && (
+                    <span>
+                      by <em>{author} </em>
+                      {publishedDate ? `(${parseInt(publishedDate)})` : ''}
+                    </span>
+                  )}
+                  {genre && (
+                    <span>
+                      <strong>Genre:</strong> {genre.join(', ')}
+                    </span>
+                  )}
+                  {pageCount && (
+                    <span>
+                      <strong>Page Count:</strong> {pageCount}
+                    </span>
+                  )}
+                  {rating && (
+                    <span>
+                      <strong>Rating:</strong> {rating} ⭐️
+                    </span>
+                  )}
+                  {isbn && (
+                    <span>
+                      <strong>ISBN:</strong> {isbn}
+                    </span>
+                  )}
+                  {description ? (
+                    <details>
+                      <summary>
+                        <strong>Description:</strong>
+                      </summary>
+                      {description}
+                    </details>
+                  ) : (
+                    ''
+                  )}
+                </Card>
+              </Container>
+            )
+          )}
       <ReactQueryDevtoolsPanel />
     </PageWrapper>
   )
 
   function updateBook(id) {
-    const newBook = {
-      month: Date.now(),
-      book: id,
-    }
+    const newBook = { _id: id }
     saveBookToRound(newBook)
   }
 }
