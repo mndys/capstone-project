@@ -170,28 +170,18 @@ function App() {
 
     if (history.length < prompts.length) {
       const WHEEL_ANIMATION_DURATION = 11000
+
       while (history.includes(randomPrompt) || currentPrompt === randomPrompt) {
         randomPrompt = prompts[getRandomNumber()].option
       }
-      if (currentPrompt === INITIAL_PROMPT) {
-        setCurrentPrompt(randomPrompt)
-        setTriggerPrompt(randomPrompt)
-        saveToLocal('currentPrompt', randomPrompt)
-        window.setTimeout(() => {
-          setHistory([...history, randomPrompt])
-        }, WHEEL_ANIMATION_DURATION)
-        saveToLocal('promptHistory', [...history, randomPrompt])
-        setMustSpin(true)
-      } else {
-        setCurrentPrompt(randomPrompt)
-        setTriggerPrompt(randomPrompt)
-        window.setTimeout(() => {
-          setHistory([...history, randomPrompt])
-        }, WHEEL_ANIMATION_DURATION)
-        saveToLocal('currentPrompt', randomPrompt)
-        saveToLocal('promptHistory', [...history, randomPrompt])
-        setMustSpin(true)
-      }
+      setCurrentPrompt(randomPrompt)
+      setTriggerPrompt(randomPrompt)
+      saveToLocal('currentPrompt', randomPrompt)
+      window.setTimeout(() => {
+        setHistory([...history, randomPrompt])
+      }, WHEEL_ANIMATION_DURATION)
+      saveToLocal('promptHistory', [...history, randomPrompt])
+      setMustSpin(true)
     } else {
       setCurrentPrompt(LAST_PROMPT)
       saveToLocal('currentPrompt', LAST_PROMPT)
