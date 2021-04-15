@@ -1,12 +1,23 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components/macro'
+import useClickedOutside from '../../lib/hooks/useClickedOutside'
 import Hamburger from './Hamburger'
 
 export default function Navigation({ showPromptInfo }) {
   const [active, setActive] = useState(null)
+  const nav = useRef(null)
+
+  useClickedOutside(
+    nav,
+    () => {
+      setActive(!active)
+    },
+    active
+  )
+
   return (
-    <NavComponent>
+    <NavComponent ref={nav}>
       <NavContainer className={active ? 'active' : ''}>
         <NavLink to="/monthly-tbr" onClick={() => setActive(!active)}>
           Monthly TBR
