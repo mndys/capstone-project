@@ -6,7 +6,7 @@ const schema = new mongoose.Schema(
       type: Date,
       unique: true,
     },
-    prompts: [
+    books: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Book',

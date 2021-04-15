@@ -12,7 +12,7 @@ export default function MonthlyTbr({ history, setHistory }) {
 
   const fetchRounds = async () => {
     const { data } = await axios.get('api/rounds')
-    return data
+    return data[0]
   }
 
   const { status, data } = useQuery('yourCurrentTBR', fetchRounds, {
@@ -22,97 +22,118 @@ export default function MonthlyTbr({ history, setHistory }) {
   return (
     <PageWrapper>
       <h2>This Month's TBR</h2>
-      {status === 'success' && (
-        <Container key={data[2].book._id} className={readStatus}>
-          <div
-            className="x"
-            onClick={() => {
-              setReadStatus('unread')
-            }}
-          >
-            ✖️
-          </div>
-          <div
-            className="now"
-            onClick={() => {
-              setReadStatus('read')
-              const newHistory = history
-              newHistory.splice(
-                history.findIndex(entry => entry === `${chosenItem}`),
-                1,
-                `${chosenItem} ✔️`
-              )
-              setHistory(newHistory)
-            }}
-          >
-             ✓
-          </div>
-          <Card>
-            <img src={data[2].book.cover} alt="" />
-            <h3>{data[2].book.title}</h3>
-            {data[2].book.author && (
-              <span>
-                by <em>{data[2].book.author} </em>
-                {data[2].book.publishedDate
-                  ? `(${parseInt(data[2].book.publishedDate)})`
-                  : ''}
-              </span>
-            )}
-            {data[2].book.genre && (
-              <span>
-                <strong>Genre:</strong> {data[2].book.genre.join(', ')}
-              </span>
-            )}
-            {data[2].book.pageCount && (
-              <span>
-                <strong>Page Count:</strong> {data[2].book.pageCount}
-              </span>
-            )}
-            {data[2].book.rating && (
-              <span>
-                <strong>Rating:</strong> {data[2].book.rating} ⭐️
-              </span>
-            )}
-            {data[2].book.isbn && (
-              <span>
-                <strong>ISBN:</strong> {data[2].book.isbn}
-              </span>
-            )}
-            {chosenItem !== '' && (
-              <span>
-                <strong>Prompt:</strong> {chosenItem}
-              </span>
-            )}
-            {data[2].book.description ? (
-              <details>
-                <summary>
-                  <strong>Description:</strong>
-                </summary>
-                {data[2].book.description}
-              </details>
-            ) : (
-              ''
-            )}
-            <Button onClick={addPrompt} primary disabled={chosenItem !== ''}>
-              add prompt
-            </Button>
-            {choosePrompt && (
-              <div id="choosePrompt">
-                {history.map((item, index) => (
-                  <Entry
-                    key={index}
-                    onClick={() => chosenPrompt(item)}
-                    data-testid="historyEntry"
+      {status === 'loading' && 'Your monthly TBR is being prepared...'}
+      {status === 'success' &&
+        data.books
+          .sort((a, b) => a.createdAt < b.createdAt)
+          .map(
+            ({
+              _id,
+              cover,
+              title,
+              author,
+              publishedDate,
+              genre,
+              pageCount,
+              rating,
+              isbn,
+              description,
+            }) => {
+              return (
+                <Container key={_id} className={readStatus}>
+                  <div
+                    className="x"
+                    onClick={() => {
+                      setReadStatus('unread')
+                    }}
                   >
-                    {item}
-                  </Entry>
-                ))}
-                {console.log(history)}
-              </div>
-            )}
-          </Card>
-        </Container>
-      )}
+                    ✖️
+                  </div>
+                  <div
+                    className="now"
+                    onClick={() => {
+                      setReadStatus('read')
+                      const newHistory = history
+                      newHistory.splice(
+                        history.findIndex(entry => entry === `${chosenItem}`),
+                        1,
+                        `${chosenItem} ✔️`
+                      )
+                      setHistory(newHistory)
+                    }}
+                  >
+                     ✓
+                  </div>
+                  <Card>
+                    <img src={cover} alt="" />
+                    <h3>{title}</h3>
+                    {author && (
+                      <span>
+                        by <em>{author} </em>
+                        {publishedDate ? `(${parseInt(publishedDate)})` : ''}
+                      </span>
+                    )}
+                    {genre && (
+                      <span>
+                        <strong>Genre:</strong> {genre.join(', ')}
+                      </span>
+                    )}
+                    {pageCount && (
+                      <span>
+                        <strong>Page Count:</strong> {pageCount}
+                      </span>
+                    )}
+                    {rating && (
+                      <span>
+                        <strong>Rating:</strong> {rating} ⭐️
+                      </span>
+                    )}
+                    {isbn && (
+                      <span>
+                        <strong>ISBN:</strong> {isbn}
+                      </span>
+                    )}
+                    {chosenItem !== '' && (
+                      <span>
+                        <strong>Prompt:</strong> {chosenItem}
+                      </span>
+                    )}
+                    {description ? (
+                      <details>
+                        <summary>
+                          <strong>Description:</strong>
+                        </summary>
+                        {description}
+                      </details>
+                    ) : (
+                      ''
+                    )}
+                    <Button
+                      onClick={addPrompt}
+                      primary
+                      disabled={chosenItem !== ''}
+                    >
+                      add prompt
+                    </Button>
+                    {choosePrompt && (
+                      <div id="choosePrompt">
+                        {history.map((item, index) => (
+                          <Entry
+                            key={index}
+                            onClick={() => chosenPrompt(item)}
+                            data-testid="historyEntry"
+                          >
+                            {item}
+                          </Entry>
+                        ))}
+                        {console.log(history)}
+                      </div>
+                    )}
+                  </Card>
+                </Container>
+              )
+            }
+          )}
       <ReactQueryDevtoolsPanel />
     </PageWrapper>
   )
