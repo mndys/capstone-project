@@ -20,6 +20,8 @@ import PromptSpecifier from './Wheel/PromptSpecifier'
 import WheelComponent from './Wheel/Wheel'
 import MonthlyTbr from './_pages/MonthlyTbr'
 import ff from '../images/fast-forward.svg'
+import addPrompt from '../services/addPrompt'
+import clearPrompts from '../services/clearPrompts'
 
 const queryClient = new QueryClient()
 
@@ -153,6 +155,7 @@ function App() {
   }
 
   function onReset() {
+    clearPrompts()
     setHistory([])
     saveToLocal('promptHistory', [])
     setCurrentPrompt(INITIAL_PROMPT)
@@ -181,6 +184,7 @@ function App() {
         setHistory([...history, randomPrompt])
       }, WHEEL_ANIMATION_DURATION)
       saveToLocal('promptHistory', [...history, randomPrompt])
+      addPrompt(randomPrompt)
       setMustSpin(true)
     } else {
       setCurrentPrompt(LAST_PROMPT)
