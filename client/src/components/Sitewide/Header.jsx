@@ -24,7 +24,7 @@ const HeaderStyled = styled.header`
     position: absolute;
     top: 100%;
     width: 100%;
-    z-index: 9999;
+    z-index: 6;
   }
 `
 

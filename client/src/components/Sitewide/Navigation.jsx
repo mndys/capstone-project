@@ -6,7 +6,7 @@ import Hamburger from './Hamburger'
 export default function Navigation({ showPromptInfo }) {
   const [active, setActive] = useState(null)
   return (
-    <>
+    <NavComponent>
       <NavContainer className={active ? 'active' : ''}>
         <NavLink to="/monthly-tbr" onClick={() => setActive(!active)}>
           Monthly TBR
@@ -26,9 +26,13 @@ export default function Navigation({ showPromptInfo }) {
         active={active}
         showPromptInfo={showPromptInfo}
       />
-    </>
+    </NavComponent>
   )
 }
+
+const NavComponent = styled.section`
+  z-index: 6;
+`
 
 const NavContainer = styled.nav`
   position: absolute;
