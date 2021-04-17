@@ -39,4 +39,5 @@ const ColorCircle = styled.div`
   box-shadow: 1px 1px 2px var(--color-shadow);
   width: 20px;
   height: 20px;
+  margin-right: 0.5rem;
 `
