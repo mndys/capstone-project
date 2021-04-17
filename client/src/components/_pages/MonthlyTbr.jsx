@@ -1,16 +1,12 @@
-import axios from 'axios'
 import { useState } from 'react'
-import { useQuery } from 'react-query'
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import styled from 'styled-components/macro'
 import useQueryGet from '../../lib/hooks/useQueryGet'
-import Button from '../Style/Styled-Components/Button'
 import SmallButton from '../Style/Styled-Components/SmallButton'
 
 export default function MonthlyTbr({ history, setHistory }) {
   const [choosePrompt, setChoosePrompt] = useState(false)
   const [chosenItem, setChosenItem] = useState('')
-  const [readStatus, setReadStatus] = useState('unread')
 
   const { isLoading, isError, isSuccess, data } = useQueryGet('api/rounds')
 
