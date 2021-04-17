@@ -3,27 +3,30 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import styled from 'styled-components/macro'
+import useQueryGet from '../../lib/hooks/useQueryGet'
 import Button from '../Style/Styled-Components/Button'
+import SmallButton from '../Style/Styled-Components/SmallButton'
 
 export default function MonthlyTbr({ history, setHistory }) {
   const [choosePrompt, setChoosePrompt] = useState(false)
   const [chosenItem, setChosenItem] = useState('')
   const [readStatus, setReadStatus] = useState('unread')
 
-  const fetchRounds = async () => {
-    const { data } = await axios.get('api/rounds')
-    return data[0]
-  }
-
-  const { status, data } = useQuery('yourCurrentTBR', fetchRounds, {
-    refetchOnWindowFocus: false,
-  })
+  const { isLoading, isError, isSuccess, data } = useQueryGet('api/rounds')
 
   return (
     <PageWrapper>
       <h2>This Month's TBR</h2>
-      {status === 'loading' && 'Your monthly TBR is being prepared...'}
-      {status === 'success' &&
+      {(isError || !data) && (
+        <p>
+          Oh no! There was an error loading your data. <br />
+          Please make sure you have chosen books for this month from your{' '}
+          <a href="/tbr">main TBR</a>.
+        </p>
+      )}
+      {isLoading && 'Your monthly TBR is being prepared...'}
+      {isSuccess &&
+        data &&
         data.books
           .sort((a, b) => a.createdAt < b.createdAt)
           .map(
@@ -40,19 +43,11 @@ export default function MonthlyTbr({ history, setHistory }) {
               description,
             }) => {
               return (
-                <Container key={_id} className={readStatus}>
-                  <div
-                    className="x"
-                    onClick={() => {
-                      setReadStatus('unread')
-                    }}
-                  >
-                    ✖️
-                  </div>
+                <Container key={_id}>
                   <div
                     className="now"
-                    onClick={() => {
-                      setReadStatus('read')
+                    onClick={event => {
+                      event.currentTarget.parentNode.classList.toggle('read')
                       const newHistory = history
                       newHistory.splice(
                         history.findIndex(entry => entry === `${chosenItem}`),
@@ -108,13 +103,13 @@ export default function MonthlyTbr({ history, setHistory }) {
                     ) : (
                       ''
                     )}
-                    <Button
-                      onClick={addPrompt}
+                    <SmallButton
+                      onClick={toggleChoosePrompt}
                       primary
                       disabled={chosenItem !== ''}
                     >
                       add prompt
-                    </Button>
+                    </SmallButton>
                     {choosePrompt && (
                       <div id="choosePrompt">
                         {history.map((item, index) => (
@@ -145,10 +140,6 @@ export default function MonthlyTbr({ history, setHistory }) {
 
   function toggleChoosePrompt() {
     setChoosePrompt(!choosePrompt)
-  }
-
-  function addPrompt() {
-    setChoosePrompt(true)
   }
 }
 
