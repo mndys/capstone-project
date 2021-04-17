@@ -21,6 +21,7 @@ import WheelComponent from './Wheel/Wheel'
 import MonthlyTbr from './_pages/MonthlyTbr'
 import addPrompt from '../services/addPrompt'
 import clearPrompts from '../services/clearPrompts'
+import useLocalStorage from '../lib/hooks/useLocalStorage'
 
 const queryClient = new QueryClient()
 
@@ -28,10 +29,11 @@ function App() {
   const INITIAL_PROMPT = 'Spin to receive your first prompt.'
   const LAST_PROMPT = `That's it. Reset to start again.`
 
-  const [currentPrompt, setCurrentPrompt] = useState(
-    loadFromLocal('currentPrompt') ?? INITIAL_PROMPT
+  const [currentPrompt, setCurrentPrompt] = useLocalStorage(
+    'currentPrompt',
+    INITIAL_PROMPT
   )
-  const [history, setHistory] = useState(loadFromLocal('promptHistory') ?? [])
+  const [history, setHistory] = useLocalStorage('promptHistory', [])
   const [mustSpin, setMustSpin] = useState(false)
   const [showPromptInfo, setShowPromptInfo] = useState(false)
   const [triggerPrompt, setTriggerPrompt] = useState(null)
@@ -148,9 +150,7 @@ function App() {
   function onReset() {
     clearPrompts()
     setHistory([])
-    saveToLocal('promptHistory', [])
     setCurrentPrompt(INITIAL_PROMPT)
-    saveToLocal('currentPrompt', INITIAL_PROMPT)
     getRandomColorObject()
     getRandomPageNumber()
   }
@@ -170,16 +170,16 @@ function App() {
       }
       setCurrentPrompt(randomPrompt)
       setTriggerPrompt(randomPrompt)
-      saveToLocal('currentPrompt', randomPrompt)
       window.setTimeout(() => {
         setHistory([...history, randomPrompt])
       }, WHEEL_ANIMATION_DURATION)
+
+      // If the animation is skipped before the Timeout runs out, history will not be updated. That's why we need to call saveToLocal here as well
       saveToLocal('promptHistory', [...history, randomPrompt])
       addPrompt(randomPrompt)
       setMustSpin(true)
     } else {
       setCurrentPrompt(LAST_PROMPT)
-      saveToLocal('currentPrompt', LAST_PROMPT)
       setMustSpin(false)
     }
   }
