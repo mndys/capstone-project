@@ -35,7 +35,7 @@ export default createGlobalStyle`
 
     &:focus {
       outline: none;
-      border: 1px solid var(--color-primary);
+      border-color: transparent;
       box-shadow: 0px 0px 4px 0px var(--color-primary);
     }
   }
