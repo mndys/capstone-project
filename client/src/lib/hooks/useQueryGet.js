@@ -1,19 +1,15 @@
 import axios from 'axios'
 import { useQuery } from 'react-query'
 
-export default function useQueryGet(url) {
-  const fetchRounds = async () => {
+export default function useQueryGet(url, key) {
+  const fetchData = async () => {
     const { data } = await axios.get(url)
-    return data[0]
+    return data
   }
 
-  const { isSuccess, isLoading, isError, data } = useQuery(
-    'yourCurrentTBR',
-    fetchRounds,
-    {
-      refetchOnWindowFocus: false,
-    }
-  )
+  const { data, error, isLoading, refetch } = useQuery(key, fetchData, {
+    refetchOnWindowFocus: false,
+  })
 
-  return { isSuccess, isLoading, isError, data }
+  return { data, error, isLoading, refetch }
 }
