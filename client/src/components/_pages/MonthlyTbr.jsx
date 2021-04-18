@@ -2,28 +2,45 @@ import { useState } from 'react'
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import styled from 'styled-components/macro'
 import useQueryGet from '../../lib/hooks/useQueryGet'
+import savePromptToBook from '../../services/savePromptToBook'
 import SmallButton from '../Style/Styled-Components/SmallButton'
 
 export default function MonthlyTbr({ history, setHistory }) {
-  const [choosePrompt, setChoosePrompt] = useState(false)
-  const [chosenItem, setChosenItem] = useState('')
+  const [isShowingDescription, setIsShowingDescription] = useState({
+    '6076073e04ec6bb0879a2e81': true,
+  })
+  const [isDone, setIsDone] = useState({
+    '6076073e04ec6bb0879a2e81': true,
+  })
+  const [isShowingPrompts, setIsShowingPrompts] = useState([])
 
-  const { isLoading, isError, isSuccess, data } = useQueryGet('api/rounds')
+  const {
+    data: booksData,
+    error: booksError,
+    isLoading: booksLoading,
+    refetch: booksRefetch,
+  } = useQueryGet('api/rounds', 'currentTBR')
+
+  const {
+    data: promptsData,
+    error: promptsError,
+    isLoading: promptsLoading,
+    refetch: promptsRefetch,
+  } = useQueryGet('api/prompts', 'prompts')
 
   return (
     <PageWrapper>
       <h2>This Month's TBR</h2>
-      {(isError || !data) && (
+      {booksLoading && 'Your monthly TBR is being prepared...'}
+      {booksError && (
         <p>
           Oh no! There was an error loading your data. <br />
           Please make sure you have chosen books for this month from your{' '}
           <a href="/tbr">main TBR</a>.
         </p>
       )}
-      {isLoading && 'Your monthly TBR is being prepared...'}
-      {isSuccess &&
-        data &&
-        data.books
+      {booksData &&
+        booksData[0].books
           .sort((a, b) => a.createdAt < b.createdAt)
           .map(
             ({
@@ -37,24 +54,10 @@ export default function MonthlyTbr({ history, setHistory }) {
               rating,
               isbn,
               description,
+              prompt,
             }) => {
               return (
-                <Container key={_id}>
-                  <div
-                    className="now"
-                    onClick={event => {
-                      event.currentTarget.parentNode.classList.toggle('read')
-                      const newHistory = history
-                      newHistory.splice(
-                        history.findIndex(entry => entry === `${chosenItem}`),
-                        1,
-                        `${chosenItem} ✔️`
-                      )
-                      setHistory(newHistory)
-                    }}
-                  >
-                     ✓
-                  </div>
+                <Container key={_id} id={_id}>
                   <Card>
                     <img src={cover} alt="" />
                     <h3>{title}</h3>
@@ -84,41 +87,52 @@ export default function MonthlyTbr({ history, setHistory }) {
                         <strong>ISBN:</strong> {isbn}
                       </span>
                     )}
-                    {chosenItem !== '' && (
+                    {prompt && (
                       <span>
-                        <strong>Prompt:</strong> {chosenItem}
+                        <strong>Prompt:</strong> {prompt.option}
                       </span>
                     )}
+                    <ButtonWrapper>
+                      <SmallButton>
+                        {isShowingDescription.hasOwnProperty(_id)
+                          ? 'see less'
+                          : 'see more'}
+                      </SmallButton>
+                      <SmallButton
+                        onClick={() => toggleShowPrompts(_id)}
+                        primary
+                      >
+                        add prompt
+                      </SmallButton>
+                      <SmallButton onClick={onMarkedRead}>
+                        {isDone.hasOwnProperty(_id)
+                          ? 'mark as to read'
+                          : 'mark as done'}
+                      </SmallButton>
+                    </ButtonWrapper>
+                    {isShowingPrompts.includes(_id) && (
+                      <div id="choosePrompt">
+                        {promptsData &&
+                          promptsData.map((prompt, index) => (
+                            <Entry
+                              key={index}
+                              onClick={() => chosenPrompt(prompt, _id)}
+                              data-testid="historyEntry"
+                            >
+                              {prompt.option}
+                            </Entry>
+                          ))}
+                      </div>
+                    )}
                     {description ? (
-                      <details>
-                        <summary>
-                          <strong>Description:</strong>
-                        </summary>
-                        {description}
-                      </details>
+                      <>
+                        <div className="description">
+                          {isShowingDescription.hasOwnProperty(_id) &&
+                            description}
+                        </div>
+                      </>
                     ) : (
                       ''
-                    )}
-                    <SmallButton
-                      onClick={toggleChoosePrompt}
-                      primary
-                      disabled={chosenItem !== ''}
-                    >
-                      add prompt
-                    </SmallButton>
-                    {choosePrompt && (
-                      <div id="choosePrompt">
-                        {history.map((item, index) => (
-                          <Entry
-                            key={index}
-                            onClick={() => chosenPrompt(item)}
-                            data-testid="historyEntry"
-                          >
-                            {item}
-                          </Entry>
-                        ))}
-                        {console.log(history)}
-                      </div>
                     )}
                   </Card>
                 </Container>
@@ -129,13 +143,32 @@ export default function MonthlyTbr({ history, setHistory }) {
     </PageWrapper>
   )
 
-  function chosenPrompt(item) {
-    setChosenItem(item)
-    toggleChoosePrompt()
+  function toggleShowPrompts(_id) {
+    let newIsShowingPrompts
+    if (isShowingPrompts.includes(_id)) {
+      newIsShowingPrompts = isShowingPrompts.filter(bookId => bookId !== _id)
+    } else {
+      newIsShowingPrompts = [...isShowingPrompts, _id]
+    }
+    setIsShowingPrompts(newIsShowingPrompts)
   }
 
-  function toggleChoosePrompt() {
-    setChoosePrompt(!choosePrompt)
+  function onMarkedRead(event) {
+    event.target.parentNode.parentNode.parentNode.classList.toggle('read')
+    // const newHistory = history
+    // newHistory.splice(
+    //   history.findIndex(entry => entry === `${chosenItems}`),
+    //   1,
+    //   `${chosenItems} ✔️`
+    // )
+    // setHistory(newHistory)
+  }
+
+  function chosenPrompt(prompt, _id) {
+    const addedPrompt = { _id: prompt._id }
+    savePromptToBook(_id, addedPrompt)
+    toggleShowPrompts(_id)
+    booksRefetch()
   }
 }
 
@@ -163,7 +196,8 @@ const Container = styled.section`
   }
 
   &.read {
-    background: linear-gradient(#d2f9e8 0%, #83c1a6 100%);
+    // background: linear-gradient(#d2f9e8 0%, #83c1a6 100%);
+    opacity: 0.5;
   }
 
   .x {
@@ -195,6 +229,10 @@ const Container = styled.section`
     text-transform: none;
     letter-spacing: normal;
   }
+
+  .description {
+    grid-column: 1 / 3;
+  }
 `
 
 const Card = styled.div`
@@ -210,15 +248,6 @@ const Card = styled.div`
     align-self: center;
     width: 50px;
   }
-  details {
-    padding-top: 1em;
-    grid-column: 1 / 3;
-  }
-
-  button {
-    grid-column: 1 / 3;
-    justify-self: center;
-  }
 
   #choosePrompt {
     grid-column: 1 / 3;
@@ -232,6 +261,12 @@ const Card = styled.div`
       margin-bottom: 5px;
     }
   }
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  grid-column: 1 / 3;
 `
 
 const Entry = styled.div`
