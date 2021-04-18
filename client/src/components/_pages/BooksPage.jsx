@@ -103,6 +103,7 @@ export default function BooksPage() {
 
   function updateBook(id) {
     const newBook = { _id: id }
+    console.log('new Book:', newBook)
     saveBookToRound(newBook)
   }
 }

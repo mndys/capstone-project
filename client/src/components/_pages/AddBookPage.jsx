@@ -82,7 +82,6 @@ export default function AddBookPage() {
       isbn: industryIdentifiers[0].identifier,
       description: description,
     }
-    console.log(bookData)
     saveBook(bookData)
     setSearch('')
     setInputValue('')
