@@ -191,36 +191,8 @@ const Container = styled.section`
   box-shadow: 1px 2px 6px 0px var(--color-shadow);
   font-size: 14px;
 
-  &.unread {
-    background: linear-gradient(#fedbdb 0%, #db8c8c 100%);
-  }
-
   &.read {
-    // background: linear-gradient(#d2f9e8 0%, #83c1a6 100%);
     opacity: 0.5;
-  }
-
-  .x {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    text-align: right;
-    font-size: 30px;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-
-  .now {
-    position: absolute;
-    bottom: 5px;
-    right: 12px;
-    text-align: right;
-    font-size: 30px;
-    color: #333;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
   }
 
   h3 {
