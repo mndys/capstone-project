@@ -16,11 +16,10 @@ router.get('/:_id', async (req, res, next) => {
 router.patch('/:_id', async (req, res, next) => {
   const { _id } = req.params
   res.json(
-    await Book.findByIdAndUpdate(
-      _id,
-      { $set: { prompt: req.body } },
-      { upsert: true, new: true }
-    ).catch(next)
+    await Book.findByIdAndUpdate(_id, req.body, {
+      upsert: true,
+      new: true,
+    }).catch(next)
   )
 })
 

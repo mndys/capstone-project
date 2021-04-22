@@ -2,16 +2,15 @@ import { useState } from 'react'
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import styled from 'styled-components/macro'
 import useQueryGet from '../../lib/hooks/useQueryGet'
+import toggleStates from '../../lib/toggleStates'
+import saveBookToPrompt from '../../services/saveBookToPrompt'
+import saveMarkedReadToBook from '../../services/saveMarkedReadToBook'
 import savePromptToBook from '../../services/savePromptToBook'
 import SmallButton from '../Style/Styled-Components/SmallButton'
+import del from '../../images/delete.svg'
 
 export default function MonthlyTbr({ history, setHistory }) {
-  const [isShowingDescription, setIsShowingDescription] = useState({
-    '6076073e04ec6bb0879a2e81': true,
-  })
-  const [isDone, setIsDone] = useState({
-    '6076073e04ec6bb0879a2e81': true,
-  })
+  const [isShowingDescription, setIsShowingDescription] = useState([])
   const [isShowingPrompts, setIsShowingPrompts] = useState([])
 
   const {
@@ -41,7 +40,13 @@ export default function MonthlyTbr({ history, setHistory }) {
       )}
       {booksData &&
         booksData[0].books
-          .sort((a, b) => a.createdAt < b.createdAt)
+          .sort(function (a, b) {
+            if (a.read && !b.read) {
+              return 1
+            }
+            if (!a.read && b.read) return -1
+            return a.createdAt < b.createdAt
+          })
           .map(
             ({
               _id,
@@ -55,9 +60,10 @@ export default function MonthlyTbr({ history, setHistory }) {
               isbn,
               description,
               prompt,
+              read,
             }) => {
               return (
-                <Container key={_id} id={_id}>
+                <Container key={_id} id={_id} className={read && 'read'}>
                   <Card>
                     <img src={cover} alt="" />
                     <h3>{title}</h3>
@@ -88,47 +94,84 @@ export default function MonthlyTbr({ history, setHistory }) {
                       </span>
                     )}
                     {prompt && (
-                      <span>
-                        <strong>Prompt:</strong> {prompt.option}
+                      <span
+                        className="prompt"
+                        {...(!read
+                          ? { onClick: () => onPromptClick(prompt, _id) }
+                          : '')}
+                      >
+                        <strong>Prompt:</strong>
+                        <img id="del" src={del} alt="delete" /> {prompt.option}
                       </span>
                     )}
                     <ButtonWrapper>
-                      <SmallButton>
+                      <SmallButton
+                        onClick={() =>
+                          toggleStates(
+                            _id,
+                            isShowingDescription,
+                            setIsShowingDescription
+                          )
+                        }
+                      >
                         {isShowingDescription.hasOwnProperty(_id)
-                          ? 'see less'
-                          : 'see more'}
+                          ? 'less'
+                          : 'more'}
                       </SmallButton>
                       <SmallButton
-                        onClick={() => toggleShowPrompts(_id)}
+                        onClick={() =>
+                          toggleStates(
+                            _id,
+                            isShowingPrompts,
+                            setIsShowingPrompts
+                          )
+                        }
                         primary
+                        disabled={read || prompt}
                       >
-                        add prompt
+                        prompt
                       </SmallButton>
-                      <SmallButton onClick={onMarkedRead}>
-                        {isDone.hasOwnProperty(_id)
-                          ? 'mark as to read'
-                          : 'mark as done'}
+                      <SmallButton
+                        onClick={() => onMarkedRead(_id, read, prompt)}
+                      >
+                        {read ? 'to read' : 'done'}
                       </SmallButton>
                     </ButtonWrapper>
-                    {isShowingPrompts.includes(_id) && (
-                      <div id="choosePrompt">
-                        {promptsData &&
-                          promptsData.map((prompt, index) => (
-                            <Entry
-                              key={index}
-                              onClick={() => chosenPrompt(prompt, _id)}
-                              data-testid="historyEntry"
-                            >
-                              {prompt.option}
-                            </Entry>
-                          ))}
-                      </div>
+                    {promptsData &&
+                    isShowingPrompts.includes(_id) &&
+                    promptsData.filter(prompt => !prompt.book).length === 0 ? (
+                      <p>
+                        Oh no! There are no prompts left.{' '}
+                        <a href="/">Spin&nbsp;the&nbsp;wheel</a> to receive more
+                        prompts or remove a prompt from another book to assign
+                        it here.
+                      </p>
+                    ) : (
+                      promptsData &&
+                      isShowingPrompts.includes(_id) && (
+                        <div className="choosePrompt">
+                          {promptsData
+                            .filter(prompt => !prompt.book)
+                            .map((prompt, index) => (
+                              <Entry
+                                key={index}
+                                onClick={() => onChoosePrompt(prompt, _id)}
+                              >
+                                {prompt.option}
+                              </Entry>
+                            ))}
+                        </div>
+                      )
                     )}
                     {description ? (
                       <>
                         <div className="description">
-                          {isShowingDescription.hasOwnProperty(_id) &&
-                            description}
+                          {isShowingDescription.includes(_id) && (
+                            <>
+                              <strong>Description: </strong>
+                              {description}
+                            </>
+                          )}
                         </div>
                       </>
                     ) : (
@@ -143,31 +186,40 @@ export default function MonthlyTbr({ history, setHistory }) {
     </PageWrapper>
   )
 
-  function toggleShowPrompts(_id) {
-    let newIsShowingPrompts
-    if (isShowingPrompts.includes(_id)) {
-      newIsShowingPrompts = isShowingPrompts.filter(bookId => bookId !== _id)
-    } else {
-      newIsShowingPrompts = [...isShowingPrompts, _id]
+  function onMarkedRead(_id, read, prompt) {
+    saveMarkedReadToBook(_id, read)
+    let newHistory = history
+    if (prompt && history.includes(prompt.option)) {
+      newHistory.splice(
+        history.findIndex(entry => entry === `${prompt.option}`),
+        1,
+        prompt.option + ' ✔️'
+      )
+    } else if (prompt && history.includes(`${prompt.option} ✔️`)) {
+      newHistory.splice(
+        history.findIndex(entry => entry === `${prompt.option} ✔️`),
+        1,
+        prompt.option
+      )
     }
-    setIsShowingPrompts(newIsShowingPrompts)
+    setHistory(newHistory)
+    booksRefetch()
   }
 
-  function onMarkedRead(event) {
-    event.target.parentNode.parentNode.parentNode.classList.toggle('read')
-    // const newHistory = history
-    // newHistory.splice(
-    //   history.findIndex(entry => entry === `${chosenItems}`),
-    //   1,
-    //   `${chosenItems} ✔️`
-    // )
-    // setHistory(newHistory)
-  }
-
-  function chosenPrompt(prompt, _id) {
+  function onChoosePrompt(prompt, bookID) {
     const addedPrompt = { _id: prompt._id }
-    savePromptToBook(_id, addedPrompt)
-    toggleShowPrompts(_id)
+    const addedBook = { _id: bookID }
+    savePromptToBook(bookID, { $set: { prompt: addedPrompt } })
+    saveBookToPrompt(prompt._id, { $set: { book: addedBook } })
+    toggleStates(bookID, isShowingPrompts, setIsShowingPrompts)
+    promptsRefetch()
+    booksRefetch()
+  }
+
+  function onPromptClick(prompt, bookID) {
+    savePromptToBook(bookID, { $unset: { prompt: 1 } })
+    saveBookToPrompt(prompt._id, { $unset: { book: 1 } })
+    promptsRefetch()
     booksRefetch()
   }
 }
@@ -221,23 +273,46 @@ const Card = styled.div`
     width: 50px;
   }
 
-  #choosePrompt {
+  .choosePrompt {
     grid-column: 1 / 3;
     justify-self: center;
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
+    margin-top: 0.3rem;
 
     & > * {
       margin-right: 5px;
       margin-bottom: 5px;
+      background: #0001;
+    }
+  }
+
+  #del {
+    width: 1rem;
+    top: 1px;
+  }
+  .prompt {
+    cursor: pointer;
+  }
+
+  p {
+    grid-column: 1 / 3;
+  }
+
+  .prompt {
+    display: flex;
+    align-items: center;
+
+    & > * {
+      margin-right: 0.3em;
     }
   }
 `
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   grid-column: 1 / 3;
 `
 

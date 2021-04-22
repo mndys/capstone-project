@@ -42,6 +42,9 @@ const schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Prompt',
     },
+    read: {
+      type: Boolean,
+    },
   },
   { timestamps: true, versionKey: false }
 )

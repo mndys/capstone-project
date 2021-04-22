@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export default function createRound(history) {
+export default function saveBookToPrompt(_id, book) {
   return axios
-    .post('/api/rounds', history)
+    .patch(`/api/prompts/${_id}`, book)
     .then(response => console.log(response))
     .catch(error => console.log(error))
 }
