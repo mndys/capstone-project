@@ -1,5 +1,5 @@
 import React from 'react'
-import History from '../components/History'
+import History from '../components/Wheel/History'
 
 export default {
   title: 'ui/History',

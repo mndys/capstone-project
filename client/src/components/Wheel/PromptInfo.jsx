@@ -15,7 +15,12 @@ export default function PromptInfo({
     >
       <div>
         <h2>{triggerPrompt}</h2>
-        <p>{prompts[calculateCurrentPromptNumber()].info}</p>
+        {triggerPrompt.match(/✔️/i) && (
+          <p>Congratulations! You have completed this prompt.</p>
+        )}
+        {!triggerPrompt.match(/✔️/i) && (
+          <p>{prompts[calculateCurrentPromptNumber()].info}</p>
+        )}
         {triggerPrompt === 'Cover Colour' ? (
           <>
             <div>
@@ -55,11 +60,11 @@ const Modal = styled.div`
   height: 100vh;
 
   & > div {
-    background: linear-gradient(#fff 0%, #e4e4e4 100%);
+    background: linear-gradient(#fff 0%, var(--color-platinum) 100%);
     width: clamp(200px, 80vw, 500px);
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 1px 2px 6px 0px #333a;
+    box-shadow: 1px 2px 6px 0px var(--color-shadow);
     text-align: center;
   }
 
@@ -71,7 +76,7 @@ const Modal = styled.div`
   }
 
   h2 {
-    color: #0f6f7b;
+    color: var(--color-primary);
     text-align: center;
     border-bottom: 4px dotted;
   }

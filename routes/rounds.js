@@ -6,9 +6,9 @@ router.get('/', async (req, res, next) => {
   res.json(
     await Round.find()
       .populate({
-        path: 'books.prompt',
-        model: 'Prompt',
-        populate: { path: 'book', model: 'Book' },
+        path: 'books',
+        model: 'Book',
+        populate: { path: 'prompt', model: 'Prompt' },
       })
       .catch(next)
   )
@@ -27,13 +27,12 @@ router.get('/:_id', async (req, res, next) => {
   )
 })
 
-router.patch('/:_id/vote', async (req, res, next) => {
-  const { _id } = req.params
+router.patch('/', async (req, res, next) => {
   res.json(
-    await Round.findByIdAndUpdate(
-      _id,
-      { $inc: { votes: 1 } },
-      { new: true }
+    await Round.findOneAndUpdate(
+      {},
+      { $push: { books: req.body } },
+      { upsert: true, new: true }
     ).catch(next)
   )
 })
@@ -46,11 +45,7 @@ router.delete('/:_id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   res.json(
     await (await Round.create(req.body).catch(next)) // nested await is needed
-      .populate({
-        path: 'books.prompt',
-        model: 'Prompt',
-        populate: { path: 'book', model: 'Book' },
-      })
+      .populate('books')
       .execPopulate()
       .catch(next)
   )

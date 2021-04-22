@@ -1,23 +1,34 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components/macro'
+import useClickedOutside from '../../lib/hooks/useClickedOutside'
 import Hamburger from './Hamburger'
 
 export default function Navigation({ showPromptInfo }) {
   const [active, setActive] = useState(null)
+  const nav = useRef(null)
+
+  useClickedOutside(
+    nav,
+    () => {
+      setActive(!active)
+    },
+    active
+  )
+
   return (
-    <>
+    <NavComponent ref={nav}>
       <NavContainer className={active ? 'active' : ''}>
-        <NavLink to="/tbr" onClick={() => setActive(!active)}>
-          Books
-        </NavLink>
         <NavLink to="/monthly-tbr" onClick={() => setActive(!active)}>
           Monthly TBR
+        </NavLink>
+        <NavLink to="/tbr" onClick={() => setActive(!active)}>
+          Books
         </NavLink>
         <NavLink to="/add" onClick={() => setActive(!active)}>
           Add book to TBR
         </NavLink>
-        <NavLink to="/" onClick={() => setActive(!active)}>
+        <NavLink to="/" onClick={() => setActive(!active)} exact>
           Wheel
         </NavLink>
       </NavContainer>
@@ -26,9 +37,13 @@ export default function Navigation({ showPromptInfo }) {
         active={active}
         showPromptInfo={showPromptInfo}
       />
-    </>
+    </NavComponent>
   )
 }
+
+const NavComponent = styled.section`
+  z-index: 6;
+`
 
 const NavContainer = styled.nav`
   position: absolute;
@@ -60,10 +75,14 @@ const NavContainer = styled.nav`
     clear: right;
     margin: 15px;
     padding-right: 5px;
-    color: #000;
+    color: var(--color-text);
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    border-right: 3px solid #093a40;
+    border-right: 3px solid var(--color-primary-dark);
+
+    &.active {
+      border-right: 3px solid var(--color-primary);
+    }
   }
 `

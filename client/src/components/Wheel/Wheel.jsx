@@ -1,6 +1,7 @@
 import { Wheel } from 'react-custom-roulette'
 import styled from 'styled-components/macro'
-import prompts from '../data/prompts.json'
+import prompts from '../../data/prompts.json'
+import ff from '../../images/fast-forward.svg'
 
 export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
   const backgroundColors = [
@@ -13,8 +14,8 @@ export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
     '#577590',
   ]
 
-  const textColors = ['#0e1516']
-  const outerBorderColor = '#e4e4e4'
+  const textColors = ['#0e1516ff']
+  const outerBorderColor = '#e4e4e4ff'
   const outerBorderWidth = 10
   const innerBorderColor = '#fff'
   const innerBorderWidth = 60
@@ -30,6 +31,14 @@ export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
 
   return (
     <Wrapper>
+      {mustSpin && (
+        <img
+          id="ff"
+          src={ff}
+          alt="fast forward animation"
+          onClick={() => window.location.reload()}
+        />
+      )}
       <Wheel
         mustStartSpinning={mustSpin}
         prizeNumber={calculatePrizeNumber}
@@ -55,7 +64,17 @@ export default function WheelComponent({ winner, mustSpin, setMustSpin }) {
 }
 
 const Wrapper = styled.div`
+  position: relative;
   max-width: 445px;
   justify-self: center;
-  z-index: -1;
+
+  #ff {
+    position: absolute;
+    top: 50%;
+    left: 50.5%;
+    width: 20px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 999;
+  }
 `

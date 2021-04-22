@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "proxy": "http://localhost:4000",
+  "secure": false,
   "private": true,
   "dependencies": {
     "@types/jest": "^26.0.22",
@@ -52,7 +53,23 @@
           "import/no-anonymous-default-export": "off"
         }
       }
-    ]
+    ],
+    "rules": {
+      "no-restricted-imports": [
+        "error",
+        {
+          "paths": [
+            {
+              "name": "styled-components",
+              "message": "Please import from styled-components/macro."
+            }
+          ],
+          "patterns": [
+            "!styled-components/macro"
+          ]
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [

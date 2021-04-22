@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
 import reportWebVitals from './reportWebVitals'
-import GlobalStyle from './components/GlobalStyle'
-import GlobalFonts from './fonts/fonts'
+import GlobalStyle from './components/Style/GlobalStyle'
+import GlobalFonts from './components/Style/fonts'
 
 ReactDOM.render(
   <React.StrictMode>

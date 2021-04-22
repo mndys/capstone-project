@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Button from '../../components/Button'
+import Button from '../../components/Style/Styled-Components/Button'
 
 it('renders a Button', () => {
   render(<Button />)

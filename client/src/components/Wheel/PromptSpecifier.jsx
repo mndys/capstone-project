@@ -36,7 +36,8 @@ const ColorCircle = styled.div`
   background-color: ${props => props.colorObject.hex};
   border-radius: 5px;
   display: inline-block;
-  box-shadow: 1px 1px 2px #33333380;
+  box-shadow: 1px 1px 2px var(--color-shadow);
   width: 20px;
   height: 20px;
+  margin-right: 0.5rem;
 `

@@ -9,6 +9,12 @@ const schema = new mongoose.Schema(
     author: {
       type: String,
     },
+    publishedDate: {
+      type: Date,
+    },
+    description: {
+      type: String,
+    },
     cover: {
       type: String,
       default: 'https://source.unsplash.com/HH4WBGNyltc/500x700',
@@ -22,11 +28,8 @@ const schema = new mongoose.Schema(
     isbn: {
       type: String,
     },
-    published: {
-      type: Date,
-    },
     genre: {
-      type: String,
+      type: Array,
     },
     subject: {
       type: String,
@@ -39,8 +42,11 @@ const schema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Prompt',
     },
+    read: {
+      type: Boolean,
+    },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 )
 
 module.exports = mongoose.model('Book', schema)
