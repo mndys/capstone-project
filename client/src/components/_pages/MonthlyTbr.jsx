@@ -20,12 +20,10 @@ export default function MonthlyTbr({ history, setHistory }) {
     refetch: booksRefetch,
   } = useQueryGet('api/rounds', 'currentTBR')
 
-  const {
-    data: promptsData,
-    error: promptsError,
-    isLoading: promptsLoading,
-    refetch: promptsRefetch,
-  } = useQueryGet('api/prompts', 'prompts')
+  const { data: promptsData, refetch: promptsRefetch } = useQueryGet(
+    'api/prompts',
+    'prompts'
+  )
 
   return (
     <PageWrapper>
