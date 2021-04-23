@@ -25,9 +25,18 @@ export default function BookCard({
   promptsData,
   onChoosePrompt,
   button3Text,
+  onDeleteBook,
 }) {
   return (
-    <Container key={_id} id={_id} className={read && 'read'}>
+    <Container id={_id} className={read && 'read'}>
+      {onDeleteBook && (
+        <img
+          src={del}
+          alt="delete"
+          className="del"
+          onClick={() => onDeleteBook(_id)}
+        />
+      )}
       <Card>
         <img src={cover} alt="" />
         <h3>{title}</h3>
@@ -155,6 +164,18 @@ const Container = styled.section`
     padding: 0;
     text-transform: none;
     letter-spacing: normal;
+  }
+
+  .del {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 1.5rem;
+    text-align: right;
+    font-size: 30px;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
   }
 
   .description {
