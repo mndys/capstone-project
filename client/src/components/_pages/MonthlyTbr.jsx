@@ -81,7 +81,6 @@ export default function MonthlyTbr({ history, setHistory }) {
                     setIsShowingDescription,
                     isShowingPrompts,
                     setIsShowingPrompts,
-                    onMarkedRead,
                     promptsData,
                     onChoosePrompt,
                   }}
