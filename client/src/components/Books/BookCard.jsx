@@ -2,6 +2,7 @@ import toggleStates from '../../lib/toggleStates'
 import SmallButton from '../Style/Styled-Components/SmallButton'
 import del from '../../images/delete.svg'
 import styled from 'styled-components/macro'
+import toMonthly from '../../images/toMonthly.svg'
 
 export default function BookCard({
   _id,
@@ -21,22 +22,20 @@ export default function BookCard({
   setIsShowingDescription,
   isShowingPrompts,
   setIsShowingPrompts,
-  handleButton3,
   promptsData,
   onChoosePrompt,
-  button3Text,
+  onMarkedRead,
   onDeleteBook,
+  onBookToTBR,
 }) {
   return (
     <Container id={_id} className={read && 'read'}>
-      {onDeleteBook && (
-        <img
-          src={del}
-          alt="delete"
-          className="del"
-          onClick={() => onDeleteBook(_id)}
-        />
-      )}
+      <img
+        src={del}
+        alt="delete"
+        className="icons delete"
+        onClick={() => onDeleteBook(_id)}
+      />
       <Card>
         <img src={cover} alt="" />
         <h3>{title}</h3>
@@ -92,8 +91,8 @@ export default function BookCard({
           >
             prompt
           </SmallButton>
-          <SmallButton onClick={() => handleButton3(_id, read, prompt)}>
-            {button3Text}
+          <SmallButton onClick={() => onMarkedRead(_id, read, prompt)}>
+            {read ? 'to read' : 'done'}
           </SmallButton>
         </ButtonWrapper>
         {promptsData &&
@@ -136,6 +135,14 @@ export default function BookCard({
           ''
         )}
       </Card>
+      {onBookToTBR && (
+        <img
+          src={toMonthly}
+          alt="Add to monthly TBR"
+          className="icons to-monthly"
+          onClick={() => onBookToTBR(_id)}
+        />
+      )}
     </Container>
   )
 }
@@ -166,16 +173,19 @@ const Container = styled.section`
     letter-spacing: normal;
   }
 
-  .del {
+  .icons {
     position: absolute;
     top: 15px;
-    right: 15px;
     width: 1.5rem;
-    text-align: right;
-    font-size: 30px;
-    padding: 0;
-    margin: 0;
     cursor: pointer;
+  }
+
+  .delete {
+    right: 15px;
+  }
+
+  .to-monthly {
+    left: 15px;
   }
 
   .description {
@@ -231,8 +241,5 @@ const Entry = styled.div`
   margin-bottom: 5px;
   border-radius: 5px;
   background: #0001;
-
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `

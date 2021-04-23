@@ -4,8 +4,10 @@ import styled from 'styled-components/macro'
 import useQueryGet from '../../lib/hooks/useQueryGet'
 import toggleStates from '../../lib/toggleStates'
 import saveBookToPrompt from '../../services/saveBookToPrompt'
+import saveBookToRound from '../../services/saveBookToRound'
 import saveMarkedReadToBook from '../../services/saveMarkedReadToBook'
 import savePromptToBook from '../../services/savePromptToBook'
+import saveRoundToBook from '../../services/saveRoundToBook'
 import BookCard from '../Books/BookCard'
 
 export default function MonthlyTbr({ history, setHistory }) {
@@ -32,7 +34,13 @@ export default function MonthlyTbr({ history, setHistory }) {
         <p>
           Oh no! There was an error loading your data. <br />
           Please make sure you have chosen books for this month from your{' '}
-          <a href="/tbr">main TBR</a>.
+          <a href="/tbr">main&nbsp;TBR</a>.
+        </p>
+      )}
+      {booksData && booksData[0].books.length === 0 && (
+        <p>
+          Quite empty here... There are no books on your monthly TBR. You can
+          choose some from your <a href="/tbr">main&nbsp;TBR</a>.
         </p>
       )}
       {booksData &&
@@ -61,8 +69,7 @@ export default function MonthlyTbr({ history, setHistory }) {
             }) => {
               return (
                 <BookCard
-                  handleButton3={onMarkedRead}
-                  button3Text={read ? 'to read' : 'done'}
+                  key={_id}
                   {...{
                     _id,
                     cover,
@@ -83,6 +90,8 @@ export default function MonthlyTbr({ history, setHistory }) {
                     setIsShowingPrompts,
                     promptsData,
                     onChoosePrompt,
+                    onDeleteBook,
+                    onMarkedRead,
                   }}
                 />
               )
@@ -126,6 +135,14 @@ export default function MonthlyTbr({ history, setHistory }) {
     savePromptToBook(bookID, { $unset: { prompt: 1 } })
     saveBookToPrompt(prompt._id, { $unset: { book: 1 } })
     promptsRefetch()
+    booksRefetch()
+  }
+
+  function onDeleteBook(_id) {
+    const deletedRound = { $unset: { round: 1 } }
+    const deletedBook = { $pull: { books: _id } }
+    saveRoundToBook(_id, deletedRound)
+    saveBookToRound(deletedBook)
     booksRefetch()
   }
 }
