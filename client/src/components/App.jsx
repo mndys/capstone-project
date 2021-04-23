@@ -62,7 +62,7 @@ function App() {
           <Main showPromptInfo={showPromptInfo}>
             <Switch>
               <Route path="/tbr">
-                <BooksPage />
+                <BooksPage history={history} setHistory={setHistory} />
               </Route>
               <Route path="/monthly-tbr">
                 <MonthlyTbr history={history} setHistory={setHistory} />

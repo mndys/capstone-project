@@ -29,11 +29,10 @@ router.get('/:_id', async (req, res, next) => {
 
 router.patch('/', async (req, res, next) => {
   res.json(
-    await Round.findOneAndUpdate(
-      {},
-      { $push: { books: req.body } },
-      { upsert: true, new: true }
-    ).catch(next)
+    await Round.findOneAndUpdate({}, req.body, {
+      upsert: true,
+      new: true,
+    }).catch(next)
   )
 })
 

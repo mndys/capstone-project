@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export default function saveBookToRound(book) {
+export default function saveRoundToBook(_id, round) {
   return axios
-    .patch('/api/rounds', book)
+    .patch(`/api/books/${_id}`, round)
     .then(response => console.log(response))
     .catch(error => console.log(error))
 }
