@@ -1,26 +1,47 @@
-import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useState } from 'react'
 import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import styled from 'styled-components/macro'
+import del from '../../images/delete.svg'
+import useQueryGet from '../../lib/hooks/useQueryGet'
+import toggleStates from '../../lib/toggleStates'
 import deleteBook from '../../services/deleteBook'
+import saveBookToPrompt from '../../services/saveBookToPrompt'
 import saveBookToRound from '../../services/saveBookToRound'
+import savePromptToBook from '../../services/savePromptToBook'
+import BookCard from '../Books/BookCard'
 
 export default function BooksPage() {
-  const fetchBooks = async () => {
-    const { data } = await axios.get('api/books')
-    return data
-  }
+  const [isShowingDescription, setIsShowingDescription] = useState([])
+  const [isShowingPrompts, setIsShowingPrompts] = useState([])
 
-  const { status, data, refetch } = useQuery('yourTBR', fetchBooks, {
-    refetchOnWindowFocus: false,
-  })
+  const { data, error, isLoading, refetch } = useQueryGet(
+    'api/books',
+    'mainTBR'
+  )
+  const { data: promptsData, refetch: promptsRefetch } = useQueryGet(
+    'api/prompts',
+    'prompts'
+  )
 
   return (
     <PageWrapper>
       <h2>Books on your TBR</h2>
-      {status === 'success' &&
+      {isLoading && 'Your TBR is being prepared...'}
+      {error && (
+        <p>
+          Oh no! There was an error loading your data. <br />
+          Please make sure you <a href="/add">add books</a> to your TBR.
+        </p>
+      )}
+      {data &&
         data
-          .sort((a, b) => a.createdAt < b.createdAt)
+          .sort(function (a, b) {
+            if (a.read && !b.read) {
+              return 1
+            }
+            if (!a.read && b.read) return -1
+            return a.createdAt < b.createdAt
+          })
           .map(
             ({
               _id,
@@ -33,78 +54,126 @@ export default function BooksPage() {
               rating,
               isbn,
               description,
+              prompt,
+              read,
             }) => (
-              <Container key={_id}>
-                <div
-                  className="x"
-                  onClick={() => {
-                    deleteBook(_id)
-                    refetch()
-                  }}
-                >
-                  ✖️
-                </div>
-                <div
-                  className="now"
-                  onClick={event => {
-                    updateBook(_id)
-                    refetch()
-                    event.target.classList.add('added')
-                  }}
-                >
-                   ✓
-                </div>
-                <Card>
-                  <img src={cover} alt="" />
-                  <h3>{title}</h3>
-                  {author && (
-                    <span>
-                      by <em>{author} </em>
-                      {publishedDate ? `(${parseInt(publishedDate)})` : ''}
-                    </span>
-                  )}
-                  {genre && (
-                    <span>
-                      <strong>Genre:</strong> {genre.join(', ')}
-                    </span>
-                  )}
-                  {pageCount && (
-                    <span>
-                      <strong>Page Count:</strong> {pageCount}
-                    </span>
-                  )}
-                  {rating && (
-                    <span>
-                      <strong>Rating:</strong> {rating} ⭐️
-                    </span>
-                  )}
-                  {isbn && (
-                    <span>
-                      <strong>ISBN:</strong> {isbn}
-                    </span>
-                  )}
-                  {description ? (
-                    <details>
-                      <summary>
-                        <strong>Description:</strong>
-                      </summary>
-                      {description}
-                    </details>
-                  ) : (
-                    ''
-                  )}
-                </Card>
-              </Container>
+              <BookCard
+                key={_id}
+                handleButton3={updateBook}
+                button3Text={read ? 'remove' : 'to TBR'}
+                {...{
+                  _id,
+                  cover,
+                  title,
+                  author,
+                  publishedDate,
+                  genre,
+                  pageCount,
+                  rating,
+                  isbn,
+                  description,
+                  prompt,
+                  read,
+                  onPromptClick,
+                  isShowingDescription,
+                  setIsShowingDescription,
+                  isShowingPrompts,
+                  setIsShowingPrompts,
+                  promptsData,
+                  onChoosePrompt,
+                  onDeleteBook,
+                }}
+              />
+              // <Container key={_id}>
+              //   <img
+              //     src={del}
+              //     alt="delete"
+              //     className="del"
+              //     onClick={() => onDeleteBook(_id)}
+              //   />
+              //   <div
+              //     className="now"
+              //     onClick={event => {
+              //       updateBook(_id)
+              //       refetch()
+              //       event.target.classList.add('added')
+              //     }}
+              //   >
+              //      ✓
+              //   </div>
+              //   <Card>
+              //     <img src={cover} alt="" />
+              //     <h3>{title}</h3>
+              //     {author && (
+              //       <span>
+              //         by <em>{author} </em>
+              //         {publishedDate ? `(${parseInt(publishedDate)})` : ''}
+              //       </span>
+              //     )}
+              //     {genre && (
+              //       <span>
+              //         <strong>Genre:</strong> {genre.join(', ')}
+              //       </span>
+              //     )}
+              //     {pageCount && (
+              //       <span>
+              //         <strong>Page Count:</strong> {pageCount}
+              //       </span>
+              //     )}
+              //     {rating && (
+              //       <span>
+              //         <strong>Rating:</strong> {rating} ⭐️
+              //       </span>
+              //     )}
+              //     {isbn && (
+              //       <span>
+              //         <strong>ISBN:</strong> {isbn}
+              //       </span>
+              //     )}
+              //     {description ? (
+              //       <details>
+              //         <summary>
+              //           <strong>Description:</strong>
+              //         </summary>
+              //         {description}
+              //       </details>
+              //     ) : (
+              //       ''
+              //     )}
+              //   </Card>
+              // </Container>
             )
           )}
       <ReactQueryDevtoolsPanel />
     </PageWrapper>
   )
 
+  function onDeleteBook(_id) {
+    deleteBook(_id)
+    refetch()
+  }
+
   function updateBook(id) {
     const newBook = { _id: id }
     console.log('new Book:', newBook)
     saveBookToRound(newBook)
+  }
+
+  function onChoosePrompt(prompt, bookID) {
+    const addedPrompt = { _id: prompt._id }
+    const addedBook = { _id: bookID }
+    savePromptToBook(bookID, { $set: { prompt: addedPrompt } })
+    saveBookToPrompt(prompt._id, { $set: { book: addedBook } })
+    toggleStates(bookID, isShowingPrompts, setIsShowingPrompts)
+    promptsRefetch()
+    refetch()
+  }
+
+  function onPromptClick(prompt, bookID) {
+    savePromptToBook(bookID, { $unset: { prompt: 1 } })
+    saveBookToPrompt(prompt._id, { $unset: { book: 1 } })
+    promptsRefetch()
+    refetch()
   }
 }
 
@@ -127,10 +196,11 @@ const Container = styled.section`
   box-shadow: 1px 2px 6px 0px var(--color-shadow);
   font-size: 14px;
 
-  .x {
+  .del {
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
+    width: 1.5rem;
     text-align: right;
     font-size: 30px;
     padding: 0;
